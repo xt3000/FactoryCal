@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:textColorHint">@color/rbHint</item>
+        <item name="colorControlNormal">@color/rbNormal</item>
+        <item name="colorControlActivated">@color/rbActive</item>
+		
+    </style>
+
+    <style name="myEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/rbHint</item>
+        <item name="colorControlNormal">@color/rbNormal</item>
+        <item name="colorControlActivated">@color/rbActive</item>
+
+    </style>
+</resources>

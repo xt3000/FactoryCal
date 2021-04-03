@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<resources>
+		<color name="colorPrimary">#48b3ff</color>
+		<color name="colorPrimary72">#B448b3ff</color>
+		<color name="colorPrimaryDark">#3B3C3D</color>
+		<color name="colorAccent">#ff6670</color>
+		<color name="rbNormal">#88ffffff</color>
+		<color name="rbActive">#eeffffff</color>
+		<color name="rbHint">#55ffffff</color>
+	</resources>

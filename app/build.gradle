@@ -1,0 +1,32 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        applicationId "net.finch.calendar"
+        minSdkVersion 22
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+	implementation 'com.android.support:appcompat-v7:26.1.0'
+	implementation 'com.android.support:design:26.1.0'
+	implementation 'com.android.support:support-v4:26.1.0'
+	implementation 'com.android.support:cardview-v7:26.1.0'
+
+    //Подключение LifeCycle, LiveData и ViewModel
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+}
