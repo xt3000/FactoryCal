@@ -23,7 +23,7 @@
             android:focusable="auto"
             android:focusableInTouchMode="true"
             android:hint="Краткое описание метки"
-            android:imeOptions="actionSend"
+            android:imeOptions="actionDone"
             android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
@@ -35,12 +35,14 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:background="@color/colorPrimary"
+        android:fontFamily="sans-serif-medium"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
         android:paddingStart="70dp"
         android:paddingTop="18dp"
         android:paddingEnd="70dp"
         android:paddingBottom="18dp"
-        android:text="Сохранить" />
+        android:text="Сохранить"
+        android:textSize="14sp" />
 
 </LinearLayout>

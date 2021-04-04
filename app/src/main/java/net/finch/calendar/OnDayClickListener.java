@@ -20,19 +20,6 @@ public class OnDayClickListener implements View.OnLongClickListener, View.OnClic
 
     @Override
     public boolean onLongClick(View v) {
-        int id = v.getId();
-        tvSliderTitle = ma.findViewById(R.id.tv_slider_title);
-        tvSliderTitle.setText(ma.frameOfDates.get(id).getFullDateString());
-
-
-        model.setSliderState(true);
-
-
-        return true;
-    }
-
-    @Override
-    public void onClick(View v) {
         model.setSliderState(false);
         db = new DBHelper(ma);
         MyDate day = ma.frameOfDates.get(v.getId());
@@ -43,10 +30,32 @@ public class OnDayClickListener implements View.OnLongClickListener, View.OnClic
         int d = day.getDate();
 
         if(!marked) {
-            this.db.saveDayMark(y, m, d, "");
+            db.saveDayMark(y, m, d, "");
         }else {
             db.deleteDayMark(y, m, d);
         }
         model.update();
+
+        return true;
+    }
+
+
+
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        boolean marked = ma.frameOfDates.get(id).isMarked();
+        tvSliderTitle = ma.findViewById(R.id.tv_slider_title);
+
+        if(!marked) {
+            // TODO: see MARK create slider
+        }else {
+            // TODO: see MARK info slider
+        }
+
+        tvSliderTitle.setText(ma.frameOfDates.get(id).getFullDateString());
+
+        model.setSliderState(true);
     }
 }

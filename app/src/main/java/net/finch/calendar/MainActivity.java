@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity
 	TextView tvMonth;
 	TextView tvYear;
 	TextView tvDebag;
+	Button btnMarkConfirm;
 //	EditText etMarkNote;
 	
 //	int width;
@@ -72,6 +74,9 @@ public class MainActivity extends AppCompatActivity
 		//***TEST ViewModel***
 		sliderLayout = findViewById(R.id.bottom_sheet);
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
+
+		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
+		btnMarkConfirm.setOnClickListener(new OnMarkSendListener());
 
 		etMarkNote = findViewById(R.id.et_markNote);
 		etMarkNote.setOnEditorActionListener(new OnMarkSendListener());
