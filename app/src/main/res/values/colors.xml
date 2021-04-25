@@ -7,4 +7,6 @@
 		<color name="rbNormal">#88ffffff</color>
 		<color name="rbActive">#eeffffff</color>
 		<color name="rbHint">#55ffffff</color>
+		<color name="bg_bottomHeader">#4C85B1</color>
+		<color name="bg_bottomWindow">#487EA8</color>
 	</resources>

@@ -1,56 +1,64 @@
 package net.finch.calendar;
 import java.util.*;
 
-public class MyDate
+public class DayInfo
 {
-	int id;
-	Calendar cal;
-	int monthOffset; // (-1,0,1)
+	protected int id;
+	protected Calendar cal;
+	protected int monthOffset; // (-1,0,1)
 	//int month;
 	//int year;
-	Boolean mark;
+	protected Boolean mark;
+	protected ArrayList<String> infoList;
 	
-	public MyDate(int id, Calendar cal, int monthOffset, Boolean mark) {
+	public DayInfo(int id, Calendar cal, int monthOffset, ArrayList<String> infoList) {
 		this.id = id;
 		this.cal = cal;
 		this.monthOffset = monthOffset;
 		//this.year = cal.get(GregorianCalendar.YEAR);
 		//this.month = cal.get(GregorianCalendar.MONTH);
-		this.mark = mark;
+
+		if (infoList != null) {
+			this.infoList = infoList;
+			this.mark = true;
+		}else {
+			this.infoList = new ArrayList<>();
+			this.mark = false;
+		}
 		
 		//Calendar c = new GregorianCalendar(year, m
 	}
-	
-	
-	int getId() {
+
+
+	public int getId() {
 		return id;
 	}
-	
-	int getDate() {
+
+	public int getDate() {
 		return cal.get(GregorianCalendar.DATE);
 	}
-	
-	String getDateString() {
+
+	public String getDateString() {
 		return String.valueOf(getDate());
 	}
-	
-	int getMonthOffset() {
+
+	public int getMonthOffset() {
 		return monthOffset;
 	}
-	
-	int getMonth() {
+
+	public int getMonth() {
 		return cal.get(GregorianCalendar.MONTH);
 	}
-	
-	int getYear() {
+
+	public int getYear() {
 		return cal.get(GregorianCalendar.YEAR);
 	}
-	
-	Calendar getCalendar() {
+
+	public Calendar getCalendar() {
 		return cal;
 	}
 
-	String getFullDateString() {
+	public String getFullDateString() {
 		String d = String.valueOf(cal.get(GregorianCalendar.DATE));
 		String m = String.valueOf(cal.get(GregorianCalendar.MONTH)+1);
 		String y = String.valueOf(cal.get(GregorianCalendar.YEAR));
@@ -59,8 +67,12 @@ public class MyDate
 
 		return  d +"."+ m +"."+ y;
 	}
-	
-	boolean isMarked(){
+
+	public boolean isMarked(){
 		return mark;
+	}
+
+	public ArrayList<String> getInfoList() {
+		return infoList;
 	}
 }

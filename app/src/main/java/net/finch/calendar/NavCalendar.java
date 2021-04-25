@@ -1,14 +1,14 @@
 package net.finch.calendar;
 
-import android.app.Application;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class NavCalendar
@@ -18,7 +18,7 @@ public class NavCalendar
 	 Calendar c;
 	private int month;
 	private int year;
-	 ArrayList<Integer> markDates;
+	Map<Integer, ArrayList<String>> markDates;
 
 	public NavCalendar() {
 		c = new GregorianCalendar();
@@ -80,68 +80,84 @@ public class NavCalendar
 		return cpm.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 	}
 	
-	 ArrayList<MyDate> frameOfDates() {
+	 ArrayList<DayInfo> frameOfDates() {
 		//SQLiteDatabase db = dbHelper.getWritableDatabase();
 		
 		
-		boolean mark;
+//		boolean mark;
 		int cnt = 0;
 		int fwd = firstWeakDayOfMonth();
 		int mda = c.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 		int mdp = maxDateInPreviousMonth();
-		ArrayList<MyDate> fod = new ArrayList<>();
+		ArrayList<DayInfo> fod = new ArrayList<>();
 		
 		dbReadMarkedDates(-1);
 		if (fwd > 1) {
 			int firstDate = mdp-fwd+2;
 			for (int i=0; i<fwd-1; i++) {
-				mark = false;
-				for (int m=0; m<markDates.size(); m++) {
-					if (firstDate+i == markDates.get(m)) mark = true;
-				}
-				fod.add(new MyDate(cnt, new GregorianCalendar(year, month-1, firstDate+i), -1, mark));
+//				mark = false;
+//				if (markDates.containsKey(firstDate+i)) mark=true;
+//				for (int m=0; m<markDates.size(); m++) {
+//					if (firstDate+i == markDates.get(m)) mark = true;
+//				}
+				fod.add(new DayInfo(cnt, new GregorianCalendar(year, month-1, firstDate+i), -1, markDates.get(firstDate+i)));
 				cnt++;
 			}
 		}
 		
 		dbReadMarkedDates(0);
 		for (int i=1; i<=mda; i++) {
-			mark=false;
-			for (int m=0; m<markDates.size(); m++) {
-				if (i == markDates.get(m)) mark = true;
-			}
-			fod.add(new MyDate(cnt, new GregorianCalendar(year, month, i), 0, mark));
+//			mark=false;
+//			if (markDates.containsKey(i)) mark=true;
+//			for (int m=0; m<markDates.size(); m++) {
+//				if (i == markDates.get(m)) mark = true;
+//			}
+			fod.add(new DayInfo(cnt, new GregorianCalendar(year, month, i), 0, markDates.get(i)));
 			cnt++;
 		}
 		
 		dbReadMarkedDates(1);
 		for (int i=1; i<=(42-cnt); i++) {
-			mark = false;
-			for (int m=0; m<markDates.size(); m++) {
-				if (i == markDates.get(m)) mark = true;
-			}
-			fod.add(new MyDate(cnt+i-1, new GregorianCalendar(year, month+1, i), 1, mark));
+//			mark = false;
+//			if (markDates.containsKey(i)) mark=true;
+//			for (int m=0; m<markDates.size(); m++) {
+//				if (i == markDates.get(m)) mark = true;
+//			}
+			fod.add(new DayInfo(cnt+i-1, new GregorianCalendar(year, month+1, i), 1, markDates.get(i)));
 		}
 		return fod;
 	}
-	
+
+
 	 void dbReadMarkedDates(int offset) {
 		if(dbHelper == null) dbHelper = new DBHelper(MainActivity.getContext());
-		markDates = new ArrayList<>();
+		markDates = new HashMap<>();
 		Calendar mc = new GregorianCalendar(year, month+offset,1);
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		
-		//String toast = "";
+
 		String select = "year = ? and month = ?";
 		String[] selArgs = {String.valueOf(mc.get(GregorianCalendar.YEAR)), String.valueOf(mc.get(GregorianCalendar.MONTH))};
 		Cursor cur = db.query(DBHelper.DB_NAME, null, select, selArgs, null, null, null);
 		
 		int n;
+		String info;
+		ArrayList<String> infoList = new ArrayList<>();
 		if (cur.moveToFirst()) {
 			do {
 				n = cur.getInt(cur.getColumnIndex("date"));
+				info = cur.getString(cur.getColumnIndex("note"));
 				//toast += " "+n;
-				markDates.add(n);
+				if (markDates.containsKey(n)) {
+					infoList = markDates.get(n);
+					infoList.add(info);
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+						markDates.replace(n, infoList);
+					}
+				}else {
+					infoList.add(info);
+					markDates.put(n, infoList);
+				}
+
 			}while(cur.moveToNext());
 
 		}

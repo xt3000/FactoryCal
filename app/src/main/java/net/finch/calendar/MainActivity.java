@@ -1,5 +1,6 @@
 package net.finch.calendar;
 
+import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.lifecycle.LiveData;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 	TextView tvMonth;
 	TextView tvYear;
 	TextView tvDebag;
+	TextView tvBtnAdd;
 	Button btnMarkConfirm;
 //	EditText etMarkNote;
 	
@@ -49,12 +51,12 @@ public class MainActivity extends AppCompatActivity
 	int count = 0;
 
 	CalendarVM model;
-	LiveData<ArrayList<MyDate>> FODdata;
+	LiveData<ArrayList<DayInfo>> FODdata;
 	LiveData<Boolean> SSdata;
 	TextInputEditText etMarkNote;
 	RadioGroup rg;
 
-	ArrayList<MyDate> frameOfDates;
+	ArrayList<DayInfo> frameOfDates;
 
 	@Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Factory Calendar");
 		getSupportActionBar().setSubtitle("Калкндарь потребления воды");
 
+		tvBtnAdd = findViewById(R.id.tv_btnAdd);
+		tvBtnAdd.setOnClickListener(new onAddClickListener());
+
 		//***TEST ViewModel***
 		sliderLayout = findViewById(R.id.bottom_sheet);
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
@@ -86,9 +91,9 @@ public class MainActivity extends AppCompatActivity
 
 		model = ViewModelProviders.of(this).get(CalendarVM.class);
 		FODdata = model.getFODLiveData();
-		FODdata.observe(this, new Observer<ArrayList<MyDate>>() {
+		FODdata.observe(this, new Observer<ArrayList<DayInfo>>() {
 			@Override
-			public void onChanged(@Nullable ArrayList<MyDate> fod) {
+			public void onChanged(@Nullable ArrayList<DayInfo> fod) {
 				frameOfDates = fod;
 				updFrame();
 			}
@@ -102,7 +107,10 @@ public class MainActivity extends AppCompatActivity
 				etMarkNote.setText("");
 				hideKeyboard(MainActivity.this);
 				if(sliderState) sliderBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-				else sliderBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+				else {
+					sliderBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+					if (tvBtnAdd.getText().equals("-")) tvBtnAdd.callOnClick();
+				}
 			}
 		});
 
@@ -136,6 +144,20 @@ public class MainActivity extends AppCompatActivity
 		
 		tvMonth = findViewById(R.id.tv_month);
 		tvYear = findViewById(R.id.tv_year);
+// ********TODO: ANIMATIOTN **********
+//		LayoutTransition lt = new LayoutTransition();
+		int transitionType = LayoutTransition.CHANGING;
+
+		LinearLayout llMark = findViewById(R.id.ll_mark);
+		llMark.getLayoutTransition().enableTransitionType(transitionType);
+		LinearLayout llShedule = findViewById(R.id.ll_schedule);
+		llShedule.getLayoutTransition().enableTransitionType(transitionType);
+		LinearLayout llAdd = findViewById(R.id.ll_Add);
+		llAdd.getLayoutTransition().enableTransitionType(transitionType);
+		
+//**************************************
+
+
 
 		
 		llWeaks[0].getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){

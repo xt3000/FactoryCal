@@ -3,6 +3,7 @@
     android:id="@+id/ll_mark"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:focusable="auto"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
@@ -22,7 +23,7 @@
             android:layout_marginTop="20dp"
             android:focusable="auto"
             android:focusableInTouchMode="true"
-            android:hint="Краткое описание метки"
+            android:hint="Краткое описание новой метки"
             android:imeOptions="actionDone"
             android:inputType="text" />
 
@@ -42,7 +43,7 @@
         android:paddingTop="18dp"
         android:paddingEnd="70dp"
         android:paddingBottom="18dp"
-        android:text="Сохранить"
+        android:text="Добавить"
         android:textSize="14sp" />
 
 </LinearLayout>

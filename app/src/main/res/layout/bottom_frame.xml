@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/bottom_sheet"
 	android:layout_width="match_parent"
 	android:layout_height="540dp"
+	android:animateLayoutChanges="false"
 	android:background="#00FFFFFF"
 	android:clickable="true"
 	android:focusable="auto"
@@ -24,87 +26,57 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:animateLayoutChanges="false"
 			android:background="#8848b3ff"
 			android:orientation="vertical">
 
-			<TextView
-				android:id="@+id/tv_slider_title"
+			<android.support.constraint.ConstraintLayout
 				android:layout_width="match_parent"
 				android:layout_height="40dp"
-				android:background="#5548b3ff"
-				android:elevation="1dp"
-				android:gravity="center"
-				android:text=""
-				android:textColor="@android:color/white"
-				android:textSize="18sp" />
+				android:background="@color/bg_bottomHeader"
+				android:elevation="1dp">
 
-			<LinearLayout
-				android:id="@+id/ll_bottomFrameContent"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:gravity="center_horizontal"
-				android:orientation="vertical">
-
-				<RadioGroup
-					android:id="@+id/rg_slider_set"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:focusable="true"
-					android:focusableInTouchMode="true"
+				<TextView
+					android:id="@+id/tv_slider_title"
+					android:layout_width="wrap_content"
+					android:layout_height="40dp"
 					android:gravity="center"
-					android:orientation="horizontal">
+					android:text=""
+					android:textColor="@android:color/white"
+					android:textSize="18sp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
 
-					<TextView
-						android:id="@+id/textView"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="0.5" />
+				<TextView
+					android:id="@+id/tv_btnAdd"
+					android:layout_width="30dp"
+					android:layout_height="30dp"
+					android:background="@drawable/circle_red"
+					android:elevation="2dp"
+					android:foreground="?attr/selectableItemBackground"
+					android:gravity="center"
+					android:paddingLeft="0.5dp"
+					android:paddingRight="0.5dp"
+					android:paddingBottom="1dp"
+					android:text="+"
+					android:textSize="18sp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintHorizontal_bias="0.95"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
 
-					<RadioButton
-						android:id="@+id/rb_mark"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_gravity="center"
-						android:layout_weight="0.25"
-						android:checked="true"
-						android:focusable="auto"
-						android:focusableInTouchMode="false"
-						android:selectAllOnFocus="true"
-						android:text="Метка"
-						android:textColorHighlight="@color/colorPrimary"
-						android:textColorLink="@color/colorPrimary" />
+			</android.support.constraint.ConstraintLayout>
 
-					<TextView
-						android:id="@+id/textView2"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="0.25" />
+			<include layout="@layout/bottom_sheet_container" />
 
-					<RadioButton
-						android:id="@+id/rb_schedule"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_gravity="center"
-						android:layout_weight="0.25"
-						android:checked="false"
-						android:focusable="auto"
-						android:focusableInTouchMode="false"
-						android:text="График"
-						android:textColorHighlight="@color/colorPrimary"
-						android:textColorLink="@color/colorPrimary" />
+			<!--			<FrameLayout-->
+			<!--				android:layout_width="match_parent"-->
+			<!--				android:layout_height="match_parent">-->
 
-					<TextView
-						android:id="@+id/textView3"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="0.25" />
-				</RadioGroup>
-
-				<include layout="@layout/mark_settings" />
-
-				<include layout="@layout/schedule_settings" />
-			</LinearLayout>
+			<!--			</FrameLayout>-->
 
 		</LinearLayout>
 

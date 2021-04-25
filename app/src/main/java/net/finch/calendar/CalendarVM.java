@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class CalendarVM extends ViewModel {
 
-    MutableLiveData<ArrayList<MyDate>> FODdata;
+    MutableLiveData<ArrayList<DayInfo>> FODdata;
     NavCalendar nCal;
-    ArrayList<MyDate> frameOfDates;
+    ArrayList<DayInfo> frameOfDates;
 
     MutableLiveData<Boolean> SStateData;
 
-    public LiveData<ArrayList<MyDate>> getFODLiveData() {
+    public LiveData<ArrayList<DayInfo>> getFODLiveData() {
         if (FODdata == null) {
             FODdata = new MutableLiveData<>();
             nCal = new NavCalendar();

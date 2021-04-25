@@ -49,7 +49,6 @@ public class OnMarkSendListener implements TextView.OnEditorActionListener, View
         MainActivity.hideKeyboard(MainActivity.getContext());
         model.setSliderState(false);
 //        Toast.makeText(MainActivity.getContext(), "Mark Saved: " + text, Toast.LENGTH_SHORT).show();
-        // TODO: *************
 
         String[] date = tvSliderTitle.getText().toString().split("\\.");
         int d = Integer.parseInt(date[0]);

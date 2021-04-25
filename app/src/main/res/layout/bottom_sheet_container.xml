@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="false"
+    android:background="@color/bg_bottomWindow"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_bottomFrameAdd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/rg_slider_set"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+
+            <RadioButton
+                android:id="@+id/rb_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.25"
+                android:checked="true"
+                android:focusable="auto"
+                android:focusableInTouchMode="false"
+                android:selectAllOnFocus="true"
+                android:text="Метка"
+                android:textColorHighlight="@color/colorPrimary"
+                android:textColorLink="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25" />
+
+            <RadioButton
+                android:id="@+id/rb_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.25"
+                android:checked="false"
+                android:focusable="auto"
+                android:focusableInTouchMode="false"
+                android:text="График"
+                android:textColorHighlight="@color/colorPrimary"
+                android:textColorLink="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/ll_Add"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/bg_shedowed"
+            android:orientation="vertical">
+
+            <include layout="@layout/mark_settings" />
+
+            <include layout="@layout/schedule_settings" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:nestedScrollingEnabled="true"
+            android:orientation="vertical"
+            android:overScrollMode="ifContentScrolls"></LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
