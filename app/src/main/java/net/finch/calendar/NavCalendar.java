@@ -141,7 +141,7 @@ public class NavCalendar
 		
 		int n;
 		String info;
-		ArrayList<String> infoList = new ArrayList<>();
+		ArrayList<String> infoList;
 		if (cur.moveToFirst()) {
 			do {
 				n = cur.getInt(cur.getColumnIndex("date"));
@@ -154,6 +154,7 @@ public class NavCalendar
 						markDates.replace(n, infoList);
 					}
 				}else {
+					infoList = new ArrayList<>();
 					infoList.add(info);
 					markDates.put(n, infoList);
 				}

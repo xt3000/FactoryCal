@@ -33,7 +33,7 @@ public class OnMarkSendListener implements TextView.OnEditorActionListener, View
             return true;
         }
 
-        Toast.makeText(MainActivity.getContext(), "actionId: " + actionId, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.getContext(), "actionId: " + actionId, Toast.LENGTH_SHORT).show();
 
         return false;
     }
@@ -47,8 +47,7 @@ public class OnMarkSendListener implements TextView.OnEditorActionListener, View
     void saveMark() {
         text = et.getText().toString();
         MainActivity.hideKeyboard(MainActivity.getContext());
-        model.setSliderState(false);
-//        Toast.makeText(MainActivity.getContext(), "Mark Saved: " + text, Toast.LENGTH_SHORT).show();
+        et.setText(null);
 
         String[] date = tvSliderTitle.getText().toString().split("\\.");
         int d = Integer.parseInt(date[0]);
@@ -56,8 +55,10 @@ public class OnMarkSendListener implements TextView.OnEditorActionListener, View
         int y = Integer.parseInt(date[2]);
         db = new DBHelper(ma);
         db.saveDayMark(y, m-1, d, text);
-        model.update();
-        Toast.makeText(MainActivity.getContext(), "Mark Saved :" +d+" "+m+" "+y, Toast.LENGTH_SHORT).show();
+        model.getFODLiveData();
+        model.updInfoList();
+        model.setSliderState(true);
+//        Toast.makeText(MainActivity.getContext(), "Mark Saved :" +d+" "+m+" "+y, Toast.LENGTH_SHORT).show();
     }
 
 

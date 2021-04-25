@@ -3,13 +3,13 @@ import java.util.*;
 
 public class DayInfo
 {
-	protected int id;
-	protected Calendar cal;
-	protected int monthOffset; // (-1,0,1)
+	private int id;
+	private Calendar cal;
+	private int monthOffset; // (-1,0,1)
 	//int month;
 	//int year;
-	protected Boolean mark;
-	protected ArrayList<String> infoList;
+	private Boolean mark;
+	private ArrayList<String> infoList;
 	
 	public DayInfo(int id, Calendar cal, int monthOffset, ArrayList<String> infoList) {
 		this.id = id;

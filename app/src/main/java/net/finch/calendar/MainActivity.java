@@ -14,6 +14,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -22,6 +23,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.unnamed.b.atv.model.TreeNode;
+import com.unnamed.b.atv.view.AndroidTreeView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,10 +38,16 @@ public class MainActivity extends AppCompatActivity
 	final boolean DEBUG = false;
 	String debugTxt="";
 
+	public  static final LinearLayout.LayoutParams LLP_Visible = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+	public static final LinearLayout.LayoutParams LLP_Gone = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+
 	LinearLayout[] llWeaks = new LinearLayout[6];
 
 	LinearLayout sliderLayout;
 	BottomSheetBehavior sliderBehavior;
+
+	LinearLayout listInfoLayout;
+	LinearLayout llAdd;
 
 	DayView dv;
 	TextView tvMonth;
@@ -52,6 +62,7 @@ public class MainActivity extends AppCompatActivity
 
 	CalendarVM model;
 	LiveData<ArrayList<DayInfo>> FODdata;
+	LiveData<ArrayList<String>> dayInfoListData;
 	LiveData<Boolean> SSdata;
 	TextInputEditText etMarkNote;
 	RadioGroup rg;
@@ -80,6 +91,9 @@ public class MainActivity extends AppCompatActivity
 		sliderLayout = findViewById(R.id.bottom_sheet);
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
 
+		listInfoLayout = findViewById(R.id.ll_list);
+		llAdd = findViewById(R.id.ll_Add);
+
 		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
 		btnMarkConfirm.setOnClickListener(new OnMarkSendListener());
 
@@ -104,13 +118,39 @@ public class MainActivity extends AppCompatActivity
 			@Override
 			public void onChanged(Boolean sliderState) {
 				etMarkNote.clearFocus();
-				etMarkNote.setText("");
+				etMarkNote.setText(null);
 				hideKeyboard(MainActivity.this);
 				if(sliderState) sliderBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 				else {
 					sliderBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 					if (tvBtnAdd.getText().equals("-")) tvBtnAdd.callOnClick();
 				}
+			}
+		});
+
+		dayInfoListData = model.getDayInfoListLiveData();
+		dayInfoListData.observe(this, new Observer<ArrayList<String>>() {
+			@Override
+			public void onChanged(@Nullable ArrayList<String> infoList) {
+				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+infoList.size());
+				listInfoLayout.removeAllViews();
+				TreeNode listRoot = TreeNode.root();
+				if(infoList == null || infoList.size() == 0) {
+					tvBtnAdd.setText("-");
+					llAdd.setLayoutParams(LLP_Visible);
+				}else {
+					tvBtnAdd.setText("+");
+					llAdd.setLayoutParams(LLP_Gone);
+					for (String info : infoList) {
+						InfoListItem infoItem = new InfoListItem(info);
+						listRoot.addChild(new TreeNode(new InfoListItem(info)).setViewHolder(new InfoListHolder(MainActivity.this)));
+					}
+				}
+
+
+
+				AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, listRoot);
+				listInfoLayout.addView(treeView.getView());
 			}
 		});
 
@@ -148,12 +188,12 @@ public class MainActivity extends AppCompatActivity
 //		LayoutTransition lt = new LayoutTransition();
 		int transitionType = LayoutTransition.CHANGING;
 
-		LinearLayout llMark = findViewById(R.id.ll_mark);
-		llMark.getLayoutTransition().enableTransitionType(transitionType);
-		LinearLayout llShedule = findViewById(R.id.ll_schedule);
-		llShedule.getLayoutTransition().enableTransitionType(transitionType);
-		LinearLayout llAdd = findViewById(R.id.ll_Add);
+//		LinearLayout llMark = findViewById(R.id.ll_mark);
+//		llMark.getLayoutTransition().enableTransitionType(transitionType);
+//		LinearLayout llShedule = findViewById(R.id.ll_schedule);
+//		llShedule.getLayoutTransition().enableTransitionType(transitionType);
 		llAdd.getLayoutTransition().enableTransitionType(transitionType);
+		listInfoLayout.getLayoutTransition().enableTransitionType(transitionType);
 		
 //**************************************
 
@@ -185,11 +225,9 @@ public class MainActivity extends AppCompatActivity
 			public void onClick(View v) {
 				switch(v.getId()) {
 					case R.id.tv_prevMonth:
-						model.setSliderState(false);
 						model.previousMonth();
 						break;
 					case R.id.tv_nextMonth:
-						model.setSliderState(false);
 						model.nextMonth();
 						break;
 				}

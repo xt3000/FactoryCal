@@ -3,7 +3,6 @@
     android:id="@+id/ll_mark"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:focusable="auto"
     android:focusableInTouchMode="true"
     android:orientation="vertical"

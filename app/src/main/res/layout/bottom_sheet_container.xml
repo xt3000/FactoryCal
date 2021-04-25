@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="false"
     android:background="@color/bg_bottomWindow"
     android:orientation="vertical">
 
@@ -10,7 +9,6 @@
         android:id="@+id/ll_bottomFrameAdd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -90,6 +88,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
+            android:animateLayoutChanges="true"
             android:nestedScrollingEnabled="true"
             android:orientation="vertical"
             android:overScrollMode="ifContentScrolls"></LinearLayout>
