@@ -10,8 +10,14 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
+import android.support.transition.Scene;
+import android.support.transition.TransitionManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -38,16 +45,24 @@ public class MainActivity extends AppCompatActivity
 	final boolean DEBUG = false;
 	String debugTxt="";
 
-	public  static final LinearLayout.LayoutParams LLP_Visible = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-	public static final LinearLayout.LayoutParams LLP_Gone = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+	ConstraintSet cSet = new ConstraintSet();
+	ConstraintLayout cl_bottomContainer;
+	public  static ConstraintLayout.LayoutParams LLP_Visible = new ConstraintLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+	public static ConstraintLayout.LayoutParams LLP_Gone = new ConstraintLayout.LayoutParams(0,0);
 
 	LinearLayout[] llWeaks = new LinearLayout[6];
 
 	LinearLayout sliderLayout;
 	BottomSheetBehavior sliderBehavior;
 
-	LinearLayout listInfoLayout;
+	LinearLayout llListInfo;
 	LinearLayout llAdd;
+	Scene sceneMark;
+	Scene sceneSchedule;
+
+	TabLayout tl_select;
+	ViewPager vpager_add;
+
 
 	DayView dv;
 	TextView tvMonth;
@@ -87,21 +102,29 @@ public class MainActivity extends AppCompatActivity
 		tvBtnAdd = findViewById(R.id.tv_btnAdd);
 		tvBtnAdd.setOnClickListener(new onAddClickListener());
 
+		tl_select = findViewById(R.id.tl_select);
+		vpager_add = findViewById(R.id.vpager_add);
+		setupViewPager();
+
 		//***TEST ViewModel***
 		sliderLayout = findViewById(R.id.bottom_sheet);
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
 
-		listInfoLayout = findViewById(R.id.ll_list);
+		llListInfo = findViewById(R.id.ll_list);
 		llAdd = findViewById(R.id.ll_Add);
+		cl_bottomContainer = findViewById(R.id.cl_bottomContainer);
+		sceneMark = Scene.getSceneForLayout(llAdd, R.layout.mark_settings, this);
+		sceneSchedule = Scene.getSceneForLayout(llAdd, R.layout.schedule_settings, this);
+//		addLayout_setMark();
 
 		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
-		btnMarkConfirm.setOnClickListener(new OnMarkSendListener());
+//		btnMarkConfirm.setOnClickListener(new OnMarkSendListener());
 
 		etMarkNote = findViewById(R.id.et_markNote);
-		etMarkNote.setOnEditorActionListener(new OnMarkSendListener());
+//		etMarkNote.setOnEditorActionListener(new OnMarkSendListener());
 
-		rg = findViewById(R.id.rg_slider_set);
-		rg.setOnCheckedChangeListener(new OnRBChecked());
+//		rg = findViewById(R.id.rg_slider_set);
+//		rg.setOnCheckedChangeListener(new OnRBChecked());
 
 		model = ViewModelProviders.of(this).get(CalendarVM.class);
 		FODdata = model.getFODLiveData();
@@ -117,8 +140,8 @@ public class MainActivity extends AppCompatActivity
 		SSdata.observe(this, new Observer<Boolean>() {
 			@Override
 			public void onChanged(Boolean sliderState) {
-				etMarkNote.clearFocus();
-				etMarkNote.setText(null);
+//				etMarkNote.clearFocus();
+//				etMarkNote.setText(null);
 				hideKeyboard(MainActivity.this);
 				if(sliderState) sliderBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 				else {
@@ -133,14 +156,16 @@ public class MainActivity extends AppCompatActivity
 			@Override
 			public void onChanged(@Nullable ArrayList<String> infoList) {
 				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+infoList.size());
-				listInfoLayout.removeAllViews();
+				llListInfo.removeAllViews();
 				TreeNode listRoot = TreeNode.root();
 				if(infoList == null || infoList.size() == 0) {
 					tvBtnAdd.setText("-");
-					llAdd.setLayoutParams(LLP_Visible);
+//					llAdd.setLayoutParams(LLP_Visible);
+					addLayout_setVisible(true);
 				}else {
 					tvBtnAdd.setText("+");
-					llAdd.setLayoutParams(LLP_Gone);
+//					llAdd.setLayoutParams(LLP_Gone);
+					addLayout_setVisible(false);
 					for (String info : infoList) {
 						InfoListItem infoItem = new InfoListItem(info);
 						listRoot.addChild(new TreeNode(new InfoListItem(info)).setViewHolder(new InfoListHolder(MainActivity.this)));
@@ -150,7 +175,7 @@ public class MainActivity extends AppCompatActivity
 
 
 				AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, listRoot);
-				listInfoLayout.addView(treeView.getView());
+				llListInfo.addView(treeView.getView());
 			}
 		});
 
@@ -192,8 +217,8 @@ public class MainActivity extends AppCompatActivity
 //		llMark.getLayoutTransition().enableTransitionType(transitionType);
 //		LinearLayout llShedule = findViewById(R.id.ll_schedule);
 //		llShedule.getLayoutTransition().enableTransitionType(transitionType);
-		llAdd.getLayoutTransition().enableTransitionType(transitionType);
-		listInfoLayout.getLayoutTransition().enableTransitionType(transitionType);
+//		llAdd.getLayoutTransition().enableTransitionType(transitionType);
+//		llListInfo.getLayoutTransition().enableTransitionType(transitionType);
 		
 //**************************************
 
@@ -281,9 +306,7 @@ public class MainActivity extends AppCompatActivity
 		
 		if (count>=42) count=0;
 	}
-	
-	
-	
+
 	void updFrame() {
 		debugTxt = "";
 		String year = model.nCal.getYear()+"г.";
@@ -294,6 +317,32 @@ public class MainActivity extends AppCompatActivity
 			inflateWeak(llWeaks[i]);
 		}
 	}
+
+	protected void addLayout_setVisible(Boolean visible) {
+		cSet.clone(cl_bottomContainer);
+		cSet.clear(R.id.ll_list, ConstraintSet.TOP);
+		if (visible) {
+			cSet.connect(R.id.ll_list, ConstraintSet.TOP, R.id.ll_Add, ConstraintSet.BOTTOM);
+		}else {
+			cSet.connect(R.id.ll_list, ConstraintSet.TOP, R.id.ll_Add, ConstraintSet.TOP);
+		}
+		TransitionManager.beginDelayedTransition(cl_bottomContainer);
+		cSet.applyTo(cl_bottomContainer);
+	}
+
+//	protected void addLayout_setMark() {
+//		TransitionManager.go(sceneMark);
+//	}
+
+//	protected void addLayout_setSchedule() {
+//		TransitionManager.go(sceneSchedule);
+//	}
+
+	private void setupViewPager() {
+		vpager_add.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+		tl_select.setupWithViewPager(vpager_add);
+	}
+
 	
 
 	public static Activity getContext() {

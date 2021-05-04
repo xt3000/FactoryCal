@@ -35,16 +35,16 @@ public class CalendarVM extends ViewModel {
         nCal.nextMonth();
         frameOfDates = nCal.frameOfDates();
         FOD_ld.setValue(frameOfDates);
-        setSliderState(false);
-        setDayId(null);
+//        setSliderState(false);
+//        setDayId(null);
     }
 
     public  void previousMonth() {
         nCal.previousMonth();
         frameOfDates = nCal.frameOfDates();
         FOD_ld.setValue(frameOfDates);
-        setSliderState(false);
-        setDayId(null);
+//        setSliderState(false);
+//        setDayId(null);
     }
 
 
@@ -58,7 +58,10 @@ public class CalendarVM extends ViewModel {
     }
 
     public void setSliderState(boolean ss) {
-        SState_ld.setValue(ss);
+        if (SState_ld.getValue() != ss) {
+            SState_ld.setValue(ss);
+            Log.d(TAG, "setSliderState: "+ss);
+        }
     }
 
 

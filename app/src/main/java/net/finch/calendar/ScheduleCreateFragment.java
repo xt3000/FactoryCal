@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MarkCreateFragment#newInstance} factory method to
+ * Use the {@link ScheduleCreateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MarkCreateFragment extends Fragment {
+public class ScheduleCreateFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,7 +22,7 @@ public class MarkCreateFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public MarkCreateFragment() {
+    public ScheduleCreateFragment() {
         // Required empty public constructor
     }
 
@@ -32,11 +32,11 @@ public class MarkCreateFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MarkCreateFragment.
+     * @return A new instance of fragment MarkInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MarkCreateFragment newInstance(String param1, String param2) {
-        MarkCreateFragment fragment = new MarkCreateFragment();
+    public static ScheduleCreateFragment newInstance(String param1, String param2) {
+        ScheduleCreateFragment fragment = new ScheduleCreateFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -57,6 +57,6 @@ public class MarkCreateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mark_create, container, false);
+        return inflater.inflate(R.layout.fragment_schedule_create, container, false);
     }
 }
