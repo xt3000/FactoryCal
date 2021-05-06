@@ -18,7 +18,7 @@ public class NavCalendar
 	 Calendar c;
 	private int month;
 	private int year;
-	Map<Integer, ArrayList<String>> markDates;
+	Map<Integer, ArrayList<MarkItem>> markDates;
 
 	public NavCalendar() {
 		c = new GregorianCalendar();
@@ -140,22 +140,24 @@ public class NavCalendar
 		Cursor cur = db.query(DBHelper.DB_NAME, null, select, selArgs, null, null, null);
 		
 		int n;
-		String info;
-		ArrayList<String> infoList;
+
+		ArrayList<MarkItem> infoList;
 		if (cur.moveToFirst()) {
 			do {
 				n = cur.getInt(cur.getColumnIndex("date"));
-				info = cur.getString(cur.getColumnIndex("note"));
-				//toast += " "+n;
+				int time = cur.getInt(cur.getColumnIndex("time"));
+				String info = cur.getString(cur.getColumnIndex("note"));
+				MarkItem mi = new MarkItem(time, info);
+
 				if (markDates.containsKey(n)) {
 					infoList = markDates.get(n);
-					infoList.add(info);
+					infoList.add(mi);
 					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 						markDates.replace(n, infoList);
 					}
 				}else {
 					infoList = new ArrayList<>();
-					infoList.add(info);
+					infoList.add(mi);
 					markDates.put(n, infoList);
 				}
 

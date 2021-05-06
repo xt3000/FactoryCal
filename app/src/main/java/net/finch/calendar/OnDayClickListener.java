@@ -39,7 +39,7 @@ public class OnDayClickListener implements View.OnLongClickListener, View.OnClic
         int d = day.getDate();
 
         if(!marked) {
-            db.saveDayMark(y, m, d, "");
+            db.saveDayMark(y, m, d, Time.NULLTIME,"");
         }else {
             db.deleteDayMark(y, m, d);
         }

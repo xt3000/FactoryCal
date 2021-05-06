@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
 
 	CalendarVM model;
 	LiveData<ArrayList<DayInfo>> FODdata;
-	LiveData<ArrayList<String>> dayInfoListData;
+	LiveData<ArrayList<MarkItem>> dayInfoListData;
 	LiveData<Boolean> SSdata;
 	TextInputEditText etMarkNote;
 	RadioGroup rg;
@@ -115,16 +115,10 @@ public class MainActivity extends AppCompatActivity
 		cl_bottomContainer = findViewById(R.id.cl_bottomContainer);
 		sceneMark = Scene.getSceneForLayout(llAdd, R.layout.mark_settings, this);
 		sceneSchedule = Scene.getSceneForLayout(llAdd, R.layout.schedule_settings, this);
-//		addLayout_setMark();
 
 		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
-//		btnMarkConfirm.setOnClickListener(new OnMarkSendListener());
 
 		etMarkNote = findViewById(R.id.et_markNote);
-//		etMarkNote.setOnEditorActionListener(new OnMarkSendListener());
-
-//		rg = findViewById(R.id.rg_slider_set);
-//		rg.setOnCheckedChangeListener(new OnRBChecked());
 
 		model = ViewModelProviders.of(this).get(CalendarVM.class);
 		FODdata = model.getFODLiveData();
@@ -140,8 +134,6 @@ public class MainActivity extends AppCompatActivity
 		SSdata.observe(this, new Observer<Boolean>() {
 			@Override
 			public void onChanged(Boolean sliderState) {
-//				etMarkNote.clearFocus();
-//				etMarkNote.setText(null);
 				hideKeyboard(MainActivity.this);
 				if(sliderState) sliderBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 				else {
@@ -152,23 +144,21 @@ public class MainActivity extends AppCompatActivity
 		});
 
 		dayInfoListData = model.getDayInfoListLiveData();
-		dayInfoListData.observe(this, new Observer<ArrayList<String>>() {
+		dayInfoListData.observe(this, new Observer<ArrayList<MarkItem>>() {
 			@Override
-			public void onChanged(@Nullable ArrayList<String> infoList) {
+			public void onChanged(@Nullable ArrayList<MarkItem> infoList) {
+				assert infoList != null;
 				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+infoList.size());
 				llListInfo.removeAllViews();
 				TreeNode listRoot = TreeNode.root();
-				if(infoList == null || infoList.size() == 0) {
+				if(infoList.size() == 0) {
 					tvBtnAdd.setText("-");
-//					llAdd.setLayoutParams(LLP_Visible);
 					addLayout_setVisible(true);
 				}else {
 					tvBtnAdd.setText("+");
-//					llAdd.setLayoutParams(LLP_Gone);
 					addLayout_setVisible(false);
-					for (String info : infoList) {
-						InfoListItem infoItem = new InfoListItem(info);
-						listRoot.addChild(new TreeNode(new InfoListItem(info)).setViewHolder(new InfoListHolder(MainActivity.this)));
+					for (MarkItem mi : infoList) {
+						listRoot.addChild(new TreeNode(new InfoListItem(Time.toStr(mi.getTime()), mi.getInfo())).setViewHolder(new InfoListHolder(MainActivity.this)));
 					}
 				}
 
@@ -209,22 +199,10 @@ public class MainActivity extends AppCompatActivity
 		
 		tvMonth = findViewById(R.id.tv_month);
 		tvYear = findViewById(R.id.tv_year);
-// ********TODO: ANIMATIOTN **********
-//		LayoutTransition lt = new LayoutTransition();
-		int transitionType = LayoutTransition.CHANGING;
-
-//		LinearLayout llMark = findViewById(R.id.ll_mark);
-//		llMark.getLayoutTransition().enableTransitionType(transitionType);
-//		LinearLayout llShedule = findViewById(R.id.ll_schedule);
-//		llShedule.getLayoutTransition().enableTransitionType(transitionType);
-//		llAdd.getLayoutTransition().enableTransitionType(transitionType);
-//		llListInfo.getLayoutTransition().enableTransitionType(transitionType);
-		
-//**************************************
 
 
 
-		
+
 		llWeaks[0].getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
 
 				@Override
@@ -235,13 +213,6 @@ public class MainActivity extends AppCompatActivity
 					updFrame();
 				}
 		});
-				 
-			
-		
-		
-//		padding = llp.getPaddingTop();
-		
-		
 		
 		/// Слушатель смены месяца
 		OnClickListener onChengeMonth = new OnClickListener() {
@@ -330,13 +301,6 @@ public class MainActivity extends AppCompatActivity
 		cSet.applyTo(cl_bottomContainer);
 	}
 
-//	protected void addLayout_setMark() {
-//		TransitionManager.go(sceneMark);
-//	}
-
-//	protected void addLayout_setSchedule() {
-//		TransitionManager.go(sceneSchedule);
-//	}
 
 	private void setupViewPager() {
 		vpager_add.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));

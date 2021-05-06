@@ -24,6 +24,7 @@ class DBHelper extends SQLiteOpenHelper
                 + "date integer,"
                 + "month integer,"
                 + "year integer,"
+                + "time integer,"
                 + "note varchar(255)"
                 + ");");
     }
@@ -33,12 +34,13 @@ class DBHelper extends SQLiteOpenHelper
 
     }
 
-    Boolean saveDayMark(int y, int m, int d, String note){
+    Boolean saveDayMark(int y, int m, int d, int t, String note){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("year", y);
         cv.put("month", m);
         cv.put("date", d);
+        cv.put("time", t);
         cv.put("note", note);
 
         db.insert(DB_NAME, null, cv);

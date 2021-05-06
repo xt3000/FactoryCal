@@ -17,7 +17,7 @@ public class CalendarVM extends ViewModel {
     Integer selectedDayId = null;
 
     MutableLiveData<Boolean> SState_ld;
-    MutableLiveData<ArrayList<String>> selDayInfoList_ld;
+    MutableLiveData<ArrayList<MarkItem>> selDayInfoList_ld;
 
 
 //*********** Frame Of Dates live data **************
@@ -66,7 +66,7 @@ public class CalendarVM extends ViewModel {
 
 
 //*********** Selected Day Info List live data **************
-    public LiveData<ArrayList<String>> getDayInfoListLiveData() {
+    public LiveData<ArrayList<MarkItem>> getDayInfoListLiveData() {
         if (selDayInfoList_ld == null) {
             selDayInfoList_ld = new MutableLiveData<>();
 //            selDayInfoList_ld.setValue(null);
@@ -78,7 +78,7 @@ public class CalendarVM extends ViewModel {
     public void setDayId(Integer dayId) {
         selectedDayId = dayId;
         if (dayId != null) selDayInfoList_ld.setValue(frameOfDates.get(dayId).getInfoList());
-        else selDayInfoList_ld.setValue(new ArrayList<String>());
+        else selDayInfoList_ld.setValue(new ArrayList<MarkItem>());
         Log.d(TAG, "setDayId: "+selectedDayId);
     }
 
