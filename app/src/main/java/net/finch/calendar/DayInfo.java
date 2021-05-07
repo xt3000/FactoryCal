@@ -9,9 +9,9 @@ public class DayInfo
 	//int month;
 	//int year;
 	private Boolean mark;
-	private ArrayList<MarkItem> infoList;
+	private ArrayList<InfoListItem> infoList;
 	
-	public DayInfo(int id, Calendar cal, int monthOffset, ArrayList<MarkItem> infoList) {
+	public DayInfo(int id, Calendar cal, int monthOffset, ArrayList<InfoListItem> infoList) {
 		this.id = id;
 		this.cal = cal;
 		this.monthOffset = monthOffset;
@@ -72,7 +72,7 @@ public class DayInfo
 		return mark;
 	}
 
-	public ArrayList<MarkItem> getInfoList() {
+	public ArrayList<InfoListItem> getInfoList() {
 		return infoList;
 	}
 }

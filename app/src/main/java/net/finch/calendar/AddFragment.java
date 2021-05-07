@@ -39,7 +39,7 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
     TextView tvSliderTitle;
     TextView tvAddTime;
     String text;
-    DBHelper db;
+    DBMarks db;
     Calendar mTime = new GregorianCalendar();
     TimePickerDialog.OnTimeSetListener timeSetListener;
 
@@ -168,7 +168,7 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
         int d = Integer.parseInt(date[0]);
         int m = Integer.parseInt(date[1]);
         int y = Integer.parseInt(date[2]);
-        db = new DBHelper(MainActivity.getContext());
+        db = new DBMarks(MainActivity.getContext());
         db.saveDayMark(y, m-1, d, t, text);
         model.getFODLiveData();
         model.updInfoList();

@@ -3,7 +3,6 @@ package net.finch.calendar;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.unnamed.b.atv.model.TreeNode;
@@ -18,7 +17,7 @@ public class OnDayClickListener implements View.OnLongClickListener, View.OnClic
     CalendarVM model;
     LiveData<ArrayList<DayInfo>> FODdata;
     ArrayList<DayInfo> fod;
-    DBHelper db;
+    DBMarks db;
     DayInfo di;
     TreeNode listRoot;
 
@@ -30,7 +29,7 @@ public class OnDayClickListener implements View.OnLongClickListener, View.OnClic
     @Override
     public boolean onLongClick(View v) {
         model.setSliderState(false);
-        db = new DBHelper(ma);
+        db = new DBMarks(ma);
         DayInfo day = ma.frameOfDates.get(v.getId());
         boolean marked = day.isMarked();
 

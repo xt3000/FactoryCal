@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
 
 	CalendarVM model;
 	LiveData<ArrayList<DayInfo>> FODdata;
-	LiveData<ArrayList<MarkItem>> dayInfoListData;
+	LiveData<ArrayList<InfoListItem>> dayInfoListData;
 	LiveData<Boolean> SSdata;
 	TextInputEditText etMarkNote;
 	RadioGroup rg;
@@ -144,9 +144,9 @@ public class MainActivity extends AppCompatActivity
 		});
 
 		dayInfoListData = model.getDayInfoListLiveData();
-		dayInfoListData.observe(this, new Observer<ArrayList<MarkItem>>() {
+		dayInfoListData.observe(this, new Observer<ArrayList<InfoListItem>>() {
 			@Override
-			public void onChanged(@Nullable ArrayList<MarkItem> infoList) {
+			public void onChanged(@Nullable ArrayList<InfoListItem> infoList) {
 				assert infoList != null;
 				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+infoList.size());
 				llListInfo.removeAllViews();
@@ -157,8 +157,8 @@ public class MainActivity extends AppCompatActivity
 				}else {
 					tvBtnAdd.setText("+");
 					addLayout_setVisible(false);
-					for (MarkItem mi : infoList) {
-						listRoot.addChild(new TreeNode(new InfoListItem(Time.toStr(mi.getTime()), mi.getInfo())).setViewHolder(new InfoListHolder(MainActivity.this)));
+					for (InfoListItem ilItem : infoList) {
+						listRoot.addChild(new TreeNode(new InfoListItem(ilItem.getTime(), ilItem.getInfo())).setViewHolder(new InfoListHolder(MainActivity.this)));
 					}
 				}
 

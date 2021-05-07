@@ -1,16 +1,15 @@
 package net.finch.calendar;
 
-import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class DBHelper extends SQLiteOpenHelper
+class DBMarks extends SQLiteOpenHelper
  {
-	protected static final String DB_NAME = "mytable";
+	protected static final String DB_NAME = "marks";
 
-    public DBHelper(Context context) {
+    public DBMarks(Context context) {
 		// конструктор суперкласса
 		super(context, "myDB", null, 1);
     }
@@ -59,7 +58,7 @@ class DBHelper extends SQLiteOpenHelper
          String select = "year = ? and month = ? and date = ?";
          String[] selArgs = {""+y, ""+m, ""+d};
 
-         db.delete(DBHelper.DB_NAME, select, selArgs);
+         db.delete(DBMarks.DB_NAME, select, selArgs);
          db.close();
          return true;
      }

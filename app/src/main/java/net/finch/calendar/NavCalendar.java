@@ -13,12 +13,12 @@ import java.util.Map;
 
 public class NavCalendar
 {
-	private DBHelper dbHelper;
+	private DBMarks dbMarks;
 //	private final Context context;
 	 Calendar c;
 	private int month;
 	private int year;
-	Map<Integer, ArrayList<MarkItem>> markDates;
+	Map<Integer, ArrayList<InfoListItem>> markDates;
 
 	public NavCalendar() {
 		c = new GregorianCalendar();
@@ -130,34 +130,34 @@ public class NavCalendar
 
 
 	 void dbReadMarkedDates(int offset) {
-		if(dbHelper == null) dbHelper = new DBHelper(MainActivity.getContext());
+		if(dbMarks == null) dbMarks = new DBMarks(MainActivity.getContext());
 		markDates = new HashMap<>();
 		Calendar mc = new GregorianCalendar(year, month+offset,1);
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		SQLiteDatabase db = dbMarks.getWritableDatabase();
 
 		String select = "year = ? and month = ?";
 		String[] selArgs = {String.valueOf(mc.get(GregorianCalendar.YEAR)), String.valueOf(mc.get(GregorianCalendar.MONTH))};
-		Cursor cur = db.query(DBHelper.DB_NAME, null, select, selArgs, null, null, null);
+		Cursor cur = db.query(DBMarks.DB_NAME, null, select, selArgs, null, null, null);
 		
 		int n;
 
-		ArrayList<MarkItem> infoList;
+		ArrayList<InfoListItem> infoList;
 		if (cur.moveToFirst()) {
 			do {
 				n = cur.getInt(cur.getColumnIndex("date"));
 				int time = cur.getInt(cur.getColumnIndex("time"));
 				String info = cur.getString(cur.getColumnIndex("note"));
-				MarkItem mi = new MarkItem(time, info);
+				InfoListItem ilItem = new InfoListItem(Time.toStr(time), info);
 
 				if (markDates.containsKey(n)) {
 					infoList = markDates.get(n);
-					infoList.add(mi);
+					infoList.add(ilItem);
 					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 						markDates.replace(n, infoList);
 					}
 				}else {
 					infoList = new ArrayList<>();
-					infoList.add(mi);
+					infoList.add(ilItem);
 					markDates.put(n, infoList);
 				}
 
