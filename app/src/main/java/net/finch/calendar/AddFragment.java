@@ -16,12 +16,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,22 +40,27 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
     private static final String ARG_PAGE = "ARG_PAGE";
 
     // TODO: Rename and change types of parameters
-    TextInputEditText etMarkNote;
-    TextView tvSliderTitle;
-    TextView tvAddTime;
-    String text;
-    DBMarks db;
-    Calendar mTime = new GregorianCalendar();
-    TimePickerDialog.OnTimeSetListener timeSetListener;
+    private TextInputEditText etMarkNote;
+    private TextView tvSliderTitle;
+    private TextView tvAddTime;
+    private String text;
+    private DBMarks db;
+    private Calendar mTime = new GregorianCalendar();
+    private TimePickerDialog.OnTimeSetListener timeSetListener;
 
     private int pageParam;
     private int markLayout = R.layout.fragment_mark_create;
     private int scheduleLayout = R.layout.fragment_schedule_create;
     private int id;
+    private String[] sdlList = {"График1", "График2", "График3", "График4"};
+//    private List<SdlListItem> sdlList = new ArrayList<>();
+    private ArrayAdapter<String> sdlSpinnerAdapter;
+//    private SdlSpinnerAdapter sdlSpinnerAdapter;
 
-    View view;
-    CalendarVM model;
-    LiveData<Boolean> SSdata;
+    private View view;
+    private CalendarVM model;
+    private LiveData<Boolean> SSdata;
+
 
 
 
@@ -190,11 +200,36 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
 
     //**** Create ScheduleView Fragment ****
     private View scheduleView(LayoutInflater inflater, ViewGroup container) {
+//        sdlList.add(new SdlListItem("График1", getString(R.string.schedule1)));
+//        sdlList.add(new SdlListItem("График2", getString(R.string.schedule2)));
+//        sdlList.add(new SdlListItem("График3", getString(R.string.schedule2)));
+//        sdlList.add(new SdlListItem("График4", getString(R.string.schedule2)));
+
+        sdlSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.sdl_list_tvitem, sdlList);
+//        sdlSpinnerAdapter = new SdlSpinnerAdapter(getActivity(), R.layout.sdl_list_item, sdlList);
         View v = inflater.inflate(scheduleLayout, container, false);
+        Spinner spinner = v.findViewById(R.id.sp_sdlAdd);
+        spinner.setAdapter(sdlSpinnerAdapter);
+        spinner.setPrompt("Доступные графики");
+//        spinner.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.blue_outline));
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         return v;
     }
+
+
 
 
 

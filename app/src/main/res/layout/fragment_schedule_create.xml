@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_schedule"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,103 +8,37 @@
     android:orientation="vertical"
     android:visibility="visible">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
 
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/sp_sdlAdd"
+            style="@android:style/Widget.DeviceDefault.Light.Spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/white_outline_arrow"
+            android:popupBackground="@drawable/blue_outline"
+            android:spinnerMode="dropdown"
+            tools:listitem="@layout/sdl_list_tvitem" />
 
-            <View
-                android:id="@+id/v_color1"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/holo_blue_light" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="0.5"
+            android:background="@color/bg_bottomHeader"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="Расчитать" />
 
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/colorPrimaryDark"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:id="@+id/v_color2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/holo_green_light" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:id="@+id/v_color3"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/holo_orange_dark" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:id="@+id/v_color4"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/holo_orange_light" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:id="@+id/v_color5"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/holo_purple" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:id="@+id/v_color6"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/holo_red_dark" />
-
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

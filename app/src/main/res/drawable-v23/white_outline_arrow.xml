@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android = "http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <stroke android:color = "@color/rbNormal" android:width = "1dp" />
+            <solid android:color="@color/bg_bottomWindow" />
+            <corners android:radius = "4dp" />
+        </shape>
+    </item>
+
+    <item
+        android:height="10dp"
+        android:width="10dp"
+        android:right="16dp"
+        android:gravity="right"
+        android:top="16dp">
+        <rotate
+            android:fromDegrees="-45">
+            <shape
+                android:shape="line">
+                <stroke
+                    android:width="1dp"
+                    android:color="@color/rbActive"/>
+            </shape>
+        </rotate>
+    </item>
+
+    <item
+        android:gravity="right"
+        android:top="16dp"
+        android:right="22dp"
+        android:width="10dp"
+        android:height="10dp">
+        <rotate
+            android:fromDegrees="45">
+            <shape
+                android:shape="line">
+                <stroke
+                    android:width="1dp"
+                    android:color="@color/rbActive"/>
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

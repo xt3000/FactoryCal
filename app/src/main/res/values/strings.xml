@@ -2,9 +2,9 @@
 <resources>
 
     <string name="app_name">Calendar</string>
-    <string name="hello_world">Hello world!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="null_time">:</string>
+    <string name="null_time">- - : - -</string>
+    <!-- TODO: Default Schedule String -->
+    <string name="schedule1">УНВВ</string>
+    <string name="schedule2">УУУУУВВ</string>
 
 </resources>

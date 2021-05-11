@@ -11,7 +11,7 @@ class DBMarks extends SQLiteOpenHelper
 
     public DBMarks(Context context) {
 		// конструктор суперкласса
-		super(context, "myDB", null, 1);
+		super(context, DB_NAME, null, 1);
     }
 
     @Override

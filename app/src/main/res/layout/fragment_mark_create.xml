@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/bg_bottomHeader"
         android:focusableInTouchMode="false"
         android:fontFamily="sans-serif-medium"
         android:foreground="?attr/selectableItemBackground"
