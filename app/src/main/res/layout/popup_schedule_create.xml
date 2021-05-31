@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_schedule"
+    android:layout_width="800px"
+    android:layout_height="600px"
+    android:layout_gravity="center"
+    android:animateLayoutChanges="true"
+    android:background="@color/bg_bottomWindow"
+    android:visibility="visible">
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/popup_header" />
+    </FrameLayout>
+
+    <Spinner
+        android:id="@+id/sp_sdlAdd"
+        style="@android:style/Widget.DeviceDefault.Light.Spinner"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/white_outline_arrow"
+        android:popupBackground="@drawable/blue_outline"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sdlSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
+        tools:listitem="@layout/sdl_list_tvitem" />
+
+    <Button
+        android:id="@+id/btn_sdlSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/bg_bottomHeader"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingStart="50dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="50dp"
+        android:paddingBottom="12dp"
+        android:text="Расчитать"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_sdlAdd" />
+
+
+</android.support.constraint.ConstraintLayout>

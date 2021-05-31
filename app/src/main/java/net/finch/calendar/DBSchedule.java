@@ -23,7 +23,7 @@ public class DBSchedule extends SQLiteOpenHelper {
                 + "month integer,"
                 + "year integer,"
                 + "name varchar(16),"
-                + "schedule varchar(31)"
+                + "sdl varchar(31)"
                 + ");");
     }
     
@@ -40,8 +40,8 @@ public class DBSchedule extends SQLiteOpenHelper {
         cv.put("year", y);
         cv.put("month", m);
         cv.put("date", d);
-        cv.put("time", name);
-        cv.put("note", schedule);
+        cv.put("name", name);
+        cv.put("sdl", schedule);
 
         db.insert(DB_NAME, null, cv);
         db.close();

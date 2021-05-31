@@ -1,36 +1,41 @@
 package net.finch.calendar;
 
-import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.transition.Scene;
 import android.support.transition.TransitionManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+//import android.support.v7app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -38,8 +43,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity
-{
+import static net.finch.calendar.CalendarVM.TAG;
+
+public class MainActivity extends AppCompatActivity implements OnClickListener {
 	@SuppressLint("StaticFieldLeak")
 	public static MainActivity instance;
 	final boolean DEBUG = false;
@@ -47,8 +53,11 @@ public class MainActivity extends AppCompatActivity
 
 	ConstraintSet cSet = new ConstraintSet();
 	ConstraintLayout cl_bottomContainer;
-	public  static ConstraintLayout.LayoutParams LLP_Visible = new ConstraintLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-	public static ConstraintLayout.LayoutParams LLP_Gone = new ConstraintLayout.LayoutParams(0,0);
+
+	AddFloatingActionButton fabAdd;
+	FloatingActionButton fabAddMark;
+	FloatingActionButton fabAddSdl;
+	OnAddFABClickListener fabClickListener;
 
 	LinearLayout[] llWeaks = new LinearLayout[6];
 
@@ -68,7 +77,7 @@ public class MainActivity extends AppCompatActivity
 	TextView tvMonth;
 	TextView tvYear;
 	TextView tvDebag;
-	TextView tvBtnAdd;
+	ImageView ivBtnAdd;
 	Button btnMarkConfirm;
 //	EditText etMarkNote;
 	
@@ -99,22 +108,33 @@ public class MainActivity extends AppCompatActivity
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Factory Calendar");
 		getSupportActionBar().setSubtitle("Калкндарь потребления воды");
 
-		tvBtnAdd = findViewById(R.id.tv_btnAdd);
-		tvBtnAdd.setOnClickListener(new onAddClickListener());
+		fabClickListener = new OnAddFABClickListener();
+
+		fabAdd = findViewById(R.id.afab_add);
+		fabAdd.setOnClickListener(fabClickListener);
+
+		fabAddMark = findViewById(R.id.fab_mark);
+		fabAddMark.setOnClickListener(this);
+
+		fabAddSdl = findViewById(R.id.fab_sdl);
+		fabAddSdl.setOnClickListener(this);
+
 
 		tl_select = findViewById(R.id.tl_select);
 		vpager_add = findViewById(R.id.vpager_add);
-		setupViewPager();
+//		setupViewPager();
 
 		//***TEST ViewModel***
+
 		sliderLayout = findViewById(R.id.bottom_sheet);
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
+		sliderBehavior.setBottomSheetCallback(new SliderBehaviorCallback());
 
 		llListInfo = findViewById(R.id.ll_list);
 		llAdd = findViewById(R.id.ll_Add);
 		cl_bottomContainer = findViewById(R.id.cl_bottomContainer);
-		sceneMark = Scene.getSceneForLayout(llAdd, R.layout.mark_settings, this);
-		sceneSchedule = Scene.getSceneForLayout(llAdd, R.layout.schedule_settings, this);
+//		sceneMark = Scene.getSceneForLayout(llAdd, R.layout.mark_settings, this);
+//		sceneSchedule = Scene.getSceneForLayout(llAdd, R.layout.schedule_settings, this);
 
 		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
 
@@ -135,10 +155,14 @@ public class MainActivity extends AppCompatActivity
 			@Override
 			public void onChanged(Boolean sliderState) {
 				hideKeyboard(MainActivity.this);
-				if(sliderState) sliderBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+				if(sliderState) {
+					sliderBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//					fab_add.setVisibility(View.VISIBLE);
+				}
 				else {
+//					fab_add.setVisibility(View.GONE);
 					sliderBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-					if (tvBtnAdd.getText().equals("-")) tvBtnAdd.callOnClick();
+//					if (ivBtnAdd.getText().equals("-")) ivBtnAdd.callOnClick();
 				}
 			}
 		});
@@ -152,11 +176,11 @@ public class MainActivity extends AppCompatActivity
 				llListInfo.removeAllViews();
 				TreeNode listRoot = TreeNode.root();
 				if(infoList.size() == 0) {
-					tvBtnAdd.setText("-");
-					addLayout_setVisible(true);
+//					ivBtnAdd.setText("-");
+//					addLayout_setVisible(true);
 				}else {
-					tvBtnAdd.setText("+");
-					addLayout_setVisible(false);
+//					ivBtnAdd.setText("+");
+//					addLayout_setVisible(false);
 					for (InfoListItem ilItem : infoList) {
 						listRoot.addChild(new TreeNode(new InfoListItem(ilItem.getTime(), ilItem.getInfo())).setViewHolder(new InfoListHolder(MainActivity.this)));
 					}
@@ -169,17 +193,17 @@ public class MainActivity extends AppCompatActivity
 			}
 		});
 
-		sliderBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-			@Override
-			public void onStateChanged(@NonNull View bottomSheet, int newState) {
-				if(newState == BottomSheetBehavior.STATE_COLLAPSED) model.setSliderState(false);
-			}
-
-			@Override
-			public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-			}
-		});
+//		sliderBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//			@Override
+//			public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//				if(newState == BottomSheetBehavior.STATE_COLLAPSED) model.setSliderState(false);
+//			}
+//
+//			@Override
+//			public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//
+//			}
+//		});
 
 		//***TEST***
 			
@@ -289,23 +313,25 @@ public class MainActivity extends AppCompatActivity
 		}
 	}
 
-	protected void addLayout_setVisible(Boolean visible) {
-		cSet.clone(cl_bottomContainer);
-		cSet.clear(R.id.ll_list, ConstraintSet.TOP);
-		if (visible) {
-			cSet.connect(R.id.ll_list, ConstraintSet.TOP, R.id.ll_Add, ConstraintSet.BOTTOM);
-		}else {
-			cSet.connect(R.id.ll_list, ConstraintSet.TOP, R.id.ll_Add, ConstraintSet.TOP);
-		}
-		TransitionManager.beginDelayedTransition(cl_bottomContainer);
-		cSet.applyTo(cl_bottomContainer);
-	}
+//	protected void addLayout_setVisible(Boolean visible) {
+//		cSet.clone(cl_bottomContainer);
+//		cSet.clear(R.id.ll_list, ConstraintSet.TOP);
+//		if (visible) {
+//			cSet.connect(R.id.ll_list, ConstraintSet.TOP, R.id.ll_Add, ConstraintSet.BOTTOM);
+//		}else {
+//			cSet.connect(R.id.ll_list, ConstraintSet.TOP, R.id.ll_Add, ConstraintSet.TOP);
+//		}
+//		TransitionManager.beginDelayedTransition(cl_bottomContainer);
+//		cSet.applyTo(cl_bottomContainer);
+//	}
 
 
-	private void setupViewPager() {
-		vpager_add.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-		tl_select.setupWithViewPager(vpager_add);
-	}
+
+
+//	private void setupViewPager() {
+//		vpager_add.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+//		tl_select.setupWithViewPager(vpager_add);
+//	}
 
 	
 
@@ -321,5 +347,19 @@ public class MainActivity extends AppCompatActivity
 		}
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
-	
+
+	@Override
+	public void onClick(View view) {
+		Log.d(TAG, "onFABClick: ");
+		model.setSliderState(false);
+		switch (view.getId()) {
+			case R.id.fab_mark:
+				new Popup(Popup.MARK).show();
+				break;
+			case R.id.fab_sdl:
+				new Popup(Popup.SHEDULE).show();
+				break;
+		}
+	}
+
 }

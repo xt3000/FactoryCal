@@ -1,10 +1,10 @@
 package net.finch.calendar;
 
-public class SdlListItem {
+public class Schedule {
     private String name;
     private String sdl;
 
-    SdlListItem(String name, String sdl) {
+    Schedule(String name, String sdl) {
         this.name = name;
         this.sdl = sdl;
     }

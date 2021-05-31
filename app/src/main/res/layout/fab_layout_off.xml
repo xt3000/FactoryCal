@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fl_fabMenu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top"
+    app:layout_anchor="@id/afab_add"
+    app:layout_anchorGravity="bottom|right">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_sdl"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="false"
+        android:focusableInTouchMode="true"
+        android:src="@android:drawable/ic_menu_today"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorPrimary72"
+        app:fab_size="mini"
+        app:fab_title="add" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_mark"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="false"
+        android:src="@android:drawable/ic_menu_edit"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/bg_bottomHeader"
+        app:fab_size="mini"
+        app:fab_title="mark" />
+
+</FrameLayout>

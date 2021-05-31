@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fl_fabMenu"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:layout_gravity="top"
+    app:layout_anchor="@id/afab_add"
+    app:layout_anchorGravity="bottom|right">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_sdl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="25dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:src="@android:drawable/ic_menu_today"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
+        app:fab_size="mini" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="80dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:src="@android:drawable/ic_menu_edit"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
+        app:fab_size="mini" />
+
+</FrameLayout>

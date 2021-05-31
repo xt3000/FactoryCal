@@ -1,6 +1,7 @@
 package net.finch.calendar;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -8,7 +9,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
+//import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,10 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,16 +43,17 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
     private TextView tvSliderTitle;
     private TextView tvAddTime;
     private String text;
-    private DBMarks db;
+    private DBMarks dbMarks;
     private Calendar mTime = new GregorianCalendar();
     private TimePickerDialog.OnTimeSetListener timeSetListener;
+    private Button btnSdlSave;
 
     private int pageParam;
-    private int markLayout = R.layout.fragment_mark_create;
-    private int scheduleLayout = R.layout.fragment_schedule_create;
-    private int id;
-    private String[] sdlList = {"График1", "График2", "График3", "График4"};
-//    private List<SdlListItem> sdlList = new ArrayList<>();
+    private int markLayout = R.layout.popup_mark_create;
+    private int scheduleLayout = R.layout.popup_schedule_create;
+    private int sdlId;
+//    private String[] sdlNamesList = {"График1", "График2", "График3", "График4"};
+    private ScheduleArray sdlList = new ScheduleArray();
     private ArrayAdapter<String> sdlSpinnerAdapter;
 //    private SdlSpinnerAdapter sdlSpinnerAdapter;
 
@@ -96,7 +96,8 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        model = ViewModelProviders.of(getActivity()).get(CalendarVM.class);
+        model = ViewModelProviders.of(MainActivity.instance).get(CalendarVM.class);     //  getActivity()
+        tvSliderTitle = getActivity().findViewById(R.id.tv_slider_title);
 
         if (pageParam == 0) view = markView(inflater, container);
         else view = scheduleView(inflater, container);
@@ -124,7 +125,7 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
         setTimeListener();
 
         SSdata = model.getSStateLiveData();
-        SSdata.observe(getActivity(), new Observer<Boolean>() {
+        SSdata.observe(MainActivity.instance, new Observer<Boolean>() {         //  getActivity()
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
                 etMarkNote.clearFocus();
@@ -171,15 +172,12 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
         text = etMarkNote.getText().toString();
         MainActivity.hideKeyboard(MainActivity.getContext());
         etMarkNote.setText(null);
-        tvSliderTitle = MainActivity.getContext().findViewById(R.id.tv_slider_title);
+
         int t = Time.toInt(tvAddTime.getText().toString());
 
-        String[] date = tvSliderTitle.getText().toString().split("\\.");
-        int d = Integer.parseInt(date[0]);
-        int m = Integer.parseInt(date[1]);
-        int y = Integer.parseInt(date[2]);
-        db = new DBMarks(MainActivity.getContext());
-        db.saveDayMark(y, m-1, d, t, text);
+        ParseDate pd = new ParseDate(tvSliderTitle.getText().toString());
+        dbMarks = new DBMarks(getActivity());
+        dbMarks.saveDayMark(pd.getY(), pd.getM(), pd.getD(), t, text);
         model.getFODLiveData();
         model.updInfoList();
         model.setSliderState(true);
@@ -200,31 +198,42 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
 
     //**** Create ScheduleView Fragment ****
     private View scheduleView(LayoutInflater inflater, ViewGroup container) {
-//        sdlList.add(new SdlListItem("График1", getString(R.string.schedule1)));
-//        sdlList.add(new SdlListItem("График2", getString(R.string.schedule2)));
-//        sdlList.add(new SdlListItem("График3", getString(R.string.schedule2)));
-//        sdlList.add(new SdlListItem("График4", getString(R.string.schedule2)));
-
-        sdlSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.sdl_list_tvitem, sdlList);
-//        sdlSpinnerAdapter = new SdlSpinnerAdapter(getActivity(), R.layout.sdl_list_item, sdlList);
         View v = inflater.inflate(scheduleLayout, container, false);
-        Spinner spinner = v.findViewById(R.id.sp_sdlAdd);
-        spinner.setAdapter(sdlSpinnerAdapter);
-        spinner.setPrompt("Доступные графики");
-//        spinner.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.blue_outline));
 
+        sdlList.add(new Schedule("График1", getString(R.string.schedule1)));
+        sdlList.add(new Schedule("График2", getString(R.string.schedule2)));
+        sdlList.add(new Schedule("График3", getString(R.string.schedule1)));
+        sdlList.add(new Schedule("График4", getString(R.string.schedule2)));
+        sdlList.add(new Schedule("График5", getString(R.string.schedule1)));
+        sdlList.add(new Schedule("График6", getString(R.string.schedule2)));
+
+        Spinner spinner = v.findViewById(R.id.sp_sdlAdd);
+        btnSdlSave = v.findViewById(R.id.btn_sdlSave);
+
+        sdlSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.sdl_list_tvitem, sdlList.getNames());
+        spinner.setAdapter(sdlSpinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                sdlId = pos;
+                Log.d(CalendarVM.TAG, "onItemSelected: itemID = "+pos);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
+        btnSdlSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Schedule sdl = sdlList.get(sdlId);
+                Log.d(CalendarVM.TAG, "onItemSelected: save  "+sdl.getName()+" ("+sdl.getSdl()+")");
+                DBSchedule dbSdl = new DBSchedule(getActivity());
+                ParseDate pd = new ParseDate(tvSliderTitle.getText().toString());
+                dbSdl.saveSchedule(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl());
+            }
+        });
 
         return v;
     }
@@ -238,4 +247,6 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
         super.onViewCreated(view, savedInstanceState);
         MainActivity.hideKeyboard(MainActivity.getContext());
     }
+
+
 }

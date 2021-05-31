@@ -12,12 +12,13 @@
         android:id="@+id/ll_Add"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/bg_shedowed"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
 
         <!--        <include layout="@layout/mark_settings" />-->
         <!--        <include layout="@layout/schedule_settings" />-->
@@ -49,7 +50,6 @@
         android:nestedScrollingEnabled="true"
         android:orientation="vertical"
         android:overScrollMode="ifContentScrolls"
-        android:paddingTop="8dp"
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
