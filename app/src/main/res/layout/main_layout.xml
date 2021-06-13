@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/main_layout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -71,7 +72,8 @@
 		app:fab_size="mini"
 		app:fab_title="add"
 		app:layout_anchor="@id/cl_header"
-		app:layout_anchorGravity="right|end" />
+		app:layout_anchorGravity="right|end"
+		tools:visibility="visible" />
 
 </android.support.design.widget.CoordinatorLayout>
 

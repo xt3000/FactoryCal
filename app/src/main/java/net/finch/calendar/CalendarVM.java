@@ -3,8 +3,11 @@ package net.finch.calendar;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.Nullable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
+
+import net.finch.calendar.Marks.Mark;
 
 import java.util.ArrayList;
 
@@ -12,25 +15,27 @@ public class CalendarVM extends ViewModel {
     public static final String TAG = "FINCH_TAG";
 
     MutableLiveData<ArrayList<DayInfo>> FOD_ld;
-    NavCalendar nCal;
+    CalendarNavigator nCal;
     ArrayList<DayInfo> frameOfDates;
     Integer selectedDayId = null;
 
     MutableLiveData<Boolean> SState_ld;
-    MutableLiveData<ArrayList<InfoListItem>> selDayInfoList_ld;
+    MutableLiveData<DayInfo> tgtDayInfo_ld;
 
 
 //*********** Frame Of Dates live data **************
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public LiveData<ArrayList<DayInfo>> getFODLiveData() {
         if (FOD_ld == null) {
             FOD_ld = new MutableLiveData<>();
-            nCal = new NavCalendar();
+            nCal = new CalendarNavigator();
         }
         frameOfDates = nCal.frameOfDates();
         FOD_ld.setValue(frameOfDates);
         return FOD_ld;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public  void nextMonth() {
         nCal.nextMonth();
         frameOfDates = nCal.frameOfDates();
@@ -39,6 +44,7 @@ public class CalendarVM extends ViewModel {
 //        setDayId(null);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public  void previousMonth() {
         nCal.previousMonth();
         frameOfDates = nCal.frameOfDates();
@@ -66,19 +72,19 @@ public class CalendarVM extends ViewModel {
 
 
 //*********** Selected Day Info List live data **************
-    public LiveData<ArrayList<InfoListItem>> getDayInfoListLiveData() {
-        if (selDayInfoList_ld == null) {
-            selDayInfoList_ld = new MutableLiveData<>();
+    public LiveData<DayInfo> getDayInfoLiveData() {
+        if (tgtDayInfo_ld == null) {
+            tgtDayInfo_ld = new MutableLiveData<>();
 //            selDayInfoList_ld.setValue(null);
         }
 
-        return selDayInfoList_ld;
+        return tgtDayInfo_ld;
     }
 
     public void setDayId(Integer dayId) {
         selectedDayId = dayId;
-        if (dayId != null) selDayInfoList_ld.setValue(frameOfDates.get(dayId).getInfoList());
-        else selDayInfoList_ld.setValue(new ArrayList<InfoListItem>());
+        if (dayId != null) tgtDayInfo_ld.setValue(frameOfDates.get(dayId));
+        else tgtDayInfo_ld.setValue(null);
         Log.d(TAG, "setDayId: "+selectedDayId);
     }
 
@@ -87,5 +93,6 @@ public class CalendarVM extends ViewModel {
         Log.d(TAG, "setDayId: "+selectedDayId);
 
     }
+
 }
 

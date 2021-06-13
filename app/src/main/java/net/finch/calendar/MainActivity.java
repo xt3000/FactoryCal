@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.BottomSheetBehavior;
@@ -16,14 +18,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.transition.Scene;
-import android.support.transition.TransitionManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 //import android.support.v7app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -31,13 +30,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
+
+import net.finch.calendar.Marks.Mark;
+import net.finch.calendar.Schedules.Shift;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,33 +67,25 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 	LinearLayout llListInfo;
 	LinearLayout llAdd;
-	Scene sceneMark;
-	Scene sceneSchedule;
-
-	TabLayout tl_select;
-	ViewPager vpager_add;
-
 
 	DayView dv;
 	TextView tvMonth;
 	TextView tvYear;
 	TextView tvDebag;
-	ImageView ivBtnAdd;
 	Button btnMarkConfirm;
-//	EditText etMarkNote;
-	
-//	int width;
+
 	int count = 0;
 
 	CalendarVM model;
 	LiveData<ArrayList<DayInfo>> FODdata;
-	LiveData<ArrayList<InfoListItem>> dayInfoListData;
+	LiveData<DayInfo> dayInfoListData;
 	LiveData<Boolean> SSdata;
 	TextInputEditText etMarkNote;
 	RadioGroup rg;
 
 	ArrayList<DayInfo> frameOfDates;
 
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	@Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -120,21 +113,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		fabAddSdl.setOnClickListener(this);
 
 
-		tl_select = findViewById(R.id.tl_select);
-		vpager_add = findViewById(R.id.vpager_add);
-//		setupViewPager();
-
 		//***TEST ViewModel***
 
 		sliderLayout = findViewById(R.id.bottom_sheet);
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
 		sliderBehavior.setBottomSheetCallback(new SliderBehaviorCallback());
 
-		llListInfo = findViewById(R.id.ll_list);
-		llAdd = findViewById(R.id.ll_Add);
+		llListInfo = findViewById(R.id.ll_markList);
+		llAdd = findViewById(R.id.ll_sdlList);
 		cl_bottomContainer = findViewById(R.id.cl_bottomContainer);
-//		sceneMark = Scene.getSceneForLayout(llAdd, R.layout.mark_settings, this);
-//		sceneSchedule = Scene.getSceneForLayout(llAdd, R.layout.schedule_settings, this);
 
 		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
 
@@ -157,53 +144,43 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 				hideKeyboard(MainActivity.this);
 				if(sliderState) {
 					sliderBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//					fab_add.setVisibility(View.VISIBLE);
 				}
 				else {
-//					fab_add.setVisibility(View.GONE);
 					sliderBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//					if (ivBtnAdd.getText().equals("-")) ivBtnAdd.callOnClick();
 				}
 			}
 		});
 
-		dayInfoListData = model.getDayInfoListLiveData();
-		dayInfoListData.observe(this, new Observer<ArrayList<InfoListItem>>() {
+		dayInfoListData = model.getDayInfoLiveData();
+		dayInfoListData.observe(this, new Observer<DayInfo>() {
 			@Override
-			public void onChanged(@Nullable ArrayList<InfoListItem> infoList) {
-				assert infoList != null;
-				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+infoList.size());
+			public void onChanged(@Nullable DayInfo dayInfo) {
+				assert dayInfo != null;
+//				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+dayInfo.size());
 				llListInfo.removeAllViews();
 				TreeNode listRoot = TreeNode.root();
-				if(infoList.size() == 0) {
-//					ivBtnAdd.setText("-");
-//					addLayout_setVisible(true);
-				}else {
-//					ivBtnAdd.setText("+");
-//					addLayout_setVisible(false);
-					for (InfoListItem ilItem : infoList) {
-						listRoot.addChild(new TreeNode(new InfoListItem(ilItem.getTime(), ilItem.getInfo())).setViewHolder(new InfoListHolder(MainActivity.this)));
+
+
+				if(dayInfo.getShiftList().size() != 0) {
+					listRoot.addChild(new TreeNode("   Графики:"));
+					for (Shift s : dayInfo.getShiftList()) {
+						listRoot.addChild(new TreeNode(s).setViewHolder(new ShiftListHolder(MainActivity.this)));
 					}
 				}
 
 
+				if(dayInfo.getMarkList().size() != 0) {
+					listRoot.addChild(new TreeNode("\n   Пометки:"));
+					for (Mark m : dayInfo.getMarkList()) {
+						listRoot.addChild(new TreeNode(m).setViewHolder(new MarkListHolder(MainActivity.this)));
+					}
+				}
 
 				AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, listRoot);
 				llListInfo.addView(treeView.getView());
 			}
 		});
 
-//		sliderBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//			@Override
-//			public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//				if(newState == BottomSheetBehavior.STATE_COLLAPSED) model.setSliderState(false);
-//			}
-//
-//			@Override
-//			public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-//
-//			}
-//		});
 
 		//***TEST***
 			
@@ -275,7 +252,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			/// Выделение отмеченных дат
 			if (frameOfDates.get(count).isMarked()) {
 				dv.markedUp(true);
-				dv.markedDown(true, 0xff48b3ff);
+//				dv.markedDown(true, 0xff48b3ff);
+			}
+
+			///  Выделение смены графика
+			if (frameOfDates.get(count).isShifted() && frameOfDates.get(count).getShiftList().size() > 0) {
+				dv.markedDown(true, frameOfDates.get(count).getShiftList().get(0).getColor());
 			}
 				
 			//debag

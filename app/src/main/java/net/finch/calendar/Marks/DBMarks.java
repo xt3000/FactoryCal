@@ -1,13 +1,13 @@
-package net.finch.calendar;
+package net.finch.calendar.Marks;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class DBMarks extends SQLiteOpenHelper
+public class DBMarks extends SQLiteOpenHelper
  {
-	protected static final String DB_NAME = "marks";
+	public static final String DB_NAME = "marks";
 
     public DBMarks(Context context) {
 		// конструктор суперкласса
@@ -20,9 +20,9 @@ class DBMarks extends SQLiteOpenHelper
 		// создаем таблицу с полями
 		db.execSQL("create table "+DB_NAME+" ("
                 + "id integer primary key autoincrement,"
-                + "date integer,"
-                + "month integer,"
-                + "year integer,"
+                + "date integer NOT NULL,"
+                + "month integer NOT NULL,"
+                + "year integer NOT NULL,"
                 + "time integer,"
                 + "note varchar(255)"
                 + ");");
@@ -33,7 +33,7 @@ class DBMarks extends SQLiteOpenHelper
 
     }
 
-    Boolean saveDayMark(int y, int m, int d, int t, String note){
+    public Boolean saveDayMark(int y, int m, int d, int t, String note){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("year", y);
@@ -47,13 +47,13 @@ class DBMarks extends SQLiteOpenHelper
         return true;
     }
 
-     Boolean saveSchedule(){
+     public Boolean saveSchedule(){
 
 
          return false;
      }
 
-     Boolean deleteDayMark(int y, int m, int d){
+     public Boolean deleteDayMark(int y, int m, int d){
          SQLiteDatabase db = getWritableDatabase();
          String select = "year = ? and month = ? and date = ?";
          String[] selArgs = {""+y, ""+m, ""+d};

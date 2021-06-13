@@ -24,6 +24,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import net.finch.calendar.Marks.DBMarks;
+import net.finch.calendar.Schedules.DBSchedules;
+import net.finch.calendar.Schedules.Schedule;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -200,12 +204,12 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
     private View scheduleView(LayoutInflater inflater, ViewGroup container) {
         View v = inflater.inflate(scheduleLayout, container, false);
 
-        sdlList.add(new Schedule("График1", getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График2", getString(R.string.schedule2)));
-        sdlList.add(new Schedule("График3", getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График4", getString(R.string.schedule2)));
-        sdlList.add(new Schedule("График5", getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График6", getString(R.string.schedule2)));
+//        sdlList.add(new Schedule("График1", getString(R.string.schedule1), true));
+//        sdlList.add(new Schedule("График2", getString(R.string.schedule2), false));
+//        sdlList.add(new Schedule("График3", getString(R.string.schedule1)));
+//        sdlList.add(new Schedule("График4", getString(R.string.schedule2)));
+//        sdlList.add(new Schedule("График5", getString(R.string.schedule1)));
+//        sdlList.add(new Schedule("График6", getString(R.string.schedule2)));
 
         Spinner spinner = v.findViewById(R.id.sp_sdlAdd);
         btnSdlSave = v.findViewById(R.id.btn_sdlSave);
@@ -229,9 +233,9 @@ public class AddFragment extends Fragment implements TextView.OnEditorActionList
             public void onClick(View view) {
                 Schedule sdl = sdlList.get(sdlId);
                 Log.d(CalendarVM.TAG, "onItemSelected: save  "+sdl.getName()+" ("+sdl.getSdl()+")");
-                DBSchedule dbSdl = new DBSchedule(getActivity());
+                DBSchedules dbSdl = new DBSchedules(getActivity());
                 ParseDate pd = new ParseDate(tvSliderTitle.getText().toString());
-                dbSdl.saveSchedule(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl());
+                dbSdl.saveSchedule(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(),false);
             }
         });
 

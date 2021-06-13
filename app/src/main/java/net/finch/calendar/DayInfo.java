@@ -1,29 +1,50 @@
 package net.finch.calendar;
+import android.util.Log;
+
+import net.finch.calendar.Marks.Mark;
+import net.finch.calendar.Schedules.Shift;
+
 import java.util.*;
+
+import static net.finch.calendar.CalendarVM.TAG;
 
 public class DayInfo
 {
-	private int id;
-	private Calendar cal;
-	private int monthOffset; // (-1,0,1)
+	private final int id;
+	private final Calendar cal;
+	private final int monthOffset; // (-1,0,1)
 	//int month;
 	//int year;
-	private Boolean mark;
-	private ArrayList<InfoListItem> infoList;
-	
-	public DayInfo(int id, Calendar cal, int monthOffset, ArrayList<InfoListItem> infoList) {
+	private final Boolean mark;
+	private final Boolean shift;
+	private final ArrayList<Mark> markList;
+	private final ArrayList<Shift> shiftList;
+
+	public DayInfo(int id, Calendar cal, int monthOffset, ArrayList<Mark> markList, ArrayList<Shift> shiftList) {
+//		Log.d(TAG, "DayInfo: id = "+id);
 		this.id = id;
 		this.cal = cal;
 		this.monthOffset = monthOffset;
+
 		//this.year = cal.get(GregorianCalendar.YEAR);
 		//this.month = cal.get(GregorianCalendar.MONTH);
 
-		if (infoList != null) {
-			this.infoList = infoList;
+		if (markList != null) {
+			this.markList = markList;
 			this.mark = true;
 		}else {
-			this.infoList = new ArrayList<>();
+			this.markList = new ArrayList<>();
 			this.mark = false;
+		}
+
+		if (shiftList != null) {
+//			Log.d(TAG, "DayInfo: shiftList = NOT null; size = "+ shiftList.size());
+			this.shiftList = shiftList;
+			this.shift = true;
+		}else {
+//			Log.d(TAG, "DayInfo: shiftList = null");
+			this.shiftList = new ArrayList<>();
+			this.shift = false;
 		}
 		
 		//Calendar c = new GregorianCalendar(year, m
@@ -63,7 +84,7 @@ public class DayInfo
 		String m = String.valueOf(cal.get(GregorianCalendar.MONTH)+1);
 		String y = String.valueOf(cal.get(GregorianCalendar.YEAR));
 
-		if (Integer.valueOf(m) < 10) m = "0"+m;
+		if (Integer.parseInt(m) < 10) m = "0"+m;
 
 		return  d +"."+ m +"."+ y;
 	}
@@ -71,8 +92,15 @@ public class DayInfo
 	public boolean isMarked(){
 		return mark;
 	}
-
-	public ArrayList<InfoListItem> getInfoList() {
-		return infoList;
+	public boolean isShifted() {
+		return shift;
 	}
+
+	public ArrayList<Mark> getMarkList() {
+		return markList;
+	}
+	public ArrayList<Shift> getShiftList() {
+		return shiftList;
+	}
+
 }

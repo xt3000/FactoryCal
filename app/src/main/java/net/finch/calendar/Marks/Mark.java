@@ -1,10 +1,10 @@
-package net.finch.calendar;
+package net.finch.calendar.Marks;
 
-public class InfoListItem {
+public class Mark {
     public String time;
     public String info;
 
-    InfoListItem(String time, String info) {
+    public Mark(String time, String info) {
         this.time = time;
         this.info = info;
     }

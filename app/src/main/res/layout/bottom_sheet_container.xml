@@ -9,39 +9,21 @@
 
 
     <LinearLayout
-        android:id="@+id/ll_Add"
+        android:id="@+id/ll_sdlList"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:background="@drawable/bg_shedowed"
         android:orientation="vertical"
+        android:overScrollMode="ifContentScrolls"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone">
-
-        <!--        <include layout="@layout/mark_settings" />-->
-        <!--        <include layout="@layout/schedule_settings" />-->
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tl_select"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bg_bottomWindow"
-            android:elevation="2dp"
-            app:tabBackground="?attr/selectableItemBackground"
-            app:tabIndicatorColor="@color/colorAccent"
-            app:tabMaxWidth="180dp"
-            app:tabMode="fixed" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vpager_add"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        tools:visibility="gone" />
 
     <LinearLayout
-        android:id="@+id/ll_list"
+        android:id="@+id/ll_markList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="false"
@@ -53,6 +35,6 @@
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ll_Add"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

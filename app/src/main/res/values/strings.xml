@@ -4,7 +4,7 @@
     <string name="app_name">Calendar</string>
     <string name="null_time">- - : - -</string>
     <!-- TODO: Default Schedule String -->
-    <string name="schedule1">УНВВ</string>
-    <string name="schedule2">УУУУУВВ</string>
+    <string name="schedule1">UNWW</string>
+    <string name="schedule2">UUUUUWW</string>
 
 </resources>

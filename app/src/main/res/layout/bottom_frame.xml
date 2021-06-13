@@ -6,7 +6,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="440dp"
 	android:background="#00FFFFFF"
-	android:clickable="false"
+	android:clickable="true"
 	android:focusable="auto"
 	android:orientation="vertical"
 	app:behavior_hideable="true"
