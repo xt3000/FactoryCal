@@ -211,13 +211,18 @@ public class CalendarNavigator
 			do {
 				// TODO: создание sdlList<> из результатов запроса
 				boolean prime = cur.getInt(cur.getColumnIndex("prime")) == 1;
-				Schedule sdl = new Schedule(cur.getString(cur.getColumnIndex("name")),
-						cur.getString(cur.getColumnIndex("sdl")),
-						prime);
-				ScheduleNav sdlNav = new ScheduleNav(sdl, new GregorianCalendar(
-						cur.getInt(cur.getColumnIndex("year")),
-						cur.getInt(cur.getColumnIndex("month")),
-						cur.getInt(cur.getColumnIndex("date"))
+				Schedule sdl = new Schedule(cur.getString(
+						cur.getColumnIndex("name")),
+						cur.getString(cur.getColumnIndex("sdl"))
+				);
+				ScheduleNav sdlNav = new ScheduleNav(
+						sdl,
+						prime,
+						new GregorianCalendar(
+							cur.getInt(cur.getColumnIndex("year")),
+							cur.getInt(cur.getColumnIndex("month")),
+							cur.getInt(cur.getColumnIndex("date")
+						)
 				));
 				if (prime) sdlList.addFirst(sdlNav);
 				else sdlList.add(sdlNav);

@@ -8,17 +8,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
-import android.support.transition.Scene;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 //import android.support.v7app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,7 +24,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -39,6 +34,7 @@ import com.unnamed.b.atv.view.AndroidTreeView;
 
 import net.finch.calendar.Marks.Mark;
 import net.finch.calendar.Schedules.Shift;
+import net.finch.calendar.Schedules.ShiftListHolder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -158,16 +154,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 				assert dayInfo != null;
 //				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+dayInfo.size());
 				llListInfo.removeAllViews();
+
 				TreeNode listRoot = TreeNode.root();
-
-
 				if(dayInfo.getShiftList().size() != 0) {
 					listRoot.addChild(new TreeNode("   Графики:"));
 					for (Shift s : dayInfo.getShiftList()) {
 						listRoot.addChild(new TreeNode(s).setViewHolder(new ShiftListHolder(MainActivity.this)));
 					}
 				}
-
 
 				if(dayInfo.getMarkList().size() != 0) {
 					listRoot.addChild(new TreeNode("\n   Пометки:"));

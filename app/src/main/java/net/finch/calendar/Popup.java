@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class Popup implements TextView.OnEditorActionListener, View.OnClickListe
 
     private int sdlId;
     private Spinner spinner;
+    private CheckBox chbSdlPrime;
     private Button btnSdlSave;
     private ScheduleArray sdlList = new ScheduleArray();
     private ArrayAdapter<String> sdlSpinnerAdapter;
@@ -81,16 +83,17 @@ public class Popup implements TextView.OnEditorActionListener, View.OnClickListe
             setTimeListener();
         }else {
             spinner = popupView.findViewById(R.id.sp_sdlAdd);
+            chbSdlPrime = popupView.findViewById(R.id.chb_SdlPrime);
             btnSdlSave = popupView.findViewById(R.id.btn_sdlSave);
             btnSdlSave.setOnClickListener(this);
 
             //TODO: Create SDL List
-            sdlList.add(new Schedule("График1", context.getString(R.string.schedule1), true));
-            sdlList.add(new Schedule("График2", context.getString(R.string.schedule2), false));
-            sdlList.add(new Schedule("График3", context.getString(R.string.schedule1), false));
-            sdlList.add(new Schedule("График4", context.getString(R.string.schedule2), false));
-            sdlList.add(new Schedule("График5", context.getString(R.string.schedule1), false));
-            sdlList.add(new Schedule("График6", context.getString(R.string.schedule2), false));
+            sdlList.add(new Schedule("График1", context.getString(R.string.schedule1)));
+            sdlList.add(new Schedule("График2", context.getString(R.string.schedule2)));
+            sdlList.add(new Schedule("График3", context.getString(R.string.schedule1)));
+            sdlList.add(new Schedule("График4", context.getString(R.string.schedule2)));
+            sdlList.add(new Schedule("График5", context.getString(R.string.schedule1)));
+            sdlList.add(new Schedule("График6", context.getString(R.string.schedule2)));
             //*********************
 
             sdlSpinnerAdapter = new ArrayAdapter<String>(context, R.layout.sdl_list_tvitem, sdlList.getNames());
@@ -172,7 +175,7 @@ public class Popup implements TextView.OnEditorActionListener, View.OnClickListe
         Log.d(CalendarVM.TAG, "onItemSelected: save  "+sdl.getName()+" ("+sdl.getSdl()+")");
         DBSchedules dbSdl = new DBSchedules(context);
         ParseDate pd = new ParseDate(tvSliderTitle.getText().toString());
-        dbSdl.saveSchedule(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), sdl.isPrime());
+        dbSdl.saveSchedule(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
         model.getFODLiveData();
     }
 

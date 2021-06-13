@@ -23,21 +23,18 @@ public class Schedule {
 
     private String name;
     private String sdl;
-    private boolean prime;
     private Map<String, Integer> shiftColors;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public Schedule(String name, String sdl, boolean prime) {
+    public Schedule(String name, String sdl) {
         this.name = name;
         this.sdl = sdl;
-        this.prime = prime;
         this.shiftColors = getDefaultShiftColors();
     }
 
-    public Schedule(String name, String sdl, boolean prime, Map<String, Integer> shiftColors) {
+    public Schedule(String name, String sdl, Map<String, Integer> shiftColors) {
         this.name = name;
         this.sdl = sdl;
-        this.prime = prime;
         this.shiftColors = shiftColors;
     }
 
@@ -48,10 +45,6 @@ public class Schedule {
 
     public String getSdl() {
         return sdl;
-    }
-
-    public boolean isPrime() {
-        return prime;
     }
 
     public int getShiftColor(char shift) {

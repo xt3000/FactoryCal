@@ -7,11 +7,13 @@ import java.util.Calendar;
 import static net.finch.calendar.CalendarVM.TAG;
 
 public class ScheduleNav {
-    Schedule sdl;
-    Calendar startDate;
+    private Schedule sdl;
+    private boolean prime;
+    private Calendar startDate;
 
-    public ScheduleNav(Schedule sdl, Calendar startDate) {
+    public ScheduleNav(Schedule sdl, boolean prime, Calendar startDate) {
         this.sdl = sdl;
+        this.prime = prime;
         this.startDate = startDate;
     }
 
@@ -35,6 +37,10 @@ public class ScheduleNav {
         }
 
         return sdl.getSdl().toCharArray()[s-1];
+    }
+
+    public boolean isPrime() {
+        return prime;
     }
 
     public Shift getShift(Calendar tgtDate) {
