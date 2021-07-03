@@ -2,14 +2,21 @@ package net.finch.calendar.Schedules;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-public class DBSchedules extends SQLiteOpenHelper {
+import net.finch.calendar.DB;
+import net.finch.calendar.Marks.DBMarks;
+
+import static net.finch.calendar.CalendarVM.TAG;
+
+public class DBSchedules extends DB {
     public static final String DB_NAME = "schedule";
 
     public DBSchedules(Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 1, DB_NAME);
     }
 
     @Override
@@ -35,7 +42,23 @@ public class DBSchedules extends SQLiteOpenHelper {
     }
 
 
-    public Boolean saveSchedule(int y, int m, int d, String name, String schedule, boolean prime){
+    public String readSdlName(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        String select = "id = ?";
+        String[] selArgs = {""+id};
+
+        Cursor cur = db.query(DB_NAME, null, select, selArgs, null, null, null);
+        String name = "";
+        if (cur.moveToFirst()) {
+            name = cur.getString(cur.getColumnIndex("name"));
+            cur.close();
+            db.close();
+        }
+        db.close();
+        return name;
+    }
+
+    public void save(int y, int m, int d, String name, String schedule, boolean prime){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -54,6 +77,14 @@ public class DBSchedules extends SQLiteOpenHelper {
 
         db.replace(DB_NAME, null, cv);
         db.close();
-        return true;
     }
+
+//    public void delete(int id){
+//        SQLiteDatabase db = getWritableDatabase();
+//        String select = "id = ?";
+//        String[] selArgs = {""+id};
+//
+//        db.delete(DB_NAME, select, selArgs);
+//        db.close();
+//    }
 }

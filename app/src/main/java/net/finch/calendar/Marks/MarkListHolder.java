@@ -1,4 +1,4 @@
-package net.finch.calendar.Schedules;
+package net.finch.calendar.Marks;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.support.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,42 +17,38 @@ import com.unnamed.b.atv.model.TreeNode;
 import net.finch.calendar.CalendarVM;
 import net.finch.calendar.Dialogs.PopupDel;
 import net.finch.calendar.MainActivity;
+import net.finch.calendar.Marks.Mark;
 import net.finch.calendar.R;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implements View.OnClickListener {
-    View view;
-    ImageView ivbMenu;
-    ImageView ivbDel;
-
-    CalendarVM model;
-
-    public ShiftListHolder(Context context) {
+public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements View.OnClickListener {
+    public MarkListHolder(Context context) {
         super(context);
     }
 
+    ImageView ivMenu;
+    ImageView ivbDel;
+    CalendarVM model;
+
     @Override
-    public View createNodeView(TreeNode node, Shift value) {
+    public View createNodeView(TreeNode node, Mark value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.shift_item, null, false);
+        final View view = inflater.inflate(R.layout.mark_item, null, false);
 
-        Log.d(TAG, "createNodeView: sql_ID = "+value.getDb_id());
-        TextView sqlId = view.findViewById(R.id.tv_sdl_sqlId);
-        sqlId.setText(""+value.getDb_id());
+        TextView sqlId = view.findViewById(R.id.tv_mark_sqlId);
+        sqlId.setText(""+value.getDB_id());
 
-        TextView tvSdlName = view.findViewById(R.id.tv_item_sdlName);
-        tvSdlName.setText(value.getSdlName());
-//        tvSdlName.setBackgroundColor(value.getColor());
-        TextView tvShift = view.findViewById(R.id.tv_item_shift);
-        tvShift.setText(String.valueOf(value.getShiftName()));
-        tvShift.setBackgroundColor(value.getColor());
+        TextView tvTime = view.findViewById(R.id.tv_item_markTime);
+        tvTime.setText(value.getTime());
+        TextView tvInfo = view.findViewById(R.id.tv_item_markDesc);
+        tvInfo.setText(value.getInfo());
 
-        ivbMenu = view.findViewById(R.id.ivb_shiftMenu);
-        ivbMenu.setOnClickListener(this);
+        ivMenu = view.findViewById(R.id.ivb_markMenu);
+        ivMenu.setOnClickListener(this);
 
-        ivbDel = view.findViewById(R.id.iv_btn_sdlDel);
+        ivbDel = view.findViewById(R.id.iv_btn_markDel);
         ivbDel.setOnClickListener(this);
 
         return view;
@@ -61,14 +56,15 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
-            case R.id.ivb_shiftMenu:
+            case R.id.ivb_markMenu:
                 onMenuBtnClick(v);
                 break;
-            case (R.id.iv_btn_sdlDel):
+            case (R.id.iv_btn_markDel):
                 View menu = (View) v.getParent();
-                TextView sqlId = menu.findViewById(R.id.tv_sdl_sqlId);
-                onSdlDelBtnClick(Integer.parseInt(sqlId.getText().toString()));
+                TextView mrkId = menu.findViewById(R.id.tv_mark_sqlId);
+                onSdlDelBtnClick(Integer.parseInt(mrkId.getText().toString()));
                 break;
             case R.id.iv_btn_sdlEdit:
                 onSdlEditBtnClick();
@@ -76,15 +72,10 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         }
     }
 
-//    public int dpToPx(int dp) {
-//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-//        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-//    }
-
     public void onMenuBtnClick(View v) {
         ConstraintLayout vg = (ConstraintLayout) v.getParent().getParent();
-        View item = vg.findViewById(R.id.ll_shiftItem);
-        View menu = vg.getViewById(R.id.ll_shiftItemMenu);
+        View item = vg.findViewById(R.id.ll_markItem);
+        View menu = vg.getViewById(R.id.ll_markItemMenu);
 
         TransitionManager.beginDelayedTransition(vg);
 
@@ -104,13 +95,13 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         item.setLayoutParams(params);
     }
 
-    public void onSdlDelBtnClick(int sqlId) {
+    private void onSdlDelBtnClick(int sqlId) {
         model = ViewModelProviders.of((MainActivity)MainActivity.getContext()).get(CalendarVM.class);
         model.setSliderState(false);
-        new PopupDel(PopupDel.SDL_DEL, sqlId);
+        new PopupDel(PopupDel.MRK_DEL, sqlId);
     }
 
-    public void onSdlEditBtnClick() {
+    private void onSdlEditBtnClick() {
 
     }
 }

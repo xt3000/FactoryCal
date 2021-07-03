@@ -7,11 +7,13 @@ import java.util.Calendar;
 import static net.finch.calendar.CalendarVM.TAG;
 
 public class ScheduleNav {
+    private int db_id;
     private Schedule sdl;
     private boolean prime;
     private Calendar startDate;
 
-    public ScheduleNav(Schedule sdl, boolean prime, Calendar startDate) {
+    public ScheduleNav(int db_id, Schedule sdl, boolean prime, Calendar startDate) {
+        this.db_id = db_id;
         this.sdl = sdl;
         this.prime = prime;
         this.startDate = startDate;
@@ -50,6 +52,6 @@ public class ScheduleNav {
         char shift = getShiftSymbol(days);
 //        Log.d(TAG, "getShift: "+shift);
 
-        return new Shift(shift, sdl.getName(), sdl.getShiftColor(shift));
+        return new Shift(db_id, shift, sdl.getName(), sdl.getShiftColor(shift), prime);
     }
 }

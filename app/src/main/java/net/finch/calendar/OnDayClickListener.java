@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
-public class OnDayClickListener implements View.OnLongClickListener, View.OnClickListener {
+public class OnDayClickListener implements /*View.OnLongClickListener,*/ View.OnClickListener {
 
     protected MainActivity ma;
 
@@ -31,26 +31,26 @@ public class OnDayClickListener implements View.OnLongClickListener, View.OnClic
         model = ViewModelProviders.of(ma).get(CalendarVM.class);
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-        model.setSliderState(false);
-        db = new DBMarks(ma);
-        DayInfo day = ma.frameOfDates.get(v.getId());
-        boolean marked = day.isMarked();
-
-        int y = day.getYear();
-        int m = day.getMonth();
-        int d = day.getDate();
-
-        if(!marked) {
-            db.saveDayMark(y, m, d, Time.NULLTIME,"");
-        }else {
-            db.deleteDayMark(y, m, d);
-        }
-        model.getFODLiveData();
-
-        return true;
-    }
+//    @Override
+//    public boolean onLongClick(View v) {
+//        model.setSliderState(false);
+//        db = new DBMarks(ma);
+//        DayInfo day = ma.frameOfDates.get(v.getId());
+//        boolean marked = day.isMarked();
+//
+//        int y = day.getYear();
+//        int m = day.getMonth();
+//        int d = day.getDate();
+//
+//        if(!marked) {
+//            db.saveDayMark(y, m, d, Time.NULLTIME,"");
+//        }else {
+//            db.deleteDayMark(y, m, d);
+//        }
+//        model.getFODLiveData();
+//
+//        return true;
+//    }
 
 
 

@@ -28,11 +28,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
+import net.finch.calendar.Dialogs.PopupAdd;
 import net.finch.calendar.Marks.Mark;
+import net.finch.calendar.Marks.MarkListHolder;
 import net.finch.calendar.Schedules.Shift;
 import net.finch.calendar.Schedules.ShiftListHolder;
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	ConstraintSet cSet = new ConstraintSet();
 	ConstraintLayout cl_bottomContainer;
 
-	AddFloatingActionButton fabAdd;
+	FloatingActionButton fabAdd;
 	FloatingActionButton fabAddMark;
 	FloatingActionButton fabAddSdl;
 	OnAddFABClickListener fabClickListener;
@@ -233,24 +234,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	void inflateWeak(LinearLayout ll) {
 		
 		for (int i=1; i<=7; i++) {
+			DayInfo dayInfo = frameOfDates.get(count);
+
 			dv = new DayView(this);
 			if (count<frameOfDates.size()) 
-				dv.setDayText(frameOfDates.get(count).getDateString());
+				dv.setDayText(dayInfo.getDateString());
 			dv.setId(count);
 
 			/// Выделение текущего месяца
-			if (frameOfDates.get(count).getMonthOffset() == 0){
+			if (dayInfo.getMonthOffset() == 0){
 				dv.setTypeface(Typeface.DEFAULT_BOLD);
 			}else dv.setTextColor(0x55808080);
 			
 			/// Выделение отмеченных дат
-			if (frameOfDates.get(count).isMarked()) {
+			if (dayInfo.isMarked()) {
 				dv.markedUp(true);
 //				dv.markedDown(true, 0xff48b3ff);
 			}
 
 			///  Выделение смены графика
-			if (frameOfDates.get(count).isShifted() && frameOfDates.get(count).getShiftList().size() > 0) {
+			if (
+					dayInfo.isShifted()
+					&& dayInfo.getShiftList().size() > 0
+					&& dayInfo.getShiftList().get(0).isPrime()) {
 				dv.markedDown(true, frameOfDates.get(count).getShiftList().get(0).getColor());
 			}
 				
@@ -266,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			}
 			
 			/// Слушатель нажатия на дату
-			dv.setOnLongClickListener(new OnDayClickListener());
+//			dv.setOnLongClickListener(new OnDayClickListener());
 			dv.setOnClickListener(new OnDayClickListener());
 
 			tvDebag.setText(debugTxt);
@@ -289,27 +295,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		}
 	}
 
-//	protected void addLayout_setVisible(Boolean visible) {
-//		cSet.clone(cl_bottomContainer);
-//		cSet.clear(R.id.ll_list, ConstraintSet.TOP);
-//		if (visible) {
-//			cSet.connect(R.id.ll_list, ConstraintSet.TOP, R.id.ll_Add, ConstraintSet.BOTTOM);
-//		}else {
-//			cSet.connect(R.id.ll_list, ConstraintSet.TOP, R.id.ll_Add, ConstraintSet.TOP);
-//		}
-//		TransitionManager.beginDelayedTransition(cl_bottomContainer);
-//		cSet.applyTo(cl_bottomContainer);
-//	}
-
-
-
-
-//	private void setupViewPager() {
-//		vpager_add.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-//		tl_select.setupWithViewPager(vpager_add);
-//	}
-
-	
 
 	public static Activity getContext() {
     	return instance;
@@ -324,16 +309,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	@Override
 	public void onClick(View view) {
 		Log.d(TAG, "onFABClick: ");
 		model.setSliderState(false);
 		switch (view.getId()) {
 			case R.id.fab_mark:
-				new Popup(Popup.MARK).show();
+				new PopupAdd(PopupAdd.MARK);
 				break;
 			case R.id.fab_sdl:
-				new Popup(Popup.SHEDULE).show();
+				new PopupAdd(PopupAdd.SHEDULE);
 				break;
 		}
 	}

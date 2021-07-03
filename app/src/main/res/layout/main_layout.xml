@@ -59,8 +59,23 @@
 
 	<include layout="@layout/fab_layout" />
 
-	<com.getbase.floatingactionbutton.AddFloatingActionButton
+	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/afab_add"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_margin="@dimen/fab_margin"
+		android:clickable="true"
+		android:foregroundGravity="center"
+		android:visibility="gone"
+		app:backgroundTint="@color/colorAccent"
+		app:fabSize="mini"
+		app:layout_anchor="@id/cl_header"
+		app:layout_anchorGravity="right|end"
+		app:srcCompat="@drawable/ic_baseline_add_24"
+		tools:visibility="visible" />
+
+	<com.getbase.floatingactionbutton.AddFloatingActionButton
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
@@ -73,7 +88,7 @@
 		app:fab_title="add"
 		app:layout_anchor="@id/cl_header"
 		app:layout_anchorGravity="right|end"
-		tools:visibility="visible" />
+		tools:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>
 

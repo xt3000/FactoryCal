@@ -5,7 +5,7 @@ public class ParseDate {
     int m;
     int y;
 
-    ParseDate(String date) {
+    public ParseDate(String date) {
         String[] dt = date.split("\\.");
         d = Integer.parseInt(dt[0]);
         m = Integer.parseInt(dt[1])-1;

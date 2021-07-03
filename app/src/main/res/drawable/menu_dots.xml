@@ -7,15 +7,15 @@
             android:shape="oval">
             <solid android:color="@android:color/transparent"/>
             <stroke
-                android:color="@color/rbActive"
+                android:color="@android:color/transparent"
                 android:width="0px"/>
 
         </shape>
     </item>
 
     <item
-        android:height="4dp"
-        android:width="4dp"
+        android:height="3dp"
+        android:width="3dp"
         android:top="-14dp"
         android:gravity="center">
         <rotate
@@ -28,9 +28,9 @@
     </item>
 
     <item
-        android:gravity="center"
-        android:width="4dp"
-        android:height="4dp">
+        android:width="3dp"
+        android:height="3dp"
+        android:gravity="center">
         <rotate
             android:fromDegrees="45">
             <shape
@@ -41,10 +41,10 @@
     </item>
 
     <item
+        android:width="3dp"
+        android:height="3dp"
         android:gravity="center"
-        android:top="14dp"
-        android:width="4dp"
-        android:height="4dp">
+        android:top="14dp">
         <rotate
             android:fromDegrees="45">
             <shape

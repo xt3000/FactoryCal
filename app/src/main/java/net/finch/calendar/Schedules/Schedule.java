@@ -39,6 +39,7 @@ public class Schedule {
     }
 
 //*** Геттеры ***//
+
     public String getName() {
         return name;
     }

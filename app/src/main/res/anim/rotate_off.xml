@@ -7,14 +7,14 @@
         android:duration="300"
         android:fromDegrees="135"
         android:pivotX="50%"
-        android:pivotY="45%"
+        android:pivotY="50%"
         android:startOffset="0"
         android:toDegrees="-25" />
 
     <rotate
         android:duration="150"
         android:pivotX="50%"
-        android:pivotY="45%"
+        android:pivotY="50%"
         android:startOffset="300"
         android:toDegrees="25" />
 </set>

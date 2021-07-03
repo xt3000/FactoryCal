@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 
 public class SliderBehaviorCallback extends BottomSheetBehavior.BottomSheetCallback {
-    AddFloatingActionButton afab;
+    FloatingActionButton afab;
     FrameLayout flFabMenu;
     FrameLayout.LayoutParams lpFAB_mark;
     FrameLayout.LayoutParams lpFAB_sdl;
@@ -76,7 +76,7 @@ public class SliderBehaviorCallback extends BottomSheetBehavior.BottomSheetCallb
 
         if (slideOffset < 0.7f) {
             afab.animate().alpha(idx).scaleX(idx).scaleY(idx).setDuration(0).start();
-            flFabMenu.animate().alpha(idx).translationX((1-idx)*200).translationY((1-idx)*200).scaleX(idx).scaleY(idx).setDuration(0).start();
+            flFabMenu.animate().alpha(idx).scaleX(idx).scaleY(idx).setDuration(0).start(); // translationX((1-idx)*200).translationY((1-idx)*200).
         }
         else {
             afab.animate().alpha(1f).scaleX(1).scaleY(1).setDuration(0).start();

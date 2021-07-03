@@ -1,13 +1,13 @@
-package net.finch.calendar;
+package net.finch.calendar.Schedules;
 
 import net.finch.calendar.Schedules.Schedule;
 
 import java.util.ArrayList;
 
 public class ScheduleArray {
-    ArrayList<Schedule> sdlArray;
+    private ArrayList<Schedule> sdlArray;
 
-    ScheduleArray(){
+    public ScheduleArray(){
         sdlArray = new ArrayList<>();
     }
 

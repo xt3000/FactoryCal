@@ -5,13 +5,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBMarks extends SQLiteOpenHelper
+import net.finch.calendar.DB;
+
+public class DBMarks extends DB
  {
 	public static final String DB_NAME = "marks";
 
     public DBMarks(Context context) {
 		// конструктор суперкласса
-		super(context, DB_NAME, null, 1);
+		super(context, DB_NAME, null, 1, DB_NAME);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class DBMarks extends SQLiteOpenHelper
 
     }
 
-    public Boolean saveDayMark(int y, int m, int d, int t, String note){
+    public void save(int y, int m, int d, int t, String note){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("year", y);
@@ -44,22 +46,14 @@ public class DBMarks extends SQLiteOpenHelper
 
         db.insert(DB_NAME, null, cv);
         db.close();
-        return true;
     }
 
-     public Boolean saveSchedule(){
-
-
-         return false;
-     }
-
-     public Boolean deleteDayMark(int y, int m, int d){
-         SQLiteDatabase db = getWritableDatabase();
-         String select = "year = ? and month = ? and date = ?";
-         String[] selArgs = {""+y, ""+m, ""+d};
-
-         db.delete(DBMarks.DB_NAME, select, selArgs);
-         db.close();
-         return true;
-     }
+//     public void delete(int id){
+//         SQLiteDatabase db = getWritableDatabase();
+//         String select = "id = ?";
+//         String[] selArgs = {""+id};
+//
+//         db.delete(DB_NAME, select, selArgs);
+//         db.close();
+//     }
 }

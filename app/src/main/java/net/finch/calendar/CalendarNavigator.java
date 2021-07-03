@@ -172,7 +172,8 @@ public class CalendarNavigator
 				d = cur.getInt(cur.getColumnIndex("date"));
 				int time = cur.getInt(cur.getColumnIndex("time"));
 				String info = cur.getString(cur.getColumnIndex("note"));
-				Mark ilItem = new Mark(Time.toStr(time), info);
+				int db_id = cur.getInt(cur.getColumnIndex("id"));
+				Mark ilItem = new Mark(db_id, Time.toStr(time), info);
 
 				if (markDates.containsKey(d)) {
 					markList = markDates.get(d);
@@ -209,13 +210,13 @@ public class CalendarNavigator
 		if (cur.moveToFirst()) {
 
 			do {
-				// TODO: создание sdlList<> из результатов запроса
 				boolean prime = cur.getInt(cur.getColumnIndex("prime")) == 1;
-				Schedule sdl = new Schedule(cur.getString(
-						cur.getColumnIndex("name")),
+				Schedule sdl = new Schedule(
+						cur.getString(cur.getColumnIndex("name")),
 						cur.getString(cur.getColumnIndex("sdl"))
 				);
 				ScheduleNav sdlNav = new ScheduleNav(
+						cur.getInt(cur.getColumnIndex("id")),
 						sdl,
 						prime,
 						new GregorianCalendar(

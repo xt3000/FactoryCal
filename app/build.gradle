@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    ndkVersion '23.0.7421159 rc5'
 }
 
 dependencies {

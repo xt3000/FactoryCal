@@ -30,7 +30,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
     private  FloatingActionButton fabMark;
     @SuppressLint("StaticFieldLeak")
     private  FloatingActionButton fabSdl;
-    private  AddFloatingActionButton addFAB;
+    private  FloatingActionButton addFAB;
 
     private  Scene scOn;
     private Scene scOff;
@@ -67,7 +67,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Log.d(TAG, "onFABClick: ");
-        addFAB = (AddFloatingActionButton) view;
+        addFAB = (FloatingActionButton) view;
         fabAddMenu();
 
     }

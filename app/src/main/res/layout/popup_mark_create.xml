@@ -12,7 +12,7 @@
     android:visibility="visible">
 
     <FrameLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/fl_popup_create_header"
         android:layout_width="0dp"
         android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_markConfirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+        app:layout_constraintTop_toBottomOf="@id/fl_popup_create_header">
 
         <FrameLayout
             android:layout_width="wrap_content"

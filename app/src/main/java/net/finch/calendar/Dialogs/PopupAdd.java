@@ -1,17 +1,14 @@
-package net.finch.calendar;
+package net.finch.calendar.Dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,18 +19,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import net.finch.calendar.CalendarVM;
+import net.finch.calendar.MainActivity;
 import net.finch.calendar.Marks.DBMarks;
+import net.finch.calendar.ParseDate;
+import net.finch.calendar.R;
 import net.finch.calendar.Schedules.DBSchedules;
 import net.finch.calendar.Schedules.Schedule;
+import net.finch.calendar.Schedules.ScheduleArray;
+import net.finch.calendar.Time;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import static net.finch.calendar.CalendarVM.TAG;
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class Popup implements TextView.OnEditorActionListener, View.OnClickListener {
-    final static int MARK = R.layout.popup_mark_create;
-    final static int SHEDULE = R.layout.popup_schedule_create;
+public class PopupAdd implements TextView.OnEditorActionListener, View.OnClickListener {
+    public final static int MARK = R.layout.popup_mark_create;
+    public final static int SHEDULE = R.layout.popup_schedule_create;
 
     private MainActivity context;
     private int layout;
@@ -41,10 +44,11 @@ public class Popup implements TextView.OnEditorActionListener, View.OnClickListe
     private PopupWindow pw;
     private Calendar mTime = new GregorianCalendar();
     private TextView tvAddTime;
+    private TextView tvHeader;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
     private TextInputEditText etMarkNote;
 
-    private TextView tvSliderTitle;
+    private String headerDate;
 
     private DBMarks dbMarks;
     private CalendarVM model;
@@ -56,20 +60,21 @@ public class Popup implements TextView.OnEditorActionListener, View.OnClickListe
     private ScheduleArray sdlList = new ScheduleArray();
     private ArrayAdapter<String> sdlSpinnerAdapter;
 
-    Popup(int layout) {
+    public PopupAdd(int layout) {
         this.context = (MainActivity) MainActivity.getContext();
         this.layout = layout;
-        tvSliderTitle = context.findViewById(R.id.tv_slider_title);
+
+
+        headerDate = ((TextView) context.findViewById(R.id.tv_slider_title)).getText().toString();
         model = ViewModelProviders.of(MainActivity.instance).get(CalendarVM.class);
+        pw = new PopupView(layout).show();
+        layoutSettings(pw.getContentView());
     }
 
 
-    void show() {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(layout, null, false);
-        pw = new PopupWindow(popupView, 800, 600, true);
-        pw.setAnimationStyle(R.style.popup_animations);
-        pw.showAtLocation(context.findViewById(R.id.main_layout), Gravity.CENTER, 0, 0);
+    private void layoutSettings(View popupView) {
+        tvHeader = popupView.findViewById(R.id.tv_popupHeader);
+        tvHeader.setText(headerDate);
 
         if (layout == MARK) {
             Button btnMarkConfirm = popupView.findViewById(R.id.btn_markConfirm);
@@ -161,10 +166,10 @@ public class Popup implements TextView.OnEditorActionListener, View.OnClickListe
     void saveMark() {
         String text = etMarkNote.getText().toString();
         int t = Time.toInt(tvAddTime.getText().toString());
-        ParseDate pd = new ParseDate(tvSliderTitle.getText().toString());
+        ParseDate pd = new ParseDate(headerDate);
         dbMarks = new DBMarks(context);
 
-        dbMarks.saveDayMark(pd.getY(), pd.getM(), pd.getD(), t, text);
+        dbMarks.save(pd.getY(), pd.getM(), pd.getD(), t, text);
         model.getFODLiveData();
         model.updInfoList();
         model.setSliderState(true);
@@ -174,8 +179,8 @@ public class Popup implements TextView.OnEditorActionListener, View.OnClickListe
         Schedule sdl = sdlList.get(sdlId);
         Log.d(CalendarVM.TAG, "onItemSelected: save  "+sdl.getName()+" ("+sdl.getSdl()+")");
         DBSchedules dbSdl = new DBSchedules(context);
-        ParseDate pd = new ParseDate(tvSliderTitle.getText().toString());
-        dbSdl.saveSchedule(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
+        ParseDate pd = new ParseDate(headerDate);
+        dbSdl.save(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
         model.getFODLiveData();
     }
 
