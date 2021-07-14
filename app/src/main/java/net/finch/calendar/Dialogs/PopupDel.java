@@ -17,10 +17,10 @@ import net.finch.calendar.R;
 import net.finch.calendar.Schedules.DBSchedules;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class PopupDel implements View.OnClickListener {
+public class PopupDel extends PopupView implements View.OnClickListener {
     final static public int SDL_DEL = 0;
     final static public int MRK_DEL = 1;
-    final private int layout = R.layout.popup_delete;
+    final private static int layoutDel = R.layout.popup_delete;
 
     private MainActivity context = (MainActivity) MainActivity.getContext();
     private int type;
@@ -36,17 +36,17 @@ public class PopupDel implements View.OnClickListener {
     private Button btnDel;
 
     public PopupDel(int type, int sqlId) {
-//        this.context = (MainActivity) MainActivity.getContext();
+        super(layoutDel);
         this.type = type;
         this.sqlId = sqlId;
 
         model = ViewModelProviders.of(MainActivity.instance).get(CalendarVM.class);
         headerDate = ((TextView) context.findViewById(R.id.tv_slider_title)).getText().toString();
-        pw = new PopupView(layout).show();
+        pw = super.show();
         layoutSettings(pw.getContentView());
     }
 
-    public void layoutSettings(View popupView) {
+    private void layoutSettings(View popupView) {
         tvHeader = popupView.findViewById(R.id.tv_popupHeader);
         tvHeader.setText(headerDate);
 

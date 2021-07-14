@@ -1,5 +1,6 @@
 package net.finch.calendar.Schedules;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Build;
@@ -17,6 +18,7 @@ import com.unnamed.b.atv.model.TreeNode;
 
 import net.finch.calendar.CalendarVM;
 import net.finch.calendar.Dialogs.PopupDel;
+import net.finch.calendar.Dialogs.PopupEdit;
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
 
@@ -26,7 +28,8 @@ import static net.finch.calendar.CalendarVM.TAG;
 public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implements View.OnClickListener {
     View view;
     ImageView ivbMenu;
-    ImageView ivbDel;
+//    ImageView ivbDel;
+//    ImageView ivbEdit;
 
     CalendarVM model;
 
@@ -53,27 +56,30 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         ivbMenu = view.findViewById(R.id.ivb_shiftMenu);
         ivbMenu.setOnClickListener(this);
 
-        ivbDel = view.findViewById(R.id.iv_btn_sdlDel);
-        ivbDel.setOnClickListener(this);
+        view.findViewById(R.id.iv_btn_sdlDel).setOnClickListener(this);
+//        ivbDel.setOnClickListener(this);
+
+        view.findViewById(R.id.iv_btn_sdlEdit).setOnClickListener(this);
+//        ivbEdit.setOnClickListener(this);
 
         return view;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ivb_shiftMenu:
-                onMenuBtnClick(v);
-                break;
-            case (R.id.iv_btn_sdlDel):
-                View menu = (View) v.getParent();
-                TextView sqlId = menu.findViewById(R.id.tv_sdl_sqlId);
-                onSdlDelBtnClick(Integer.parseInt(sqlId.getText().toString()));
-                break;
-            case R.id.iv_btn_sdlEdit:
-                onSdlEditBtnClick();
-                break;
+        int vid = v.getId();
+        if (vid == R.id.ivb_shiftMenu) onMenuBtnClick(v);
+        else {
+            View menu = (View) v.getParent();
+            TextView tvSqlId = menu.findViewById(R.id.tv_sdl_sqlId);
+            int sqlId = Integer.parseInt(tvSqlId.getText().toString());
+
+
+            if (vid == R.id.iv_btn_sdlDel) onSdlDelBtnClick(sqlId);
+            else if (vid == R.id.iv_btn_sdlEdit) onSdlEditBtnClick(sqlId);
         }
+        
     }
 
 //    public int dpToPx(int dp) {
@@ -110,7 +116,7 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         new PopupDel(PopupDel.SDL_DEL, sqlId);
     }
 
-    public void onSdlEditBtnClick() {
-
+    public void onSdlEditBtnClick(int sqlId) {
+        new PopupEdit(PopupEdit.SCHEDULE, sqlId);
     }
 }

@@ -41,6 +41,18 @@
 				app:layout_collapseMode="pin"
 				app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
+			<TextView
+				android:id="@+id/tv_mainMenu"
+				android:layout_width="40dp"
+				android:layout_height="26dp"
+				android:layout_gravity="top|end"
+				android:layout_margin="15dp"
+				android:background="@drawable/menu_lines"
+				android:clickable="true"
+				android:focusableInTouchMode="true"
+				android:gravity="center"
+				app:layout_collapseMode="pin" />
+
 		</android.support.design.widget.CollapsingToolbarLayout>
 
 	</android.support.design.widget.AppBarLayout>
@@ -60,6 +72,22 @@
 	<include layout="@layout/fab_layout" />
 
 	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/fab_menu"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/fab_margin"
+		android:clickable="true"
+		android:cropToPadding="false"
+		android:visibility="gone"
+		app:backgroundTint="@color/bg_bottomHeader"
+		app:fabSize="mini"
+		app:layout_anchor="@id/main.toolbar"
+		app:layout_anchorGravity="right|center_vertical"
+		app:srcCompat="@drawable/menu_dots"
+		app:useCompatPadding="false"
+		tools:visibility="gone" />
+
+	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/afab_add"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -74,21 +102,6 @@
 		app:layout_anchorGravity="right|end"
 		app:srcCompat="@drawable/ic_baseline_add_24"
 		tools:visibility="visible" />
-
-	<com.getbase.floatingactionbutton.AddFloatingActionButton
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:layout_margin="@dimen/fab_margin"
-		android:visibility="gone"
-		app:fab_colorNormal="@color/colorAccent"
-		app:fab_colorPressed="@color/colorAccent"
-		app:fab_plusIconColor="@color/rbActive"
-		app:fab_size="mini"
-		app:fab_title="add"
-		app:layout_anchor="@id/cl_header"
-		app:layout_anchorGravity="right|end"
-		tools:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>
 

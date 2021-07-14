@@ -10,9 +10,8 @@ import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
 
 public class PopupView {
-    private MainActivity context;
-    private int layout;
-    private PopupWindow pw;
+    private final MainActivity context;
+    private final int layout;
 
     public PopupView(int layout) {
         this.context = (MainActivity) MainActivity.getContext();
@@ -21,8 +20,9 @@ public class PopupView {
 
     public PopupWindow show() {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert inflater != null;
         View popupView = inflater.inflate(layout, null, false);
-        pw = new PopupWindow(popupView, 800, 600, true);
+        PopupWindow pw = new PopupWindow(popupView, 800, 600, true);
         pw.setAnimationStyle(R.style.popup_animations);
         pw.showAtLocation(context.findViewById(R.id.main_layout), Gravity.CENTER, 0, 0);
 

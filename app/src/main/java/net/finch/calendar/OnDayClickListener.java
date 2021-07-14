@@ -20,11 +20,11 @@ public class OnDayClickListener implements /*View.OnLongClickListener,*/ View.On
 
     TextView tvSliderTitle;
     CalendarVM model;
-    LiveData<ArrayList<DayInfo>> FODdata;
-    ArrayList<DayInfo> fod;
-    DBMarks db;
-    DayInfo di;
-    TreeNode listRoot;
+//    LiveData<ArrayList<DayInfo>> FODdata;
+//    ArrayList<DayInfo> fod;
+//    DBMarks db;
+//    DayInfo di;
+//    TreeNode listRoot;
 
     OnDayClickListener() {
         this.ma = (MainActivity) MainActivity.getContext();

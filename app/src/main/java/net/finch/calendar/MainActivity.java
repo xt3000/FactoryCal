@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	ConstraintSet cSet = new ConstraintSet();
 	ConstraintLayout cl_bottomContainer;
 
+	TextView tvMainMenu;
+
 	FloatingActionButton fabAdd;
 	FloatingActionButton fabAddMark;
 	FloatingActionButton fabAddSdl;
@@ -96,7 +98,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		}
 
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Factory Calendar");
-		getSupportActionBar().setSubtitle("Калкндарь потребления воды");
+//		getSupportActionBar().setSubtitle("Калкндарь потребления воды");
+
+		tvMainMenu = findViewById(R.id.tv_mainMenu);
+		tvMainMenu.setOnClickListener(new OnMenuFABClickListener());
 
 		fabClickListener = new OnAddFABClickListener();
 
@@ -319,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 				new PopupAdd(PopupAdd.MARK);
 				break;
 			case R.id.fab_sdl:
-				new PopupAdd(PopupAdd.SHEDULE);
+				new PopupAdd(PopupAdd.SCHEDULE);
 				break;
 		}
 	}
