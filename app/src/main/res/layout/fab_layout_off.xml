@@ -8,7 +8,7 @@
     app:layout_anchor="@id/afab_add"
     app:layout_anchorGravity="bottom|right">
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_sdl"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -25,7 +25,7 @@
         app:fab_size="mini"
         app:fab_title="add" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_mark"
         android:layout_width="0dp"
         android:layout_height="0dp"

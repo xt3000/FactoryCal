@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+//import android.support.annotation.NonNull;
+//import android.support.annotation.RequiresApi;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import net.finch.calendar.Marks.DBMarks;
 import net.finch.calendar.Marks.Mark;

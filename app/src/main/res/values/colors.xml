@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<resources>
-		<color name="colorPrimary">#48b3ff</color>
-		<color name="colorPrimary72">#B448b3ff</color>
-		<color name="colorPrimaryDark">#3B3C3D</color>
-		<color name="colorAccent">#ff6670</color>
-		<color name="rbNormal">#88ffffff</color>
-		<color name="rbActive">#eeffffff</color>
-		<color name="rbHint">#55ffffff</color>
-		<color name="bg_bottomHeader">#4C85B1</color>
-		<color name="bg_bottomWindow">#487EA8</color>
-		<color name="half_black">#808080</color>
-		<color name="white">#fafafa</color>
-		<color name="white_pressed">#f1f1f1</color>
-		<color name="black_semi_transparent">#B2000000</color>
+<resources>
+	<color name="colorPrimary">#48b3ff</color>
+	<color name="colorPrimary72">#B448b3ff</color>
+	<color name="colorPrimaryDark">#3B3C3D</color>
+	<color name="colorAccent">#ff6670</color>
+	<color name="rbNormal">#88ffffff</color>
+	<color name="rbActive">#eeffffff</color>
+	<color name="rbHint">#55ffffff</color>
+	<color name="bg_bottomHeader">#4C85B1</color>
+	<color name="bg_bottomWindow">#487EA8</color>
+	<color name="half_black">#808080</color>
+	<color name="white">#fafafa</color>
+	<color name="white_pressed">#f1f1f1</color>
+	<color name="black_semi_transparent">#B2000000</color>
 
-		<color name="U">#ff48b3ff</color>
-		<color name="D">#ff48b3ff</color>
-		<color name="N">#01579B</color>
-		<color name="S">#ff48b3ff</color>
-		<color name="V">#01579B</color>
-		<color name="W">#00FFFFFF</color>
-	</resources>
+	<color name="U">#48b3ff</color>
+	<color name="D">#48b3ff</color>
+	<color name="N">#01579B</color>
+	<color name="S">#48b3ff</color>
+	<color name="V">#01579B</color>
+	<color name="W">#00FFFFFF</color>
+	<color name="black_transparent_33">#33000000</color>
+	<color name="black_transparent_15">#15000000</color>
+</resources>

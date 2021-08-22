@@ -1,16 +1,20 @@
 package net.finch.calendar.Marks;
 
-import android.arch.lifecycle.ViewModelProviders;
+//import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
-import android.support.transition.TransitionManager;
+//import android.support.annotation.RequiresApi;
+//import android.support.constraint.ConstraintLayout;
+//import android.support.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.transition.TransitionManager;
 
 import com.unnamed.b.atv.model.TreeNode;
 
@@ -22,7 +26,7 @@ import net.finch.calendar.R;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
-@RequiresApi(api = Build.VERSION_CODES.M)
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements View.OnClickListener {
     public MarkListHolder(Context context) {
         super(context);
@@ -96,9 +100,9 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
     }
 
     private void onSdlDelBtnClick(int sqlId) {
-        model = ViewModelProviders.of((MainActivity)MainActivity.getContext()).get(CalendarVM.class);
+        model = MainActivity.getCalendarVM();
         model.setSliderState(false);
-        new PopupDel(PopupDel.MRK_DEL, sqlId);
+        new PopupDel(context, PopupDel.MRK_DEL, sqlId);
     }
 
     private void onSdlEditBtnClick() {

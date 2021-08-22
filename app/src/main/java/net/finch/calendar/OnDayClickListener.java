@@ -1,7 +1,7 @@
 package net.finch.calendar;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModelProviders;
+//import android.arch.lifecycle.LiveData;
+//import android.arch.lifecycle.ViewModelProviders;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -28,7 +28,7 @@ public class OnDayClickListener implements /*View.OnLongClickListener,*/ View.On
 
     OnDayClickListener() {
         this.ma = (MainActivity) MainActivity.getContext();
-        model = ViewModelProviders.of(ma).get(CalendarVM.class);
+        model = MainActivity.getCalendarVM();
     }
 
 //    @Override

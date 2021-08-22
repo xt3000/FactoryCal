@@ -1,18 +1,22 @@
 package net.finch.calendar.Schedules;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModelProviders;
+//import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
-import android.support.transition.TransitionManager;
+//import android.support.annotation.RequiresApi;
+//import android.support.constraint.ConstraintLayout;
+//import android.support.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.transition.TransitionManager;
 
 import com.unnamed.b.atv.model.TreeNode;
 
@@ -24,7 +28,7 @@ import net.finch.calendar.R;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
-@RequiresApi(api = Build.VERSION_CODES.M)
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implements View.OnClickListener {
     View view;
     ImageView ivbMenu;
@@ -111,12 +115,12 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
     }
 
     public void onSdlDelBtnClick(int sqlId) {
-        model = ViewModelProviders.of((MainActivity)MainActivity.getContext()).get(CalendarVM.class);
+        model = MainActivity.getCalendarVM();
         model.setSliderState(false);
-        new PopupDel(PopupDel.SDL_DEL, sqlId);
+        new PopupDel(context, PopupDel.SDL_DEL, sqlId);
     }
 
     public void onSdlEditBtnClick(int sqlId) {
-        new PopupEdit(PopupEdit.SCHEDULE, sqlId);
+        new PopupEdit(context, PopupEdit.SCHEDULE, sqlId);
     }
 }

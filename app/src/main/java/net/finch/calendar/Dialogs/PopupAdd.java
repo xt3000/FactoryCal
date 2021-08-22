@@ -2,10 +2,11 @@ package net.finch.calendar.Dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
-import android.arch.lifecycle.ViewModelProviders;
+//import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.TextInputEditText;
+//import android.support.annotation.RequiresApi;
+//import android.support.design.widget.TextInputEditText;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,6 +19,11 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import net.finch.calendar.CalendarVM;
 import net.finch.calendar.MainActivity;
@@ -34,12 +40,12 @@ import java.util.GregorianCalendar;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
-@RequiresApi(api = Build.VERSION_CODES.M)
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class PopupAdd extends PopupView implements TextView.OnEditorActionListener, View.OnClickListener {
     public final static int MARK = R.layout.popup_mark_create;
     public final static int SCHEDULE = R.layout.popup_schedule_create;
 
-    protected final MainActivity context = (MainActivity) MainActivity.getContext();
+    protected AppCompatActivity activity;
     protected final int layout;
     protected int sqlId;
 
@@ -58,14 +64,16 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     private CheckBox chbSdlPrime;
     private final ScheduleArray sdlList = new ScheduleArray();
 
-    public PopupAdd(int layout) {
-        super(layout);
+    public PopupAdd(Context ctx, int layout) {
+        super(ctx, layout, MainActivity.ROOT_ID);
+        this.activity = (AppCompatActivity) ctx;
         this.layout = layout;
         init();
     }
 
-    public PopupAdd(int layout, int sqlId) {
-        super(layout);
+    public PopupAdd(Context ctx, int layout, int sqlId) {
+        super(ctx, layout, MainActivity.ROOT_ID);
+        this.activity = (AppCompatActivity) ctx;
         this.layout = layout;
         this.sqlId = sqlId;
         init();
@@ -73,8 +81,8 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     }
 
     private  void init() {
-        headerDate = ((TextView) context.findViewById(R.id.tv_slider_title)).getText().toString();
-        model = ViewModelProviders.of(MainActivity.instance).get(CalendarVM.class);
+        headerDate = ((TextView) activity.findViewById(R.id.tv_slider_title)).getText().toString();
+        model = MainActivity.getCalendarVM();
         pw = super.show();
         layoutSettings(pw.getContentView());
     }
@@ -107,7 +115,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
     protected void setSpinnerAdapter() {
 
-        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<String>(context, R.layout.sdl_list_tvitem, sdlList.getNames());
+        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<String>(activity, R.layout.sdl_list_tvitem, sdlList.getNames());
         spinner.setAdapter(sdlSpinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -124,12 +132,12 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
     private void ReadSDLs() {
         //TODO: Create SDL List : ПЕРЕПИСАТЬ
-        sdlList.add(new Schedule("График1", context.getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График2", context.getString(R.string.schedule2)));
-        sdlList.add(new Schedule("График3", context.getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График4", context.getString(R.string.schedule2)));
-        sdlList.add(new Schedule("График5", context.getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График6", context.getString(R.string.schedule2)));
+        sdlList.add(new Schedule("График1", activity.getString(R.string.schedule1)));
+        sdlList.add(new Schedule("График2", activity.getString(R.string.schedule2)));
+        sdlList.add(new Schedule("График3", activity.getString(R.string.schedule1)));
+        sdlList.add(new Schedule("График4", activity.getString(R.string.schedule2)));
+        sdlList.add(new Schedule("График5", activity.getString(R.string.schedule1)));
+        sdlList.add(new Schedule("График6", activity.getString(R.string.schedule2)));
         //*********************
     }
 
@@ -152,7 +160,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
                 break;
             case R.id.tv_addTime:
                 Log.d(CalendarVM.TAG, "onClick: setTime");
-                new TimePickerDialog(context, timeSetListener,
+                new TimePickerDialog(activity, timeSetListener,
                         mTime.get(Calendar.HOUR_OF_DAY),
                         mTime.get(Calendar.MINUTE), true)
                         .show();
@@ -173,7 +181,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
                 mTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 mTime.set(Calendar.MINUTE, minute);
 
-                tvAddTime.setText(DateUtils.formatDateTime(context,
+                tvAddTime.setText(DateUtils.formatDateTime(activity,
                         mTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
             }
         };
@@ -183,7 +191,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         String text = etMarkNote.getText().toString();
         int t = Time.toInt(tvAddTime.getText().toString());
         ParseDate pd = new ParseDate(headerDate);
-        DBMarks dbMarks = new DBMarks(context);
+        DBMarks dbMarks = new DBMarks(activity);
 
         dbMarks.save(pd.getY(), pd.getM(), pd.getD(), t, text);
         model.getFODLiveData();
@@ -194,7 +202,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     private void saveSdl() {
         Schedule sdl = sdlList.get(sdlPosId);
         Log.d(CalendarVM.TAG, "onItemSelected: save  "+sdl.getName()+" ("+sdl.getSdl()+")");
-        DBSchedules dbSdl = new DBSchedules(context);
+        DBSchedules dbSdl = new DBSchedules(activity);
         ParseDate pd = new ParseDate(headerDate);
         dbSdl.save(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
         model.getFODLiveData();

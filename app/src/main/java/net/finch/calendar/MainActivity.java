@@ -2,22 +2,22 @@ package net.finch.calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+//import android.arch.lifecycle.LiveData;
+//import android.arch.lifecycle.Observer;
+//import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
-//import android.support.v7app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+//import android.support.annotation.Nullable;
+//import android.support.annotation.RequiresApi;
+//import android.support.constraint.ConstraintLayout;
+//import android.support.constraint.ConstraintSet;
+//import android.support.design.widget.BottomSheetBehavior;
+//import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.TextInputEditText;
+//import android.support.v7.app.AppCompatActivity;
+////import android.support.v7app.AppCompatActivity;
+//import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,9 +25,20 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -43,13 +54,14 @@ import java.util.Objects;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 	@SuppressLint("StaticFieldLeak")
 	public static MainActivity instance;
+	public final static int ROOT_ID = R.id.main_layout;
 	final boolean DEBUG = false;
 	String debugTxt="";
 
-	ConstraintSet cSet = new ConstraintSet();
 	ConstraintLayout cl_bottomContainer;
 
 	TextView tvMainMenu;
@@ -80,11 +92,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	LiveData<DayInfo> dayInfoListData;
 	LiveData<Boolean> SSdata;
 	TextInputEditText etMarkNote;
-	RadioGroup rg;
 
 	ArrayList<DayInfo> frameOfDates;
 
-	@RequiresApi(api = Build.VERSION_CODES.M)
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -119,7 +130,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 		sliderLayout = findViewById(R.id.bottom_sheet);
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
-		sliderBehavior.setBottomSheetCallback(new SliderBehaviorCallback());
+//		sliderBehavior.setBottomSheetCallback(new SliderBehaviorCallback());
+		sliderBehavior.addBottomSheetCallback(new SliderBehaviorCallback());
 
 		llListInfo = findViewById(R.id.ll_markList);
 		llAdd = findViewById(R.id.ll_sdlList);
@@ -129,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 		etMarkNote = findViewById(R.id.et_markNote);
 
-		model = ViewModelProviders.of(this).get(CalendarVM.class);
+		model = getCalendarVM();
 		FODdata = model.getFODLiveData();
 		FODdata.observe(this, new Observer<ArrayList<DayInfo>>() {
 			@Override
@@ -236,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		
     }
 	
+
 	void inflateWeak(LinearLayout ll) {
 		
 		for (int i=1; i<=7; i++) {
@@ -305,6 +318,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     	return instance;
 	}
 
+	public static CalendarVM getCalendarVM() {
+		return new ViewModelProvider(instance, new ViewModelProvider.NewInstanceFactory()).get(CalendarVM.class);
+	}
+
 	public static void hideKeyboard(Activity activity) {
 		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 		View view = activity.getCurrentFocus();
@@ -314,17 +331,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 
-	@RequiresApi(api = Build.VERSION_CODES.M)
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
 	public void onClick(View view) {
 		Log.d(TAG, "onFABClick: ");
 		model.setSliderState(false);
 		switch (view.getId()) {
 			case R.id.fab_mark:
-				new PopupAdd(PopupAdd.MARK);
+				new PopupAdd(this, PopupAdd.MARK);
 				break;
 			case R.id.fab_sdl:
-				new PopupAdd(PopupAdd.SCHEDULE);
+				new PopupAdd(this, PopupAdd.SCHEDULE);
 				break;
 		}
 	}

@@ -10,8 +10,10 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.widget.AppCompatTextView;
 
-public class DayView extends android.support.v7.widget.AppCompatTextView
+
+public class DayView extends AppCompatTextView
 {
     private Canvas offscreen;
     private String msg="";

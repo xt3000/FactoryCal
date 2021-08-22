@@ -2,14 +2,10 @@ package net.finch.calendar.Dialogs;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.unnamed.b.atv.model.TreeNode;
@@ -18,12 +14,7 @@ import com.unnamed.b.atv.view.AndroidTreeView;
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.MenuHolder;
 import net.finch.calendar.R;
-import net.finch.calendar.SdlEditorActivity;
-
-import java.io.StringWriter;
-import java.util.ArrayList;
-
-import static net.finch.calendar.CalendarVM.TAG;
+import net.finch.calendar.SDLEditor.SdlEditorActivity;
 
 public class PopupMenu implements TreeNode.TreeNodeClickListener {
     private final MainActivity context = (MainActivity) MainActivity.getContext();

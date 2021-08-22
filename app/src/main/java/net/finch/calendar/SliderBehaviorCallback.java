@@ -1,21 +1,30 @@
 package net.finch.calendar;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.FloatingActionButton;
-import android.support.transition.ChangeBounds;
-import android.support.transition.Fade;
-import android.support.transition.Scene;
-import android.support.transition.TransitionManager;
-import android.support.transition.TransitionSet;
+//import android.arch.lifecycle.ViewModelProviders;
+//import android.support.annotation.NonNull;
+//import android.support.design.widget.BottomSheetBehavior;
+//import android.support.design.widget.FloatingActionButton;
+//import android.support.transition.ChangeBounds;
+//import android.support.transition.Fade;
+//import android.support.transition.Scene;
+//import android.support.transition.TransitionManager;
+//import android.support.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.transition.ChangeBounds;
+import androidx.transition.Fade;
+import androidx.transition.Scene;
+import androidx.transition.TransitionManager;
+import androidx.transition.TransitionSet;
+
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SliderBehaviorCallback extends BottomSheetBehavior.BottomSheetCallback {
     FloatingActionButton afab;
@@ -36,7 +45,7 @@ public class SliderBehaviorCallback extends BottomSheetBehavior.BottomSheetCallb
         this.fabSdl = MainActivity.getContext().findViewById(R.id.fab_sdl);
 
         lpFAB_sdl = (FrameLayout.LayoutParams) fabSdl.getLayoutParams();
-        this.model = ViewModelProviders.of(MainActivity.instance).get(CalendarVM.class);
+        this.model = MainActivity.getCalendarVM();
     }
 
     @Override

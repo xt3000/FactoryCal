@@ -1,6 +1,16 @@
 package net.finch.calendar.Schedules;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class Shift {
+    private static Map<Character, String> shiftMap;
+
     private int db_id;
     private final String shiftName;
     private final char shift;
@@ -13,17 +23,30 @@ public class Shift {
         this.shift = shift;
         this.sdlName = sdlName;
         this.color = color;
-        this.shiftName = shiftName(shift);
+        this.shiftName = shiftNameOf(shift);
         this.prime = false;
     }
 
     public Shift(int db_id, char shift, String sdlName, int color, boolean prime) {
+        shiftMap = initSftMap();
         this.db_id = db_id;
         this.shift = shift;
         this.sdlName = sdlName;
         this.color = color;
-        this.shiftName = shiftName(shift);
+        this.shiftName = shiftNameOf(shift);
         this.prime = prime;
+
+    }
+
+    private static Map<Character, String> initSftMap() {
+        Map<Character, String> map = new HashMap<>();
+        map.put('U', "Утренняя");
+        map.put('D', "Дневная");
+        map.put('N', "Ночная");
+        map.put('S', "Сутки");
+        map.put('V', "Вечерняя");
+        map.put('W', "Выходной");
+        return map;
     }
 
     public boolean isPrime() {
@@ -46,25 +69,19 @@ public class Shift {
         return sdlName;
     }
 
-    private String shiftName(Character shiftChar) {
-        switch (shiftChar) {
-            case 'U':
-                return "Утренняя";
-            case 'D':
-                return "Дневная";
-            case 'N':
-                return "Ночная";
-            case 'S':
-                return "Сутки";
-            case 'V':
-                return "Вечерняя";
-            case 'W':
-                return "Выходной";
-        }
-        return "";
-    }
-
     public String getShiftName() {
         return shiftName;
+    }
+
+    public static String shiftNameOf(Character sftChar) {
+        return shiftMap.getOrDefault(sftChar, "undefined");
+    }
+
+    public static Character shiftCharOf(String sftName) {
+        shiftMap = initSftMap();
+        for (Map.Entry obj : shiftMap.entrySet()) {
+            if (sftName.equals(obj.getValue())) return (Character) obj.getKey();
+        }
+        return null;
     }
 }
