@@ -14,28 +14,4 @@
         android:layout_gravity="center"
         tools:listitem="@layout/sdle_item_v2" />
 
-    <LinearLayout
-        android:id="@+id/sdle.ll_info_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/sdle.info_text.tvLine_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
-            android:paddingBottom="8dp"
-            android:text="У вас нет графиков."
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/sdle.info_text.tvLine_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
-            android:text='Нажмите "+", чтобы создать новый.'
-            android:textSize="18sp" />
-    </LinearLayout>
 </FrameLayout>

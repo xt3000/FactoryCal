@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sdle.cl_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="@dimen/bottom_sheet_expanded_height"
     android:background="@drawable/sdle_bsheet_header"
     android:clickable="true"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="60dp"
+    app:behavior_peekHeight="@dimen/bottom_sheet_collapse_height"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <FrameLayout
@@ -25,6 +24,7 @@
             android:layout_height="3dp"
             android:layout_gravity="center_horizontal|top"
             android:layout_marginTop="12dp"
+            android:clickable="true"
             app:srcCompat="@drawable/bottom_sheet_holder" />
 
         <TextView
@@ -50,51 +50,79 @@
             android:id="@+id/sdle.bsheet.cv_sft_U"
             style="@style/AppTheme.SftCardView"
             android:layout_marginTop="24dp"
+            app:cardBackgroundColor="@android:color/white"
             app:layout_constraintEnd_toStartOf="@id/sdle.bsheet.cv_sft_D"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/sdle.bsheet.tv_sft_U"
-                style="@style/AppTheme.sdle_sft_color_text"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginTop="4dp"
-                android:text="Утро" />
+            <FrameLayout
+                android:id="@+id/sdle.bsheet.fl_sft_U"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/chess_gray_bg"
+                android:backgroundTintMode="src_over">
+
+                <TextView
+                    android:id="@+id/sdle.bsheet.tv_sft_U"
+                    style="@style/AppTheme.sdle_sft_color_text"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:text="Утро" />
+            </FrameLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/sdle.bsheet.cv_sft_D"
             style="@style/AppTheme.SftCardView"
-            app:cardBackgroundColor="@color/bsheetBG"
+            app:cardBackgroundColor="@android:color/white"
             app:layout_constraintEnd_toStartOf="@id/sdle.bsheet.cv_sft_N"
             app:layout_constraintStart_toEndOf="@+id/sdle.bsheet.cv_sft_U"
             app:layout_constraintTop_toTopOf="@+id/sdle.bsheet.cv_sft_U">
 
-            <TextView
-                android:id="@+id/sdle.bsheet.tv_sft_D"
-                style="@style/AppTheme.sdle_sft_color_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="День" />
+            <FrameLayout
+                android:id="@+id/sdle.bsheet.fl_sft_D"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/chess_gray_bg"
+                android:backgroundTintMode="src_over">
+
+                <TextView
+                    android:id="@+id/sdle.bsheet.tv_sft_D"
+                    style="@style/AppTheme.sdle_sft_color_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="День" />
+            </FrameLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/sdle.bsheet.cv_sft_N"
             style="@style/AppTheme.SftCardView"
             android:foreground="@drawable/circle_contur"
-            app:cardBackgroundColor="#C0CA33"
+            app:cardBackgroundColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/sdle.bsheet.cv_sft_D"
             app:layout_constraintTop_toTopOf="@+id/sdle.bsheet.cv_sft_D">
 
-            <TextView
-                android:id="@+id/sdle.bsheet.tv_sft_N"
-                style="@style/AppTheme.sdle_sft_color_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Ночь" />
+            <FrameLayout
+                android:id="@+id/sdle.bsheet.fl_sft_N"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/chess_gray_bg"
+                android:backgroundTintMode="src_over">
+
+                <TextView
+                    android:id="@+id/sdle.bsheet.tv_sft_N"
+                    style="@style/AppTheme.sdle_sft_color_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Ночь" />
+            </FrameLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -102,18 +130,27 @@
             style="@style/AppTheme.SftCardView"
             android:layout_marginTop="32dp"
             android:foreground="@drawable/circle_contur"
-            app:cardBackgroundColor="@color/D"
+            app:cardBackgroundColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="@+id/sdle.bsheet.cv_sft_U"
             app:layout_constraintStart_toStartOf="@+id/sdle.bsheet.cv_sft_U"
             app:layout_constraintTop_toBottomOf="@+id/sdle.bsheet.cv_sft_U">
 
-            <TextView
-                android:id="@+id/sdle.bsheet.tv_sft_S"
-                style="@style/AppTheme.sdle_sft_color_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Сутки" />
+            <FrameLayout
+                android:id="@+id/sdle.bsheet.fl_sft_S"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/chess_gray_bg"
+                android:backgroundTintMode="src_over">
+
+                <TextView
+                    android:id="@+id/sdle.bsheet.tv_sft_S"
+                    style="@style/AppTheme.sdle_sft_color_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Сутки" />
+            </FrameLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -121,17 +158,27 @@
             style="@style/AppTheme.SftCardView"
             android:layout_marginTop="32dp"
             android:foreground="@drawable/circle_contur"
+            app:cardBackgroundColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="@+id/sdle.bsheet.cv_sft_D"
             app:layout_constraintStart_toStartOf="@+id/sdle.bsheet.cv_sft_D"
             app:layout_constraintTop_toBottomOf="@+id/sdle.bsheet.cv_sft_D">
 
-            <TextView
-                android:id="@+id/sdle.bsheet.tv_sft_V"
-                style="@style/AppTheme.sdle_sft_color_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Вечер" />
+            <FrameLayout
+                android:id="@+id/sdle.bsheet.fl_sft_V"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/chess_gray_bg"
+                android:backgroundTintMode="src_over">
+
+                <TextView
+                    android:id="@+id/sdle.bsheet.tv_sft_V"
+                    style="@style/AppTheme.sdle_sft_color_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Вечер" />
+            </FrameLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -139,17 +186,27 @@
             style="@style/AppTheme.SftCardView"
             android:layout_marginTop="32dp"
             android:foreground="@drawable/circle_contur"
+            app:cardBackgroundColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="@+id/sdle.bsheet.cv_sft_N"
             app:layout_constraintStart_toStartOf="@+id/sdle.bsheet.cv_sft_N"
             app:layout_constraintTop_toBottomOf="@+id/sdle.bsheet.cv_sft_N">
 
-            <TextView
-                android:id="@+id/sdle.bsheet.tv_sft_W"
-                style="@style/AppTheme.sdle_sft_color_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Вых" />
+            <FrameLayout
+                android:id="@+id/sdle.bsheet.fl_sft_W"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/chess_gray_bg"
+                android:backgroundTintMode="src_over">
+
+                <TextView
+                    android:id="@+id/sdle.bsheet.tv_sft_W"
+                    style="@style/AppTheme.sdle_sft_color_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Вых" />
+            </FrameLayout>
+
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

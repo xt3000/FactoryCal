@@ -6,4 +6,7 @@
     <dimen name="btn_min_height">42dip</dimen>
 
     <dimen name="bottom_sheet_header_height">42dp</dimen>
+    <dimen name="bottom_sheet_collapse_height">60dp</dimen>
+    <dimen name="bottom_sheet_expanded_height">300dp</dimen>
+
 </resources>
