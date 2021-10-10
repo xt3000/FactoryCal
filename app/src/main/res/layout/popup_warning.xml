@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/popup_bg_dark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/popup.cv_window"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/bg_bottomWindow"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fl_popup_del_header"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <include layout="@layout/popup_header" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_popup_del_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/open_sans_light"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="16dp"
+                android:textSize="18sp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp">
+
+                <Button
+                    android:id="@+id/btn_wern_confirm"
+                    style="@style/AppTheme.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center"
+                    android:text="@android:string/ok"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btn_wern_cancel"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_conversion_absoluteHeight="42dp"
+                    tools:layout_conversion_absoluteWidth="186dp"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btn_wern_cancel"
+                    style="@style/AppTheme.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@android:string/cancel"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_wern_confirm"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_conversion_absoluteHeight="42dp"
+                    tools:layout_conversion_absoluteWidth="186dp"
+                    tools:visibility="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

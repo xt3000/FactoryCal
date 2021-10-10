@@ -19,13 +19,13 @@
         app:cardElevation="3dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_markItemContainer"
+            android:id="@+id/cl_markItem_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/bg_bottomWindow">
 
             <LinearLayout
-                android:id="@+id/ll_markItemMenu"
+                android:id="@+id/ll_markItem_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:background="@color/bg_bottomWindow"
@@ -69,10 +69,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_markItem"
+                android:id="@+id/ll_markItem_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#4C85B1"
+                android:clickable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"

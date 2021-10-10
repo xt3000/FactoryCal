@@ -40,12 +40,12 @@ public class Shift {
 
     private static Map<Character, String> initSftMap() {
         Map<Character, String> map = new HashMap<>();
-        map.put('U', "Утренняя");
-        map.put('D', "Дневная");
-        map.put('N', "Ночная");
-        map.put('S', "Сутки");
-        map.put('V', "Вечерняя");
-        map.put('W', "Выходной");
+        map.put('U', "Утро");
+        map.put('D', "День");
+        map.put('N', "Ночь");
+        map.put('S', "Сут");
+        map.put('V', "Вчр");
+        map.put('W', "Вых");
         return map;
     }
 
@@ -74,7 +74,9 @@ public class Shift {
     }
 
     public static String shiftNameOf(Character sftChar) {
+        shiftMap = initSftMap();
         return shiftMap.getOrDefault(sftChar, "undefined");
+
     }
 
     public static Character shiftCharOf(String sftName) {

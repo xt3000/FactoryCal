@@ -16,6 +16,9 @@ import net.finch.calendar.Schedules.DBSchedules;
 import net.finch.calendar.Schedules.Schedule;
 import net.finch.calendar.Schedules.ScheduleNav;
 import net.finch.calendar.Schedules.Shift;
+import net.finch.calendar.Settings.SDLSettings;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,11 +29,12 @@ import java.util.Map;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
-
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class CalendarNavigator
 {
 	private DBMarks dbMarks;
 	private DBSchedules dbSDLs;
+	private ArrayList<Schedule> prefSDLs;
 	private Calendar c;
 	private int month;
 	private int year;
@@ -98,8 +102,7 @@ public class CalendarNavigator
 		return cpm.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 	}
 
-	@RequiresApi(api = Build.VERSION_CODES.M)
-	protected ArrayList<DayInfo> frameOfDates() {
+	protected ArrayList<DayInfo> frameOfDates() throws JSONException {
 		int cnt = 0;
 		int fwd = firstWeakDayOfMonth();
 		int mda = c.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
@@ -152,6 +155,8 @@ public class CalendarNavigator
 					getDayShifts(tgtDay)
 			));
 		}
+
+		prefSDLs = null;
 		return fod;
 	}
 
@@ -196,9 +201,9 @@ public class CalendarNavigator
 		db.close();
 	}
 
-	@RequiresApi(api = Build.VERSION_CODES.M)
-	protected void dbReadSdls(int offset) {
+	protected void dbReadSdls(int offset) throws JSONException {
 		if(dbSDLs == null) dbSDLs = new DBSchedules(MainActivity.getContext());
+		if (prefSDLs == null) prefSDLs = new SDLSettings(MainActivity.getContext()).getSdlArray();
 //		Map<Integer, ArrayList<Schedule>> sdlDates = new HashMap<>();
 		sdlList = new LinkedList<>();
 		Calendar mc = new GregorianCalendar(year, month+offset,1);
@@ -208,32 +213,53 @@ public class CalendarNavigator
 //		String[] selArgs = {String.valueOf(mc.get(GregorianCalendar.YEAR)), String.valueOf(mc.get(GregorianCalendar.MONTH)), String.valueOf(mc.get(GregorianCalendar.YEAR))};
 		@SuppressLint("Recycle") Cursor cur = db.query(DBSchedules.DB_NAME, null, "", null, null, null, null);
 
-
+		ArrayList<Integer> sqlIdsToRemove = new ArrayList<>();
 		if (cur.moveToFirst()) {
 
 			do {
 				boolean prime = cur.getInt(cur.getColumnIndex("prime")) == 1;
-				Schedule sdl = new Schedule(
-						cur.getString(cur.getColumnIndex("name")),
-						cur.getString(cur.getColumnIndex("sdl"))
-				);
-				ScheduleNav sdlNav = new ScheduleNav(
-						cur.getInt(cur.getColumnIndex("id")),
-						sdl,
-						prime,
-						new GregorianCalendar(
-							cur.getInt(cur.getColumnIndex("year")),
-							cur.getInt(cur.getColumnIndex("month")),
-							cur.getInt(cur.getColumnIndex("date")
-						)
-				));
-				if (prime) sdlList.addFirst(sdlNav);
-				else sdlList.add(sdlNav);
+				Schedule sdl = getSdlByName(cur.getString(cur.getColumnIndex("name")));
+				/////////////////////////////////////////////
+//				Schedule sdl = new Schedule(
+//						cur.getString(cur.getColumnIndex("name")),
+//						cur.getString(cur.getColumnIndex("sdl"))
+//						// TODO: Settings.getSdlByName("name") => return new Schedule(name, sdl, colorMap)!
+//				);
+				//////////////////////////////////////////////
+
+				if (sdl != null) {
+					Log.d(TAG, "dbReadSdls: addSdl > "+sdl.getName());
+					ScheduleNav sdlNav = new ScheduleNav(
+							cur.getInt(cur.getColumnIndex("id")),
+							sdl,
+							prime,
+							new GregorianCalendar(
+									cur.getInt(cur.getColumnIndex("year")),
+									cur.getInt(cur.getColumnIndex("month")),
+									cur.getInt(cur.getColumnIndex("date")
+									)
+							));
+					if (prime) sdlList.addFirst(sdlNav);
+					else sdlList.add(sdlNav);
+				}else sqlIdsToRemove.add(cur.getInt(cur.getColumnIndex("id")));
+
 
 			}while (cur.moveToNext());
 		}
 		cur.close();
 		db.close();
+		for (Integer id : sqlIdsToRemove) {
+			dbSDLs.delete(id);
+		}
+	}
+
+	private Schedule getSdlByName(String name) {
+		Log.d(TAG, "getSdlByName!: name = "+name);
+		for (Schedule sdl : prefSDLs) {
+			if (name.equals(sdl.getName())) return sdl;
+		}
+		Log.d(TAG, "getSdlByName!: --"+name);
+		return null;
 	}
 
 	protected ArrayList<Shift> getDayShifts(Calendar tgtDate) {

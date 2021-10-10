@@ -25,7 +25,6 @@ import androidx.transition.Scene;
 import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
 
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static net.finch.calendar.CalendarVM.TAG;
@@ -75,18 +74,18 @@ public class OnAddFABClickListener implements View.OnClickListener {
     public void onClick(View view) {
         Log.d(TAG, "onFABClick: ");
         addFAB = (FloatingActionButton) view;
-        fabAddMenu();
+        fabAddMenuClick();
 
     }
 
 
-    public void fabAddMenu() {
+    public void fabAddMenuClick() {
         Log.d(TAG, "fabAddMenu: isRotate = "+ isMenuOn);
         if (!isMenuOn) isMenuOn = menuOn();
         else isMenuOn = menuOff();
     }
 
-    protected  boolean menuOn() {
+    private boolean menuOn() {
         addFAB.startAnimation(rotateOn);
         fabSdl.setClickable(true);
         fabMark.setClickable(true);
@@ -94,7 +93,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
         return true;
     }
 
-    protected  boolean menuOff() {
+    private boolean menuOff() {
         addFAB.startAnimation(rotateOff);
         fabSdl.setClickable(false);
         fabMark.setClickable(false);
@@ -105,7 +104,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
     public void fabMarkClick() {
         Log.d(TAG, "fabMarkClick: ");
         LayoutInflater inflater = (LayoutInflater) MainActivity.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupLayout = inflater.inflate(R.layout.popup_mark_create, null, false);
+        View popupLayout = inflater.inflate(R.layout.popup_mark_add, null, false);
         PopupWindow pw = new PopupWindow(popupLayout, 800, 600, true);
         pw.showAtLocation(MainActivity.getContext().findViewById(R.id.main_layout), Gravity.CENTER, 0, 0);
     }

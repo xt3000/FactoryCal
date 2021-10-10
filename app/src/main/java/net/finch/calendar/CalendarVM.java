@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModel;
 
 import net.finch.calendar.Marks.Mark;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class CalendarVM extends ViewModel {
@@ -29,19 +31,21 @@ public class CalendarVM extends ViewModel {
 
 
 //*********** Frame Of Dates live data **************
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public LiveData<ArrayList<DayInfo>> getFODLiveData() {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public LiveData<ArrayList<DayInfo>> getFODLiveData() throws JSONException {
+        Log.d(TAG, "getFODLiveData: VM");
         if (FOD_ld == null) {
             FOD_ld = new MutableLiveData<>();
-            nCal = new CalendarNavigator();
         }
+        nCal = new CalendarNavigator();
         frameOfDates = nCal.frameOfDates();
         FOD_ld.setValue(frameOfDates);
         return FOD_ld;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public  void nextMonth() {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public  void nextMonth() throws JSONException {
+        Log.d(TAG, "nextMonth: VM");
         nCal.nextMonth();
         frameOfDates = nCal.frameOfDates();
         FOD_ld.setValue(frameOfDates);
@@ -49,8 +53,8 @@ public class CalendarVM extends ViewModel {
 //        setDayId(null);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public  void previousMonth() {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public  void previousMonth() throws JSONException {
         nCal.previousMonth();
         frameOfDates = nCal.frameOfDates();
         FOD_ld.setValue(frameOfDates);
@@ -94,6 +98,7 @@ public class CalendarVM extends ViewModel {
     }
 
     public void updInfoList() {
+
         setDayId(selectedDayId);
         Log.d(TAG, "setDayId: "+selectedDayId);
 

@@ -1,14 +1,5 @@
 package net.finch.calendar;
 
-//import android.arch.lifecycle.ViewModelProviders;
-//import android.support.annotation.NonNull;
-//import android.support.design.widget.BottomSheetBehavior;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.transition.ChangeBounds;
-//import android.support.transition.Fade;
-//import android.support.transition.Scene;
-//import android.support.transition.TransitionManager;
-//import android.support.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;

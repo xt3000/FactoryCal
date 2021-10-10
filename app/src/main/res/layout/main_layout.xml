@@ -39,19 +39,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
 				app:layout_collapseMode="pin"
-				app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
-
-			<TextView
-				android:id="@+id/tv_mainMenu"
-				android:layout_width="40dp"
-				android:layout_height="26dp"
-				android:layout_gravity="top|end"
-				android:layout_margin="15dp"
-				android:background="@drawable/menu_lines"
-				android:clickable="true"
-				android:focusableInTouchMode="true"
-				android:gravity="center"
-				app:layout_collapseMode="pin" />
+				app:menu="@menu/main_menu"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 		</com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -70,22 +59,6 @@
 	<include layout="@layout/bottom_frame" />
 
 	<include layout="@layout/fab_layout" />
-
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:id="@+id/fab_menu"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/fab_margin"
-		android:clickable="true"
-		android:cropToPadding="false"
-		android:visibility="gone"
-		app:backgroundTint="@color/bg_bottomHeader"
-		app:fabSize="mini"
-		app:layout_anchor="@id/main.toolbar"
-		app:layout_anchorGravity="right|center_vertical"
-		app:srcCompat="@drawable/menu_dots"
-		app:useCompatPadding="false"
-		tools:visibility="gone" />
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:id="@+id/afab_add"

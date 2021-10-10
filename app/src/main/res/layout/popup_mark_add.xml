@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <include
+        layout="@layout/popup_bg_dark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/popup.cv_window"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/popup_ll_mark_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/bg_bottomWindow"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <FrameLayout
+                android:id="@+id/fl_popup_create_header"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include layout="@layout/popup_header" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/bg_bottomWindow"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_markConfirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fl_popup_create_header">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg_bottomWindow">
+
+                    <TextView
+                        android:id="@+id/tv_addTime"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:paddingTop="12dp"
+                        android:text="- - : - -"
+                        android:textColor="@color/rbActive"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal|top"
+                        android:text="время"
+                        android:textSize="12sp" />
+                </FrameLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_markNote"
+                        style="@style/myEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="краткое описание"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_markConfirm"
+                style="@style/AppTheme.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="Сохранить"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

@@ -7,4 +7,24 @@
     <string name="schedule1">UNWW</string>
     <string name="schedule2">UUUUUWW</string>
 
+    <string name="schedule_default">{"id":0,"name":"default","sdl":"UNWW","shiftColors":{"U":-12012545,"D":-12012545,"N":-16689253,"S":-12012545,"V":-16689253,"W":16777215}}</string>
+    <string name="title_activity_sdle_editor_v2">Schedule Editor</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+<!--   MWIN MENU   -->
+    <string name="main_menu_1">Редактор графиков</string>
+    <string name="main_menu_2">Настройки</string>
+    <string name="main_menu_3">О приложении</string>
+    <string name="del_calSdl_text_1">Вы уверены, что хотите удалить график \"</string>
+    <string name="del_calSdl_text_2">\" из календаря?</string>
+    <string name="del_calMark_text">Вы уверены, что хотите удалить это событие из календаря?</string>
+    <string name="sdle_notSavedBack">Вы действительно хотите выйти без сохранения изменений?</string>
+
 </resources>

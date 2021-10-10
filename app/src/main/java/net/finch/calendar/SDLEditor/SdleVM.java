@@ -8,20 +8,27 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import net.finch.calendar.Schedules.Schedule;
+import net.finch.calendar.Settings.SDLSettings;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class SdleVM extends ViewModel {
+    private MutableLiveData<Boolean> editorModeLD;
+    private boolean editorMode = SdlEditorActivity.sdlMODE;
 
     private MutableLiveData<Map<String, Integer>> colorsLD;
     private Map<String, Integer> colors;
 
-    private MutableLiveData<ArrayList<SdleListObj>> sdlLD;
-    private ArrayList<SdleListObj> sdl;
+    private MutableLiveData<Schedule> sftsLD;
+    private Schedule sdl;
     private int newId = 0;
 
+    private MutableLiveData<ArrayList<Schedule>> sdlsListLD;
+    private ArrayList<Schedule>sdlsList;
 
 // *** COLOR LiveData ***
     public LiveData<Map<String, Integer>> getColorsLD(Map<String, Integer> c) {
@@ -48,24 +55,57 @@ public class SdleVM extends ViewModel {
 
 
 // *** SDL LiveData ***
-    public LiveData<ArrayList<SdleListObj>> getSdlLD(ArrayList<SdleListObj> s) {
-        if (sdlLD == null) {
-            sdlLD = new MutableLiveData<>();
-            sdl = new ArrayList<>();
+    public LiveData<Schedule> getSftsLD(Schedule s) {
+        if (sftsLD == null) {
+            sftsLD = new MutableLiveData<>();
+            sdl = new Schedule("", "");
         }
 
         if (s != null) sdl = s;
-        sdlLD.setValue(sdl);
-        return sdlLD;
+        sftsLD.setValue(sdl);
+        return sftsLD;
     }
 
-    public void setSdl(ArrayList<SdleListObj> s) {
-        sdl = s;
-        sdlLD.setValue(s);
+    public void setSfts(Schedule sdl) {
+        this.sdl = sdl;
+        sftsLD.setValue(sdl);
     }
+
 
     public int getNewId(){
         newId++;
         return newId-1;
+    }
+
+
+
+// *** SDLS List LiveData ***
+    public LiveData<ArrayList<Schedule>> getSdlsListLD() {
+        if (sdlsListLD == null) {
+            sdlsListLD = new MutableLiveData<>();
+        }
+
+        sdlsList = new ArrayList<>();
+        try {
+            sdlsList = new SDLSettings(SdlEditorActivity.getInstance()).getSdlArray();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sdlsListLD.setValue(sdlsList);
+        return sdlsListLD;
+    }
+
+// ***  EDITOR MODE  *** //
+    public LiveData<Boolean> getEditorModeLD() {
+        if (editorModeLD ==null) editorModeLD = new MutableLiveData<>();
+        editorModeLD.setValue(editorMode);
+
+        return editorModeLD;
+    }
+
+    public void setEditorMode(boolean editorMode) {
+        this.editorMode = editorMode;
+        editorModeLD.setValue(editorMode);
     }
 }

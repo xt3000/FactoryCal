@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sdle.cl_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="@drawable/sdle_bsheet_header"
+    android:clickable="true"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="60dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <FrameLayout
+        android:id="@+id/sdle.bsheet.fl_header"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="42dp"
+            android:layout_height="3dp"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="12dp"
+            app:srcCompat="@drawable/bottom_sheet_holder" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:text="Выбор цветов смен"
+            android:textColor="@color/black_semi_transparent" />
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sdle.bsheet.cl_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sdle.bsheet.fl_header">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sdle.bsheet.cv_sft_U"
+            style="@style/AppTheme.SftCardView"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toStartOf="@id/sdle.bsheet.cv_sft_D"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/sdle.bsheet.tv_sft_U"
+                style="@style/AppTheme.sdle_sft_color_text"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="4dp"
+                android:text="Утро" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sdle.bsheet.cv_sft_D"
+            style="@style/AppTheme.SftCardView"
+            app:cardBackgroundColor="@color/bsheetBG"
+            app:layout_constraintEnd_toStartOf="@id/sdle.bsheet.cv_sft_N"
+            app:layout_constraintStart_toEndOf="@+id/sdle.bsheet.cv_sft_U"
+            app:layout_constraintTop_toTopOf="@+id/sdle.bsheet.cv_sft_U">
+
+            <TextView
+                android:id="@+id/sdle.bsheet.tv_sft_D"
+                style="@style/AppTheme.sdle_sft_color_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="День" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sdle.bsheet.cv_sft_N"
+            style="@style/AppTheme.SftCardView"
+            android:foreground="@drawable/circle_contur"
+            app:cardBackgroundColor="#C0CA33"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sdle.bsheet.cv_sft_D"
+            app:layout_constraintTop_toTopOf="@+id/sdle.bsheet.cv_sft_D">
+
+            <TextView
+                android:id="@+id/sdle.bsheet.tv_sft_N"
+                style="@style/AppTheme.sdle_sft_color_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Ночь" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sdle.bsheet.cv_sft_S"
+            style="@style/AppTheme.SftCardView"
+            android:layout_marginTop="32dp"
+            android:foreground="@drawable/circle_contur"
+            app:cardBackgroundColor="@color/D"
+            app:layout_constraintEnd_toEndOf="@+id/sdle.bsheet.cv_sft_U"
+            app:layout_constraintStart_toStartOf="@+id/sdle.bsheet.cv_sft_U"
+            app:layout_constraintTop_toBottomOf="@+id/sdle.bsheet.cv_sft_U">
+
+            <TextView
+                android:id="@+id/sdle.bsheet.tv_sft_S"
+                style="@style/AppTheme.sdle_sft_color_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Сутки" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sdle.bsheet.cv_sft_V"
+            style="@style/AppTheme.SftCardView"
+            android:layout_marginTop="32dp"
+            android:foreground="@drawable/circle_contur"
+            app:layout_constraintEnd_toEndOf="@+id/sdle.bsheet.cv_sft_D"
+            app:layout_constraintStart_toStartOf="@+id/sdle.bsheet.cv_sft_D"
+            app:layout_constraintTop_toBottomOf="@+id/sdle.bsheet.cv_sft_D">
+
+            <TextView
+                android:id="@+id/sdle.bsheet.tv_sft_V"
+                style="@style/AppTheme.sdle_sft_color_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Вечер" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sdle.bsheet.cv_sft_W"
+            style="@style/AppTheme.SftCardView"
+            android:layout_marginTop="32dp"
+            android:foreground="@drawable/circle_contur"
+            app:layout_constraintEnd_toEndOf="@+id/sdle.bsheet.cv_sft_N"
+            app:layout_constraintStart_toStartOf="@+id/sdle.bsheet.cv_sft_N"
+            app:layout_constraintTop_toBottomOf="@+id/sdle.bsheet.cv_sft_N">
+
+            <TextView
+                android:id="@+id/sdle.bsheet.tv_sft_W"
+                style="@style/AppTheme.sdle_sft_color_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Вых" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

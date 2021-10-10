@@ -19,22 +19,29 @@ import androidx.transition.TransitionManager;
 import com.unnamed.b.atv.model.TreeNode;
 
 import net.finch.calendar.CalendarVM;
-import net.finch.calendar.Dialogs.PopupDel;
+import net.finch.calendar.Dialogs.PopupWarning;
 import net.finch.calendar.MainActivity;
-import net.finch.calendar.Marks.Mark;
 import net.finch.calendar.R;
+import net.finch.calendar.Utils;
+
+import org.json.JSONException;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements View.OnClickListener {
+    private static View openedView = null;
+
+    ImageView ivMenu;
+    ImageView ivbDel;
+    CalendarVM model = MainActivity.getCalendarVM();
+
+
     public MarkListHolder(Context context) {
         super(context);
     }
 
-    ImageView ivMenu;
-    ImageView ivbDel;
-    CalendarVM model;
+
 
     @Override
     public View createNodeView(TreeNode node, Mark value) {
@@ -68,7 +75,11 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
             case (R.id.iv_btn_markDel):
                 View menu = (View) v.getParent();
                 TextView mrkId = menu.findViewById(R.id.tv_mark_sqlId);
-                onSdlDelBtnClick(Integer.parseInt(mrkId.getText().toString()));
+                try {
+                    onSdlDelBtnClick(Integer.parseInt(mrkId.getText().toString()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.iv_btn_sdlEdit:
                 onSdlEditBtnClick();
@@ -77,32 +88,45 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
     }
 
     public void onMenuBtnClick(View v) {
+        if (openedView !=null) {
+            ConstraintLayout vgOpen = (ConstraintLayout) openedView.getParent().getParent();
+            View contentOpen = vgOpen.findViewById(R.id.ll_markItem_content);
+            TransitionManager.beginDelayedTransition(vgOpen);
+            ConstraintLayout.LayoutParams paramsOpen = (ConstraintLayout.LayoutParams) contentOpen.getLayoutParams();
+            paramsOpen.width = 0;
+            paramsOpen.rightMargin = 0;
+            contentOpen.setLayoutParams(paramsOpen);
+        }
+
         ConstraintLayout vg = (ConstraintLayout) v.getParent().getParent();
-        View item = vg.findViewById(R.id.ll_markItem);
-        View menu = vg.getViewById(R.id.ll_markItemMenu);
+        View item = vg.findViewById(R.id.ll_markItem_content);
+//        View menu = vg.getViewById(R.id.ll_markItem_menu);
 
         TransitionManager.beginDelayedTransition(vg);
 
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) item.getLayoutParams();
 
-        if (params.getMarginEnd() > 0) {
-            params.width = 0;
-            Log.d(TAG, "onClick: with = "+params.rightMargin);
-            params.rightMargin = 0;
+        if (v.equals(openedView)) {
+            openedView = null;
         }
         else {
+            openedView = v;
             Log.d(TAG, "onClick: margin = "+params.rightMargin);
             params.width = item.getWidth();
-            params.rightMargin = (menu.getWidth()+20)*2;
+            params.rightMargin = (int) Utils.dpToPx(context, 84f)*2;
         }
 
         item.setLayoutParams(params);
     }
 
-    private void onSdlDelBtnClick(int sqlId) {
-        model = MainActivity.getCalendarVM();
-        model.setSliderState(false);
-        new PopupDel(context, PopupDel.MRK_DEL, sqlId);
+    private void onSdlDelBtnClick(int sqlId) throws JSONException {
+        PopupWarning pwarn = new PopupWarning(context, context.getText(R.string.del_calMark_text).toString());
+        pwarn.setOnPositiveClickListener("", ()-> {
+            new DBMarks(MainActivity.getContext()).delete(sqlId);
+            model.getFODLiveData();
+            model.updInfoList();
+        });
+        pwarn.setOnNegativeClickListener("", ()->{});
     }
 
     private void onSdlEditBtnClick() {

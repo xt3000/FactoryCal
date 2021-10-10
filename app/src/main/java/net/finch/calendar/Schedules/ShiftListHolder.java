@@ -10,8 +10,8 @@ import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -21,21 +21,23 @@ import androidx.transition.TransitionManager;
 import com.unnamed.b.atv.model.TreeNode;
 
 import net.finch.calendar.CalendarVM;
-import net.finch.calendar.Dialogs.PopupDel;
+import net.finch.calendar.Dialogs.PopupWarning;
 import net.finch.calendar.Dialogs.PopupEdit;
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
+import net.finch.calendar.Utils;
+
+import org.json.JSONException;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implements View.OnClickListener {
-    View view;
-    ImageView ivbMenu;
-//    ImageView ivbDel;
-//    ImageView ivbEdit;
+    private View view;
+    private ImageView ivbMenu;
+    private static View openedView = null;
 
-    CalendarVM model;
+    CalendarVM model = MainActivity.getCalendarVM();
 
     public ShiftListHolder(Context context) {
         super(context);
@@ -45,6 +47,20 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
     public View createNodeView(TreeNode node, Shift value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.shift_item, null, false);
+
+//// ****TEST**** ////
+//        LinearLayout clContent = view.findViewById(R.id.ll_shiftItem_content);
+//        ConstraintLayout clItem = view.findViewById(R.id.cl_shiftItemContainer);
+//
+//
+//        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) clContent.getLayoutParams();
+//        if (params.getMarginStart() > 0) {
+//            TransitionManager.beginDelayedTransition(clItem);
+//            params.width = 0;
+//            params.leftMargin = 0;
+//            clContent.setLayoutParams(params);
+//        }
+/////////TEST/////////
 
         Log.d(TAG, "createNodeView: sql_ID = "+value.getDb_id());
         TextView sqlId = view.findViewById(R.id.tv_sdl_sqlId);
@@ -59,6 +75,9 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
 
         ivbMenu = view.findViewById(R.id.ivb_shiftMenu);
         ivbMenu.setOnClickListener(this);
+//        ivbMenu.setOnClickListener((v) -> {
+//            onMenuBtnClick(view);
+//        });
 
         view.findViewById(R.id.iv_btn_sdlDel).setOnClickListener(this);
 //        ivbDel.setOnClickListener(this);
@@ -75,13 +94,26 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         int vid = v.getId();
         if (vid == R.id.ivb_shiftMenu) onMenuBtnClick(v);
         else {
-            View menu = (View) v.getParent();
-            TextView tvSqlId = menu.findViewById(R.id.tv_sdl_sqlId);
+            View parent = (View) v.getParent();
+            TextView tvSqlId = parent.findViewById(R.id.tv_sdl_sqlId);
             int sqlId = Integer.parseInt(tvSqlId.getText().toString());
 
 
-            if (vid == R.id.iv_btn_sdlDel) onSdlDelBtnClick(sqlId);
-            else if (vid == R.id.iv_btn_sdlEdit) onSdlEditBtnClick(sqlId);
+
+            if (vid == R.id.iv_btn_sdlDel) {
+                try {
+                    onSdlDelBtnClick(sqlId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (vid == R.id.iv_btn_sdlEdit) {
+                try {
+                    onSdlEditBtnClick(sqlId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         
     }
@@ -92,35 +124,49 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
 //    }
 
     public void onMenuBtnClick(View v) {
+        if (openedView !=null) {
+            ConstraintLayout vgOpen = (ConstraintLayout) openedView.getParent().getParent();
+            View contentOpen = vgOpen.findViewById(R.id.ll_shiftItem_content);
+            TransitionManager.beginDelayedTransition(vgOpen);
+            ConstraintLayout.LayoutParams paramsOpen = (ConstraintLayout.LayoutParams) contentOpen.getLayoutParams();
+            paramsOpen.width = 0;
+            paramsOpen.rightMargin = 0;
+            contentOpen.setLayoutParams(paramsOpen);
+        }
+
         ConstraintLayout vg = (ConstraintLayout) v.getParent().getParent();
-        View item = vg.findViewById(R.id.ll_shiftItem);
-        View menu = vg.getViewById(R.id.ll_shiftItemMenu);
+        View item = vg.findViewById(R.id.ll_shiftItem_content);
+//        View menu = vg.getViewById(R.id.ll_shiftItem_menu);
 
         TransitionManager.beginDelayedTransition(vg);
 
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) item.getLayoutParams();
 
-        if (params.getMarginEnd() > 0) {
-            params.width = 0;
-            Log.d(TAG, "onClick: with = "+params.rightMargin);
-            params.rightMargin = 0;
+        if (v.equals(openedView)) {
+            openedView = null;
         }
         else {
+            openedView = v;
             Log.d(TAG, "onClick: margin = "+params.rightMargin);
             params.width = item.getWidth();
-            params.rightMargin = (menu.getWidth()+20)*2;
+            params.rightMargin = (int)Utils.dpToPx(context, 84f)*2;
         }
 
         item.setLayoutParams(params);
     }
 
-    public void onSdlDelBtnClick(int sqlId) {
-        model = MainActivity.getCalendarVM();
-        model.setSliderState(false);
-        new PopupDel(context, PopupDel.SDL_DEL, sqlId);
+    public void onSdlDelBtnClick(int sqlId) throws JSONException {
+        String name = new DBSchedules(context).readSdlName(sqlId);
+        PopupWarning pwarn = new PopupWarning(context, context.getText(R.string.del_calSdl_text_1)+name+context.getText(R.string.del_calSdl_text_2));
+        pwarn.setOnPositiveClickListener("", ()-> {
+            new DBSchedules(MainActivity.getContext()).delete(sqlId);
+            model.getFODLiveData();
+            model.updInfoList();
+        });
+        pwarn.setOnNegativeClickListener("", ()-> {});
     }
 
-    public void onSdlEditBtnClick(int sqlId) {
+    public void onSdlEditBtnClick(int sqlId) throws JSONException {
         new PopupEdit(context, PopupEdit.SCHEDULE, sqlId);
     }
 }

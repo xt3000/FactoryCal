@@ -5,7 +5,7 @@ import android.app.Activity;
 //import android.arch.lifecycle.LiveData;
 //import android.arch.lifecycle.Observer;
 //import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 //import android.support.annotation.Nullable;
@@ -19,19 +19,24 @@ import android.os.Bundle;
 ////import android.support.v7app.AppCompatActivity;
 //import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -45,8 +50,11 @@ import com.unnamed.b.atv.view.AndroidTreeView;
 import net.finch.calendar.Dialogs.PopupAdd;
 import net.finch.calendar.Marks.Mark;
 import net.finch.calendar.Marks.MarkListHolder;
+import net.finch.calendar.SDLEditor.SdlEditorActivity;
 import net.finch.calendar.Schedules.Shift;
 import net.finch.calendar.Schedules.ShiftListHolder;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 	ConstraintLayout cl_bottomContainer;
 
-	TextView tvMainMenu;
+	ImageButton ibtnMainMenu;
 
 	FloatingActionButton fabAdd;
 	FloatingActionButton fabAddMark;
@@ -95,6 +103,42 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 	ArrayList<DayInfo> frameOfDates;
 
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.main_menu_1:
+				Intent intent = new Intent(this, SdlEditorActivity.class);
+				startActivity(intent);
+				break;
+			case R.id.main_menu_2:
+				break;
+			case R.id.main_menu_3:
+
+		}
+		return true;
+	}
+
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+		if (model != null) {
+			try {
+				model.getFODLiveData();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		model.updInfoList();
+	}
+
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
     protected void onCreate(Bundle savedInstanceState)
@@ -104,15 +148,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		setContentView(R.layout.main_layout);
 		
 		Toolbar toolbar = findViewById(R.id.main_toolbar);
-		if(toolbar != null){
-			setSupportActionBar(toolbar);
-		}
+		if(toolbar != null) setSupportActionBar(toolbar);
 
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Factory Calendar");
-//		getSupportActionBar().setSubtitle("Калкндарь потребления воды");
 
-		tvMainMenu = findViewById(R.id.tv_mainMenu);
-		tvMainMenu.setOnClickListener(new OnMenuFABClickListener());
+//		ibtnMainMenu = findViewById(R.id.ibtn_mainMenu);
+//		ibtnMainMenu.setOnClickListener(new OnMenuFABClickListener());
 
 		fabClickListener = new OnAddFABClickListener();
 
@@ -142,10 +183,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		etMarkNote = findViewById(R.id.et_markNote);
 
 		model = getCalendarVM();
-		FODdata = model.getFODLiveData();
+		try {
+			FODdata = model.getFODLiveData();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		FODdata.observe(this, new Observer<ArrayList<DayInfo>>() {
 			@Override
 			public void onChanged(@Nullable ArrayList<DayInfo> fod) {
+				Log.d(TAG, "onChanged: FOD LD");
 				frameOfDates = fod;
 				updFrame();
 			}
@@ -169,12 +215,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		dayInfoListData.observe(this, new Observer<DayInfo>() {
 			@Override
 			public void onChanged(@Nullable DayInfo dayInfo) {
-				assert dayInfo != null;
+
 //				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+dayInfo.size());
+				if (dayInfo == null) return;
 				llListInfo.removeAllViews();
 
 				TreeNode listRoot = TreeNode.root();
 				if(dayInfo.getShiftList().size() != 0) {
+					Log.d(TAG, "onChanged: SFTList.size = "+dayInfo.getShiftList().size());
 					listRoot.addChild(new TreeNode("   Графики:"));
 					for (Shift s : dayInfo.getShiftList()) {
 						listRoot.addChild(new TreeNode(s).setViewHolder(new ShiftListHolder(MainActivity.this)));
@@ -234,10 +282,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			public void onClick(View v) {
 				switch(v.getId()) {
 					case R.id.tv_prevMonth:
-						model.previousMonth();
+						try {
+							model.previousMonth();
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
 						break;
 					case R.id.tv_nextMonth:
-						model.nextMonth();
+						try {
+							model.nextMonth();
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
 						break;
 				}
 			}
@@ -261,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 			/// Выделение текущего месяца
 			if (dayInfo.getMonthOffset() == 0){
-				dv.setTypeface(Typeface.DEFAULT_BOLD);
+				dv.setTypeface(ResourcesCompat.getFont(this, R.font.open_sans_semibold));
 			}else dv.setTextColor(0x55808080);
 			
 			/// Выделение отмеченных дат
@@ -335,15 +391,24 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		Log.d(TAG, "onFABClick: ");
-		model.setSliderState(false);
-		switch (view.getId()) {
-			case R.id.fab_mark:
-				new PopupAdd(this, PopupAdd.MARK);
-				break;
-			case R.id.fab_sdl:
-				new PopupAdd(this, PopupAdd.SCHEDULE);
-				break;
+//		model.setSliderState(false);
+		try {
+			switch (view.getId()) {
+				case R.id.fab_mark:
+					new PopupAdd(this, PopupAdd.MARK);
+					fabClickListener.fabAddMenuClick();
+					break;
+				case R.id.fab_sdl:
+					new PopupAdd(this, PopupAdd.SCHEDULE);
+					fabClickListener.fabAddMenuClick();
+					break;
+			}
+		}catch (JSONException e) {
+			e.printStackTrace();
 		}
+
 	}
+
+
 
 }

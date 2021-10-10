@@ -9,13 +9,16 @@ import androidx.annotation.RequiresApi;
 
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
+import net.finch.calendar.SDLEditor.SdleListObj;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class Schedule {
     public static final int U = 0;//Утренняя
     public static final int D = 1; //Дневная
@@ -26,10 +29,16 @@ public class Schedule {
 
     public static final String[] SHIFTS = {"U", "D", "N", "S", "V", "W"};
 
+    private int id;
     private String name, sdl;
     private Map<String, Integer> shiftColors;
+    private ArrayList<String> sdlList;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
+    public Schedule(JSONObject jsonSdl) throws JSONException {
+        deserialize(jsonSdl);
+    }
+
     public Schedule(String name, String sdl) {
         this.name = name;
         this.sdl = sdl;
@@ -41,6 +50,15 @@ public class Schedule {
         this.sdl = sdl;
         this.shiftColors = shiftColors;
     }
+
+    public Schedule(int id, String name, String sdl, Map<String, Integer> shiftColors) {
+        this.id = id;
+        this.name = name;
+        this.sdl = sdl;
+        this.shiftColors = shiftColors;
+    }
+
+
 
 //*** Сеттеры *** //
     public void addShift(char sft) {
@@ -54,6 +72,9 @@ public class Schedule {
         sdl = sdl.substring(0, pos) + sdl.substring(pos + 1);
     } //отсчёт pos с 0!!
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public void setSdl(String sdl) {
         this.sdl = sdl;
     }
@@ -63,18 +84,28 @@ public class Schedule {
     public void setName(String name) {
         this.name = name;
     }
-    //*** Геттеры ***//
 
+    //*** Геттеры ***//
+    public int getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
-
     public String getSdl() {
         return sdl;
     }
-
+    public ArrayList<String> getSftList() {
+        sdlList = new ArrayList<>();
+        for (Character chr : sdl.toCharArray()) {sdlList.add(chr.toString());
+        }
+        return sdlList;
+    }
     public int getShiftColor(char shift) {
         return shiftColors.get(Character.toString(shift));
+    }
+    public Map<String, Integer> getMapSdlColors() {
+        return shiftColors;
     }
 
 //*** Цвета смен по умолчанию ***//
@@ -112,6 +143,7 @@ public class Schedule {
             shiftColorsObj.put(sft, shiftColors.get(sft));
         }
         JSONObject jsonObj = new JSONObject();
+        jsonObj.put("id", id);
         jsonObj.put("name", name);
         jsonObj.put("sdl", sdl);
         jsonObj.put("shiftColors", shiftColorsObj);
@@ -119,10 +151,10 @@ public class Schedule {
         return  jsonObj;
     }
 
-    public void deserialize(String jsonStr) throws JSONException {
-        JSONObject jsonObj = new JSONObject(jsonStr);
-        name = jsonObj.getString("name");
-        sdl = jsonObj.getString("sdl");
+    public void deserialize(JSONObject jsonObj) throws JSONException {
+        setName(jsonObj.getString("name"));
+        setSdl(jsonObj.getString("sdl"));
+        setId(jsonObj.getInt("id"));
         JSONObject shiftColorsObj = jsonObj.getJSONObject("shiftColors");
         shiftColors = new HashMap<>();
         for (String sft : SHIFTS) shiftColors.put(sft, shiftColorsObj.getInt(sft));

@@ -18,7 +18,6 @@ import android.widget.CheckBox;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,20 +29,26 @@ import net.finch.calendar.MainActivity;
 import net.finch.calendar.Marks.DBMarks;
 import net.finch.calendar.ParseDate;
 import net.finch.calendar.R;
+import net.finch.calendar.SDLEditor.SdlEditorActivity;
 import net.finch.calendar.Schedules.DBSchedules;
 import net.finch.calendar.Schedules.Schedule;
-import net.finch.calendar.Schedules.ScheduleArray;
+import net.finch.calendar.Settings.SDLSettings;
 import net.finch.calendar.Time;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class PopupAdd extends PopupView implements TextView.OnEditorActionListener, View.OnClickListener {
-    public final static int MARK = R.layout.popup_mark_create;
-    public final static int SCHEDULE = R.layout.popup_schedule_create;
+    public final static int MARK = R.layout.popup_mark_add;
+    public final static int SCHEDULE = R.layout.popup_schedule_add;
+    private final int rootId;
 
     protected AppCompatActivity activity;
     protected final int layout;
@@ -61,51 +66,65 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     private CalendarVM model;
 
     protected int sdlPosId;
-    private CheckBox chbSdlPrime;
-    private final ScheduleArray sdlList = new ScheduleArray();
+    protected String sdlSelected;
+    protected CheckBox chbSdlPrime, chbNewDay;
+    private ArrayList<Schedule> sdlList = new ArrayList<>();
 
-    public PopupAdd(Context ctx, int layout) {
-        super(ctx, layout, MainActivity.ROOT_ID);
+
+
+
+    public PopupAdd(Context ctx, int layout) throws JSONException {
+        super(ctx, layout);
         this.activity = (AppCompatActivity) ctx;
         this.layout = layout;
-        init();
+
+        if(activity.getClass().equals(MainActivity.class)) rootId = MainActivity.ROOT_ID;
+        else rootId = SdlEditorActivity.ROOT_ID;
+        init(rootId);
     }
 
-    public PopupAdd(Context ctx, int layout, int sqlId) {
-        super(ctx, layout, MainActivity.ROOT_ID);
+    public PopupAdd(Context ctx, int layout, int sqlId) throws JSONException {
+        super(ctx, layout);
         this.activity = (AppCompatActivity) ctx;
         this.layout = layout;
         this.sqlId = sqlId;
-        init();
+
+        if(activity.getClass().equals(MainActivity.class)) rootId = MainActivity.ROOT_ID;
+        else rootId = SdlEditorActivity.ROOT_ID;
+        init(rootId);
 
     }
 
-    private  void init() {
+    private  void init(int rootId) throws JSONException {
         headerDate = ((TextView) activity.findViewById(R.id.tv_slider_title)).getText().toString();
         model = MainActivity.getCalendarVM();
-        pw = super.show();
-        layoutSettings(pw.getContentView());
+        pw = super.show(rootId);
+        layoutSettings(pw);
     }
 
+    @Override
+    protected void layoutSettings(PopupWindow pw) throws JSONException {
+        super.layoutSettings(pw);
 
-    protected void layoutSettings(View popupView) {
-        TextView tvHeader = popupView.findViewById(R.id.tv_popupHeader);
+        chbNewDay = pwView.findViewById(R.id.chb_newDayStart);
+
+        TextView tvHeader = pwView.findViewById(R.id.tv_popupHeader);
         tvHeader.setText(headerDate);
 
         if (layout == MARK) {
-            Button btnMarkConfirm = popupView.findViewById(R.id.btn_markConfirm);
+            Button btnMarkConfirm = pwView.findViewById(R.id.btn_markConfirm);
             btnMarkConfirm.setOnClickListener(this);
 
-            etMarkNote = popupView.findViewById(R.id.et_markNote);
+            etMarkNote = pwView.findViewById(R.id.et_markNote);
             etMarkNote.setOnEditorActionListener(this);
 
-            tvAddTime = popupView.findViewById(R.id.tv_addTime);
+            tvAddTime = pwView.findViewById(R.id.tv_addTime);
             tvAddTime.setOnClickListener(this);
             setTimeListener();
         }else {
-            spinner = popupView.findViewById(R.id.sp_sdlAdd);
-            chbSdlPrime = popupView.findViewById(R.id.chb_SdlPrime);
-            Button btnSdlSave = popupView.findViewById(R.id.btn_sdlSave);
+            spinner = pwView.findViewById(R.id.sp_sdlAdd);
+            chbSdlPrime = pwView.findViewById(R.id.chb_SdlPrime);
+            Button btnSdlSave = pwView.findViewById(R.id.btn_sdlSave);
             btnSdlSave.setOnClickListener(this);
             ReadSDLs();
             setSpinnerAdapter();
@@ -114,31 +133,35 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     }
 
     protected void setSpinnerAdapter() {
-
-        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<String>(activity, R.layout.sdl_list_tvitem, sdlList.getNames());
+        final ArrayList<String> sdlNames = getSdlNames(sdlList);
+        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<String>(activity, R.layout.sdl_list_tvitem, sdlNames);
         spinner.setAdapter(sdlSpinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                sdlPosId = pos;
+                sdlSelected = sdlNames.get(pos);
+//                sdlPosId = pos;
                 Log.d(CalendarVM.TAG, "onItemSelected: itemID = "+pos);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.d(TAG, "onNothingSelected: ");
             }
         });
     }
 
-    private void ReadSDLs() {
-        //TODO: Create SDL List : ПЕРЕПИСАТЬ
-        sdlList.add(new Schedule("График1", activity.getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График2", activity.getString(R.string.schedule2)));
-        sdlList.add(new Schedule("График3", activity.getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График4", activity.getString(R.string.schedule2)));
-        sdlList.add(new Schedule("График5", activity.getString(R.string.schedule1)));
-        sdlList.add(new Schedule("График6", activity.getString(R.string.schedule2)));
-        //*********************
+    private void ReadSDLs() throws JSONException {
+        sdlList = new SDLSettings(activity).getSdlArray();
+    }
+
+    public ArrayList<String> getSdlNames(ArrayList<Schedule> sdlArray) {
+        ArrayList<String> list = new ArrayList<>();
+
+        for (Schedule sdl : sdlArray) {
+            list.add(sdl.getName());
+        }
+        return list;
     }
 
 
@@ -155,7 +178,11 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         switch(view.getId()) {
             case R.id.btn_markConfirm:
                 Log.d(CalendarVM.TAG, "onClick: btn_markConfirm");
-                saveMark();
+                try {
+                    saveMark();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 pw.dismiss();
                 break;
             case R.id.tv_addTime:
@@ -167,7 +194,11 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
                 break;
             case R.id.btn_sdlSave:
                 Log.d(TAG, "onClick: btn_sdlSave");
-                saveSdl();
+                try {
+                    saveSdl();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 pw.dismiss();
         }
     }
@@ -176,19 +207,17 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
 
     private void setTimeListener() {
-        timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                mTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                mTime.set(Calendar.MINUTE, minute);
+        timeSetListener = (view, hourOfDay, minute) -> {
+            mTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            mTime.set(Calendar.MINUTE, minute);
 
-                tvAddTime.setText(DateUtils.formatDateTime(activity,
-                        mTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
-            }
+            tvAddTime.setText(DateUtils.formatDateTime(activity,
+                    mTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
         };
     }
 
-    private void saveMark() {
-        String text = etMarkNote.getText().toString();
+    private void saveMark() throws JSONException {
+        String text = Objects.requireNonNull(etMarkNote.getText()).toString();
         int t = Time.toInt(tvAddTime.getText().toString());
         ParseDate pd = new ParseDate(headerDate);
         DBMarks dbMarks = new DBMarks(activity);
@@ -199,13 +228,29 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         model.setSliderState(true);
     }
 
-    private void saveSdl() {
-        Schedule sdl = sdlList.get(sdlPosId);
-        Log.d(CalendarVM.TAG, "onItemSelected: save  "+sdl.getName()+" ("+sdl.getSdl()+")");
+    private void saveSdl() throws JSONException {
+        Schedule sdl = getSdlByName(sdlSelected);
+//        Schedule sdl = sdlList.get(sdlPosId); //  TODO: ERR:при PopupEdit всегда равна 0
+//        Log.d(CalendarVM.TAG, "onItemSelected: pos = "+sdlPosId+" save  "+sdl.getName()+" ("+sdl.getSdl()+")");
         DBSchedules dbSdl = new DBSchedules(activity);
         ParseDate pd = new ParseDate(headerDate);
-        dbSdl.save(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
+        Log.d(TAG, "saveSdl: prime = "+chbSdlPrime.isChecked());
+        if (chbNewDay.getVisibility() == View.VISIBLE && !chbNewDay.isChecked()) dbSdl.save(sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
+            else dbSdl.save(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
+
+
+
         model.getFODLiveData();
+        model.updInfoList();
+    }
+
+    private Schedule getSdlByName(String sdlSelected) {
+        if (sdlSelected != null) {
+            for (Schedule sdl : sdlList) {
+                if (sdlSelected.equals(sdl.getName())) return sdl;
+            }
+        }
+        return null;
     }
 
 }
