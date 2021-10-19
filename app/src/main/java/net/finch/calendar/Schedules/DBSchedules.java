@@ -61,15 +61,14 @@ public class DBSchedules extends DB {
     public String readSdlName(int id) {
         SQLiteDatabase db = getWritableDatabase();
         String select = "id = ?";
-        String[] selArgs = {""+id};
+        String[] selArgs = {String.valueOf(id)};
 
         Cursor cur = db.query(DB_NAME, null, select, selArgs, null, null, null);
         String name = "";
         if (cur.moveToFirst()) {
             name = cur.getString(cur.getColumnIndex("name"));
-            cur.close();
-            db.close();
         }
+        cur.close();
         db.close();
         return name;
     }
@@ -78,19 +77,16 @@ public class DBSchedules extends DB {
         SQLiteDatabase db = getWritableDatabase();
         String select = "name = ?";
         String[] selArgs = {name};
-        Integer y = null;
-        Integer m = null;
-        Integer d = null;
+        Integer d =null, m = null, y = null;
 
         Cursor cur = db.query(DB_NAME, null, select, selArgs, null, null, null);
         if (cur.moveToFirst()) {
             y = cur.getInt(cur.getColumnIndex("year"));
             m = cur.getInt(cur.getColumnIndex("month"));
             d = cur.getInt(cur.getColumnIndex("date"));
-            cur.close();
-            db.close();
         }
-
+        cur.close();
+        db.close();
         if (y != null) save(y, m, d, name, sdl, prime);
     }
 
@@ -114,13 +110,13 @@ public class DBSchedules extends DB {
         db.close();
     }
 
-    public void delete(int id){
-
-        SQLiteDatabase db = getWritableDatabase();
-        String select = "id = ?";
-        String[] selArgs = {""+id};
-
-        db.delete(DB_NAME, select, selArgs);
-        db.close();
-    }
+//    public void delete(int id){
+//
+//        SQLiteDatabase db = getWritableDatabase();
+//        String select = "id = ?";
+//        String[] selArgs = {""+id};
+//
+//        db.delete(DB_NAME, select, selArgs);
+//        db.close();
+//    }
 }

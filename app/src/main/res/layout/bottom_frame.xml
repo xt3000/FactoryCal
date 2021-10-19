@@ -4,24 +4,23 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/bottom_sheet"
 	android:layout_width="match_parent"
-	android:layout_height="510dp"
+	android:layout_height="match_parent"
 	android:background="#00FFFFFF"
 	android:clickable="true"
 	android:focusable="auto"
 	android:orientation="vertical"
 	app:behavior_hideable="true"
-	app:behavior_peekHeight="0dp"
+	app:behavior_peekHeight="450dp"
 	app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-	<androidx.cardview.widget.CardView
+	<androidx.constraintlayout.widget.ConstraintLayout
 		android:id="@+id/cv_bottom_sheet"
 		android:layout_width="match_parent"
-		android:layout_height="530dp"
+		android:layout_height="match_parent"
 		android:layout_gravity="center"
-		android:layout_marginLeft="10dp"
-		android:layout_marginRight="10dp"
-		android:background="@color/colorPrimaryDark"
-		app:cardCornerRadius="20dp">
+		android:layout_marginLeft="0dp"
+		android:layout_marginRight="0dp"
+		android:background="@color/colorPrimaryDark">
 
 		<LinearLayout
 			android:id="@+id/ll_conteiner"
@@ -33,14 +32,25 @@
 			<androidx.constraintlayout.widget.ConstraintLayout
 				android:id="@+id/cl_header"
 				android:layout_width="match_parent"
-				android:layout_height="40dp"
+				android:layout_height="60dp"
 				android:background="@color/bg_bottomHeader"
 				android:elevation="1dp">
+
+				<ImageView
+					android:id="@+id/imageView6"
+					android:layout_width="42dp"
+					android:layout_height="3dp"
+					android:layout_marginTop="8dp"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/bottom_sheet_holder" />
 
 				<TextView
 					android:id="@+id/tv_slider_title"
 					android:layout_width="wrap_content"
-					android:layout_height="40dp"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="4dp"
 					android:fontFamily="@font/open_sans_semibold"
 					android:gravity="center"
 					android:text=""
@@ -49,7 +59,7 @@
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="parent" />
+					app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
 			</androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -82,7 +92,7 @@
 
 		</LinearLayout>
 
-	</androidx.cardview.widget.CardView>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
 

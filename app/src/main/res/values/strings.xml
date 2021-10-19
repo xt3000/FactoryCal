@@ -26,5 +26,7 @@
     <string name="del_calSdl_text_2">\" из календаря?</string>
     <string name="del_calMark_text">Вы уверены, что хотите удалить это событие из календаря?</string>
     <string name="sdle_notSavedBack">Вы действительно хотите выйти без сохранения изменений?</string>
+    <string name="sdle_sdl_title">Редактор графиков</string>
+    <string name="sdle_sft_title">Редактор смен</string>
 
 </resources>

@@ -56,14 +56,15 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
     private PopupWindow pw;
     private final Calendar mTime = new GregorianCalendar();
-    private TextView tvAddTime;
+    protected Button btnMarkConfirm;
+    protected TextView tvAddTime;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
-    private TextInputEditText etMarkNote;
+    protected TextInputEditText etMarkNote;
     protected Spinner spinner;
 
     private String headerDate;
 
-    private CalendarVM model;
+    protected CalendarVM model;
 
     protected int sdlPosId;
     protected String sdlSelected;
@@ -112,7 +113,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         tvHeader.setText(headerDate);
 
         if (layout == MARK) {
-            Button btnMarkConfirm = pwView.findViewById(R.id.btn_markConfirm);
+            btnMarkConfirm = pwView.findViewById(R.id.btn_markConfirm);
             btnMarkConfirm.setOnClickListener(this);
 
             etMarkNote = pwView.findViewById(R.id.et_markNote);
@@ -178,11 +179,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         switch(view.getId()) {
             case R.id.btn_markConfirm:
                 Log.d(CalendarVM.TAG, "onClick: btn_markConfirm");
-                try {
                     saveMark();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 pw.dismiss();
                 break;
             case R.id.tv_addTime:
@@ -216,19 +213,23 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         };
     }
 
-    private void saveMark() throws JSONException {
+    private void saveMark() {
         String text = Objects.requireNonNull(etMarkNote.getText()).toString();
         int t = Time.toInt(tvAddTime.getText().toString());
         ParseDate pd = new ParseDate(headerDate);
         DBMarks dbMarks = new DBMarks(activity);
 
         dbMarks.save(pd.getY(), pd.getM(), pd.getD(), t, text);
-        model.getFODLiveData();
+        try {
+            model.getFODLiveData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         model.updInfoList();
         model.setSliderState(true);
     }
 
-    private void saveSdl() throws JSONException {
+    protected void saveSdl() throws JSONException {
         Schedule sdl = getSdlByName(sdlSelected);
 //        Schedule sdl = sdlList.get(sdlPosId); //  TODO: ERR:при PopupEdit всегда равна 0
 //        Log.d(CalendarVM.TAG, "onItemSelected: pos = "+sdlPosId+" save  "+sdl.getName()+" ("+sdl.getSdl()+")");

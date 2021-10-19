@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sdle.cl_bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_expanded_height"
@@ -10,41 +11,21 @@
     app:behavior_peekHeight="@dimen/bottom_sheet_collapse_height"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <FrameLayout
-        android:id="@+id/sdle.bsheet.fl_header"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
+    <include
+        android:id="@+id/include"
+        layout="@layout/sdle_bsheet_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="42dp"
-            android:layout_height="3dp"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="12dp"
-            android:clickable="true"
-            app:srcCompat="@drawable/bottom_sheet_holder" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="8dp"
-            android:text="Выбор цветов смен"
-            android:textColor="@color/black_semi_transparent" />
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sdle.bsheet.cl_content"
+        android:id="@+id/sdle.bsheet.cl_sft_colors"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sdle.bsheet.fl_header">
+        app:layout_constraintTop_toBottomOf="@+id/include">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/sdle.bsheet.cv_sft_U"
@@ -210,5 +191,15 @@
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sdle.bsheet.btn_def_sft_colors"
+        style="@style/AppTheme.MaterialBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Цвета по умолчанию"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

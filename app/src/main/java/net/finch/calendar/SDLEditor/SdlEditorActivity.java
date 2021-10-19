@@ -2,21 +2,17 @@ package net.finch.calendar.SDLEditor;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -79,6 +75,7 @@ public class SdlEditorActivity extends AppCompatActivity {
     private TextView tvInfoLine1, tvInfoLine2;
     private RecyclerView rv;
     private Map<String, FrameLayout> flMap;
+    private MaterialButton btnDefColors;
 
 
 
@@ -150,6 +147,7 @@ public class SdlEditorActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         sdleModel.setEditorMode(sdlMODE);
+
                     }
 
 
@@ -208,8 +206,7 @@ public class SdlEditorActivity extends AppCompatActivity {
             Log.d(TAG, "Observe: SDLS LD");
             sdlList = schedules;
             if (!MODE) {
-//                bottomSheetBehavior.setHideable(true);
-//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                toolbar.setTitle(R.string.sdle_sdl_title);
 
                 if (sdlList.size() > 0) {
                     llInfo.setVisibility(View.GONE);
@@ -220,7 +217,7 @@ public class SdlEditorActivity extends AppCompatActivity {
                 }
                 sftAdapter = null;
                 if (sdlAdapter == null) {
-                    sdlAdapter = new SdleSdlListAdapter(sdlList);
+                    sdlAdapter = new SdleSdlListAdapter(this, sdlList);
                     sdlAdapter.setOnMenuClickListener(new SdleSdlListAdapter.OnMenuClickListener() {
                         @Override
                         public void onDelClick(Schedule sdl) {
@@ -267,6 +264,7 @@ public class SdlEditorActivity extends AppCompatActivity {
             Log.d(TAG, "Observe: SFT LD");
             sdl = s;
             if (MODE) {
+                toolbar.setTitle(R.string.sdle_sft_title);
                 sdleModel.getColorsLD(sdl.getMapSdlColors());
                 if (!sdl.getSdl().equals("")) {
                     llInfo.setVisibility(View.GONE);
@@ -278,7 +276,12 @@ public class SdlEditorActivity extends AppCompatActivity {
                 sdlAdapter = null;
                 if (sftAdapter == null) {
                     sftAdapter = new SdleShiftListAdapter2(instance, sdl);
-                    initSftAdapterSettings();
+
+                    FrameLayout.LayoutParams rvParams = (FrameLayout.LayoutParams) rv.getLayoutParams();
+                    rvParams.width = (int) Utils.dpToPx(this, 371f);
+                    rv.setLayoutParams(rvParams);
+                    rv.setLayoutManager(new GridLayoutManager(this, 7));
+                    rv.setAdapter(sftAdapter);
                 }
             }
         });
@@ -291,6 +294,7 @@ public class SdlEditorActivity extends AppCompatActivity {
         colorLD = sdleModel.getColorsLD(null);
         colorLD.observe(this, colMap -> {
             colorMap = colMap;
+            Log.d(TAG, "onChange Color: !!!!!!!!!!!");
             for (String sft : colorMap.keySet()) {
                 if (colorMap.get(sft) != null)
                     Objects.requireNonNull(flMap.get(sft)).setBackgroundTintList(ColorStateList.valueOf(colorMap.get(sft)));
@@ -329,8 +333,9 @@ public class SdlEditorActivity extends AppCompatActivity {
     }
 
     private void setViews() {
-        toolbar = findViewById(R.id.sdle_toolbar2);
+        toolbar = findViewById(R.id.sdle_toolbar);
         if (toolbar != null) setSupportActionBar(toolbar);
+        toolbar.setSubtitleTextAppearance(this, R.style.TextAppearance_MaterialComponents_Subtitle2);
 
         cvBottomSheet = findViewById(R.id.sdle_cl_bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(cvBottomSheet);
@@ -352,9 +357,13 @@ public class SdlEditorActivity extends AppCompatActivity {
         llInfo = findViewById(R.id.sdle_ll_info_text);
         tvInfoLine1 = findViewById(R.id.sdle_info_text_tvLine_1);
         tvInfoLine2 = findViewById(R.id.sdle_info_text_tvLine_2);
+        btnDefColors = findViewById(R.id.sdle_bsheet_btn_def_sft_colors);
+        btnDefColors.setOnClickListener((v)->{
+            sdleModel.getColorsLD(Schedule.getDefaultShiftColors());
+        });
 
         rv = findViewById(R.id.sdle_rv);
-        rv.setLayoutManager(new LinearLayoutManager(this));
+        initRvMovement();
 
         for (String sft : flMap.keySet()) {
             FrameLayout cv = flMap.get(sft);
@@ -362,10 +371,6 @@ public class SdlEditorActivity extends AppCompatActivity {
                 cv.setTag(sft);
                 cv.setOnClickListener((v)->{
                     FrameLayout cView = (FrameLayout) v;
-                    int color = Color.TRANSPARENT;
-                    Drawable background = cView.getBackground();
-                    if (background instanceof ColorDrawable)
-                        color = ((ColorDrawable) background).getColor();
                     ColorPiker.Bilder(this, cView.getTag().toString(), cView.getBackgroundTintList().getDefaultColor());
                 });
             }
@@ -374,13 +379,16 @@ public class SdlEditorActivity extends AppCompatActivity {
     }
 
 
-    private void initSftAdapterSettings() {
+    private void initRvMovement() {
         ItemTouchHelper.Callback callback = new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
-                int swipeFlags = ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
-                return makeMovementFlags(dragFlags, swipeFlags);
+                if (rv.getLayoutManager() instanceof GridLayoutManager) {
+                    int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
+                    int swipeFlags = ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
+                    return makeMovementFlags(dragFlags, swipeFlags);
+                }else return makeMovementFlags(0, 0);
+
             }
 
             @Override
@@ -415,11 +423,7 @@ public class SdlEditorActivity extends AppCompatActivity {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rv);
 
-        FrameLayout.LayoutParams rvParams = (FrameLayout.LayoutParams) rv.getLayoutParams();
-        rvParams.width = (int) Utils.dpToPx(this, 371f);
-        rv.setLayoutParams(rvParams);
-        rv.setLayoutManager(new GridLayoutManager(this, 7));
-        rv.setAdapter(sftAdapter);
+
     }
 
 

@@ -61,7 +61,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
         tSet = new TransitionSet();
         tSet.addTransition(new Fade()).addTransition(new ChangeBounds());
         tSet.setOrdering(TransitionSet.ORDERING_TOGETHER);
-        tSet.setDuration(300);
+        tSet.setDuration(200);
         tSet.setInterpolator(new DecelerateInterpolator());
 
         scOn = Scene.getSceneForLayout(root, R.layout.fab_layout_on, MainActivity.getContext());
@@ -99,17 +99,5 @@ public class OnAddFABClickListener implements View.OnClickListener {
         fabMark.setClickable(false);
         TransitionManager.go(scOff, tSet);
         return false;
-    }
-
-    public void fabMarkClick() {
-        Log.d(TAG, "fabMarkClick: ");
-        LayoutInflater inflater = (LayoutInflater) MainActivity.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupLayout = inflater.inflate(R.layout.popup_mark_add, null, false);
-        PopupWindow pw = new PopupWindow(popupLayout, 800, 600, true);
-        pw.showAtLocation(MainActivity.getContext().findViewById(R.id.main_layout), Gravity.CENTER, 0, 0);
-    }
-
-    public void fabSdlClick() {
-        Log.d(TAG, "fabSdlClick: ");
     }
 }

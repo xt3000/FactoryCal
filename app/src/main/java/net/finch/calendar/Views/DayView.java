@@ -1,4 +1,4 @@
-package net.finch.calendar;
+package net.finch.calendar.Views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

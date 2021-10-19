@@ -19,6 +19,7 @@ import androidx.transition.TransitionManager;
 import com.unnamed.b.atv.model.TreeNode;
 
 import net.finch.calendar.CalendarVM;
+import net.finch.calendar.Dialogs.PopupMarkEdit;
 import net.finch.calendar.Dialogs.PopupWarning;
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
@@ -32,8 +33,7 @@ import static net.finch.calendar.CalendarVM.TAG;
 public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements View.OnClickListener {
     private static View openedView = null;
 
-    ImageView ivMenu;
-    ImageView ivbDel;
+    ImageView ivMenu, ivbDel, ivbEdit;
     CalendarVM model = MainActivity.getCalendarVM();
 
 
@@ -49,7 +49,7 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         final View view = inflater.inflate(R.layout.mark_item, null, false);
 
         TextView sqlId = view.findViewById(R.id.tv_mark_sqlId);
-        sqlId.setText(""+value.getDB_id());
+        sqlId.setText(String.valueOf(value.getDB_id()));
 
         TextView tvTime = view.findViewById(R.id.tv_item_markTime);
         tvTime.setText(value.getTime());
@@ -62,28 +62,36 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         ivbDel = view.findViewById(R.id.iv_btn_markDel);
         ivbDel.setOnClickListener(this);
 
+        ivbEdit = view.findViewById(R.id.iv_btn_markEdit);
+        ivbEdit.setOnClickListener(this);
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
+        int vid = v.getId();
+        if (vid == (R.id.ivb_markMenu)) onMenuBtnClick(v);
+        else {
+            View menu = (View) v.getParent();
+            TextView mrkId = menu.findViewById(R.id.tv_mark_sqlId);
+            int id =  Integer.parseInt(mrkId.getText().toString());
 
-        switch (v.getId()) {
-            case R.id.ivb_markMenu:
-                onMenuBtnClick(v);
-                break;
-            case (R.id.iv_btn_markDel):
-                View menu = (View) v.getParent();
-                TextView mrkId = menu.findViewById(R.id.tv_mark_sqlId);
+            if (vid == (R.id.iv_btn_markDel)) {
+                Log.d(TAG, "onClick: btn_markDel");
                 try {
-                    onSdlDelBtnClick(Integer.parseInt(mrkId.getText().toString()));
+                    onSdlDelBtnClick(id);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                break;
-            case R.id.iv_btn_sdlEdit:
-                onSdlEditBtnClick();
-                break;
+            }else  if (vid == (R.id.iv_btn_markEdit)) {
+                Log.d(TAG, "onClick: btn_markEdit");
+                try {
+                    onMarkEditBtnClick(id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -129,7 +137,8 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         pwarn.setOnNegativeClickListener("", ()->{});
     }
 
-    private void onSdlEditBtnClick() {
-
+    private void onMarkEditBtnClick(int sqlId) throws JSONException {
+        Log.d(TAG, "onMarkEditBtnClick: ");
+        new PopupMarkEdit(context, PopupMarkEdit.MARK, sqlId);
     }
 }

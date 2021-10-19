@@ -12,6 +12,7 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="2dp"
+        app:cardBackgroundColor="@color/colorPrimaryDark_2"
         app:cardCornerRadius="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +36,7 @@
                 android:id="@+id/sdle.sftList.item.sftText"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:background="@drawable/fg_trans_outline"
+                android:background="@drawable/fg_trans15_outline"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:paddingTop="6dp"
@@ -52,7 +53,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="3dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/fg_trans_outline"
+                android:background="@drawable/fg_trans15_outline"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="4dp"
                 android:visibility="gone"

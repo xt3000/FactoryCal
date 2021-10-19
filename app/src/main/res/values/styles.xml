@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="windowActionBar">false</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <item name="android:textColorHint">@color/rbHint</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark_2</item>
+<!--        <item name="android:colorForeground">@color/colorPrimaryDark_2</item>-->
+        <item name="android:windowBackground">@color/colorPrimaryDark_2</item>
         <item name="android:fontFamily">@font/open_sans_light</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimary_v2</item>
+        <item name="colorSecondary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/bg_bottomWindow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
+        <item name="colorOnSurface">@color/colorPrimaryDark</item>
+<!--        <item name="colorPrimaryDark">@color/bg_bottomWindow</item>-->
         <item name="colorControlNormal">@color/rbNormal</item>
         <item name="colorControlActivated">@color/rbActive</item>
     </style>
@@ -15,7 +20,10 @@
         <item name="android:textColorHint">@color/rbHint</item>
         <item name="colorControlNormal">@color/rbNormal</item>
         <item name="colorControlActivated">@color/rbActive</item>
+    </style>
 
+    <style name="AppTheme.Subtitle">
+        <item name="android:textSize">9pt</item>
     </style>
 
     <style name="menu_labels_style">
@@ -58,6 +66,19 @@
         <item name="android:layout_height">60dp</item>
         <item name="android:foreground">@drawable/circle_contur</item>
         <item name="cardCornerRadius">8dp</item>
+    </style>
+
+    <style name="AppTheme.MaterialBtn" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_marginVertical">@dimen/btn_vertical_margin</item>
+        <item name="android:minHeight">@dimen/btn_min_height</item>
+        <item name="android:minWidth">@dimen/btn_min_width</item>
+    </style>
+
+    <style name="AppTheme.MaterialIconBtn" parent="AppTheme.MaterialBtn">
+        <item name="android:layout_width">42dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:minHeight">4dp</item>
+        <item name="android:minWidth">4dp</item>
     </style>
 
 </resources>

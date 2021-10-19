@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:paddingTop="5dp"
+        tools:itemCount="5"
         tools:listitem="@layout/sdle_item_v2" />
 
 </FrameLayout>

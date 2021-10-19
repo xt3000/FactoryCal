@@ -11,6 +11,8 @@ public class Mark {
         this.info = info;
     }
 
+
+/// GETTERS
     public String getTime() {
         return time;
     }
@@ -21,5 +23,19 @@ public class Mark {
 
     public int getDB_id() {
         return db_id;
+    }
+
+
+/// SETTERS
+    public void setDb_id(int db_id) {
+        this.db_id = db_id;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 }

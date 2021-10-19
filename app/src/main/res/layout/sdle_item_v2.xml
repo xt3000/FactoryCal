@@ -43,7 +43,7 @@
         android:id="@+id/sdle.sdl.rv.cl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#44484C"
+        android:background="#4A6477"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,19 +51,80 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_today" />
+
         <TextView
             android:id="@+id/sdle.sdl.rv.tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/open_sans_light"
+            android:gravity="start|center_vertical"
+            android:singleLine="true"
             android:text="ЖД Гравик смена"
-            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ll2"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_width="142dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/sdle.sdl.rv.item.content.ll_sftLine1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginHorizontal="15dp"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sdle.sdl.rv.item.content.ll_sftLine2"
+                android:layout_width="136dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginHorizontal="15dp"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/sdle.sdl.rv.item.content.iv_dots"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/dots_else"
+                tools:visibility="gone" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

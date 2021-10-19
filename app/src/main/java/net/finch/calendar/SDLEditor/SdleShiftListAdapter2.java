@@ -28,7 +28,7 @@ public class SdleShiftListAdapter2 extends RecyclerView.Adapter<SdleShiftListAda
     private final Context ctx;
     private static ArrayList<String> sftList;
     private static Map<String, Integer> colorsMap;
-    private static final SdleVM model = SdlEditorActivity.getSdleVM();
+    private static SdleVM model = SdlEditorActivity.getSdleVM();
     private static String sdlName;
     private static boolean sdlChanged;
 
@@ -45,25 +45,22 @@ public class SdleShiftListAdapter2 extends RecyclerView.Adapter<SdleShiftListAda
         private TextView tvSftName;
         private ConstraintLayout clBG;
 
+        private SdleVM holderModel = SdlEditorActivity.getSdleVM();
         private LiveData<Map<String, Integer>> colorsLD;
 
 
         public ViewHolder(final Context ctx, @NonNull View itemView) {
             super(itemView);
 
-            colorsLD = model.getColorsLD(null);
+            colorsLD = holderModel.getColorsLD(null);
 
             tvSftName = itemView.findViewById(R.id.sdle_sftList_item_sftText);
             clBG = itemView.findViewById(R.id.sdle_sftList_item_cl_background);
 
-            tvSftName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    nextSft();
-                }
-            });
-
+            tvSftName.setOnClickListener(v -> nextSft());
+            Log.d(TAG, "ViewHolder: !!!!!!!!!!!!!!!");
             colorsLD.observe((AppCompatActivity)ctx, cMap -> {
+                Log.d(TAG, "ViewHoldercolor: !!!!!!!!!!!!!!!");
                 colorsMap = cMap;
                 String sftName = tvSftName.getText().toString();
                 if (!sftName.isEmpty()) {

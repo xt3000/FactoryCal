@@ -53,6 +53,7 @@ import net.finch.calendar.Marks.MarkListHolder;
 import net.finch.calendar.SDLEditor.SdlEditorActivity;
 import net.finch.calendar.Schedules.Shift;
 import net.finch.calendar.Schedules.ShiftListHolder;
+import net.finch.calendar.Views.DayView;
 
 import org.json.JSONException;
 
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			public void onChanged(Boolean sliderState) {
 				hideKeyboard(MainActivity.this);
 				if(sliderState) {
-					sliderBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+					sliderBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 				}
 				else {
 					sliderBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);

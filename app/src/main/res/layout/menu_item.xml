@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv_menu_item"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_menu"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/half_black"
     android:clickable="false"
-    android:foreground="?attr/selectableItemBackground"
     android:paddingStart="24dp"
     android:paddingTop="12dp"
     android:paddingEnd="24dp"
     android:paddingBottom="12dp"
-    android:textColor="@color/colorPrimaryDark"
-    android:textSize="16sp"
     android:theme="@android:style/ThemeOverlay.Material.Light">
 
-</TextView>
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="#983939"
+        android:visibility="gone"
+        app:srcCompat="@drawable/fg_trans15_outline"
+        tools:visibility="gone" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        app:cardBackgroundColor="#3CFFFFFF"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp" />
+</FrameLayout>

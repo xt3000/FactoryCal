@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import androidx.transition.TransitionManager;
 
 import net.finch.calendar.R;
 import net.finch.calendar.Schedules.Schedule;
+import net.finch.calendar.Views.ShiftView;
 
 import java.util.ArrayList;
 
@@ -28,7 +31,7 @@ public class SdleSdlListAdapter extends RecyclerView.Adapter<SdleSdlListAdapter.
     
     View menuOpenedView = null;
 
-    public SdleSdlListAdapter(ArrayList<Schedule> sdlList) {
+    public SdleSdlListAdapter(Context ctx, ArrayList<Schedule> sdlList) {
         this.ctx = ctx;
         this.sdlList = sdlList;
     }
@@ -37,6 +40,8 @@ public class SdleSdlListAdapter extends RecyclerView.Adapter<SdleSdlListAdapter.
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvSdlName;
         ConstraintLayout clContent, clItem;
+        LinearLayout llSftLine1, llSftLine2;
+        ImageView ivDots;
         ImageButton ibtnDel, ibtnEdit;
 
         public ViewHolder(@NonNull View itemView) {
@@ -47,6 +52,10 @@ public class SdleSdlListAdapter extends RecyclerView.Adapter<SdleSdlListAdapter.
             tvSdlName = itemView.findViewById(R.id.sdle_sdl_rv_tv_name);
             ibtnDel = itemView.findViewById(R.id.sdle_sdl_rv_ibtn_del);
             ibtnEdit = itemView.findViewById(R.id.sdle_sdl_rv_ibtn_edit);
+
+            llSftLine1 = itemView.findViewById(R.id.sdle_sdl_rv_item_content_ll_sftLine1);
+            llSftLine2 = itemView.findViewById(R.id.sdle_sdl_rv_item_content_ll_sftLine2);
+            ivDots = itemView.findViewById(R.id.sdle_sdl_rv_item_content_iv_dots);
         }
     }// *****  ViewHolder  ***** //
 
@@ -58,11 +67,26 @@ public class SdleSdlListAdapter extends RecyclerView.Adapter<SdleSdlListAdapter.
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.sdle_item_v2,  parent, false);
 
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Schedule sdl = sdlList.get(position);
+        char[] sftarr = sdl.getSdl().toCharArray();
+
+        for (int i=0; i<sftarr.length; i++) {
+            if (i<7) holder.llSftLine1.addView(new ShiftView(ctx, sdl.getShiftColor(sftarr[i])));
+            else if (i>=7 && i<14) {
+                holder.llSftLine2.setVisibility(View.VISIBLE);
+                holder.llSftLine2.addView(new ShiftView(ctx, sdl.getShiftColor(sftarr[i])));
+            }
+            else if(i==14) holder.ivDots.setVisibility(View.VISIBLE);
+            else break;
+        }
+
+
         holder.tvSdlName.setText(sdlList.get(position).getName());
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.clContent.getLayoutParams();
         if (params.getMarginStart() > 0) {

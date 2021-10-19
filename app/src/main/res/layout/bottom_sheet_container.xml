@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_bottomContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_bottomWindow">
+    android:layout_height="match_parent">
 
 
     <LinearLayout
@@ -27,7 +26,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="false"
-        android:background="@color/bg_bottomWindow"
         android:minHeight="250dp"
         android:nestedScrollingEnabled="true"
         android:orientation="vertical"

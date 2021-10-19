@@ -10,115 +10,105 @@
     android:paddingRight="10dp"
     android:paddingBottom="2dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_shiftItem"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_shiftItem_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#4C85B1"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="3dp">
+        android:background="@android:color/transparent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_shiftItem_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_bottomWindow">
+        <LinearLayout
+            android:id="@+id/ll_shiftItem_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/ll_shiftItem_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:background="@color/bg_bottomWindow"
-                android:gravity="right|center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/iv_btn_sdlEdit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:padding="4dp"
-                    app:srcCompat="@drawable/ic_baseline_create_24"
-                    tools:srcCompat="@drawable/ic_baseline_create_24" />
-
-                <ImageView
-                    android:id="@+id/iv_btn_sdlDel"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:padding="4dp"
-                    app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                    tools:srcCompat="@drawable/ic_baseline_delete_forever_24" />
-
-                <TextView
-                    android:id="@+id/tv_sdl_sqlId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    tools:visibility="gone" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_shiftItem_content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="#4C85B1"
+            <ImageView
+                android:id="@+id/iv_btn_sdlEdit"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
                 android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_baseline_create_24"
+                tools:srcCompat="@drawable/ic_baseline_create_24" />
+
+            <ImageView
+                android:id="@+id/iv_btn_sdlDel"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
+                tools:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
+            <TextView
+                android:id="@+id/tv_sdl_sqlId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_shiftItem_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#4C85B1"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_item_shift"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:background="@android:color/transparent"
                 android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="fdg fdg d"
+                android:textAlignment="center" />
 
-                <TextView
-                    android:id="@+id/tv_item_shift"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="fdg fdg d"
-                    android:textAlignment="center" />
+            <TextView
+                android:id="@+id/tv_item_sdlName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="gfdhg dfg " />
 
-                <TextView
-                    android:id="@+id/tv_item_sdlName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="gfdhg dfg " />
+            <ImageView
+                android:id="@+id/ivb_shiftMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/menu_dots"
+                tools:srcCompat="@drawable/menu_dots" />
 
-                <ImageView
-                    android:id="@+id/ivb_shiftMenu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="0"
-                    app:srcCompat="@drawable/menu_dots"
-                    tools:srcCompat="@drawable/menu_dots" />
+        </LinearLayout>
 
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
