@@ -1,6 +1,6 @@
 package net.finch.calendar.SDLEditor;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
@@ -20,11 +20,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,12 +56,14 @@ public class SdlEditorActivity extends AppCompatActivity {
     public static final boolean sdlMODE = false;
     public static final boolean sftMODE = true;
     private boolean MODE;
+    private boolean keyboardState;
+    private boolean needSlide = false;
 
-    SdleVM sdleModel;
-    LiveData<Schedule> sftsLD;
-    LiveData<ArrayList<Schedule>> sdlsListLD;
-    LiveData<Map<String, Integer>> colorLD;
-    LiveData<Boolean> editorModeLD;
+    private SdleVM sdleModel;
+    private LiveData<Schedule> sftsLD;
+    private LiveData<ArrayList<Schedule>> sdlsListLD;
+    private LiveData<Map<String, Integer>> colorLD;
+    private LiveData<Boolean> editorModeLD;
 
     private Schedule sdl;
     private ArrayList<Schedule> sdlList;
@@ -67,7 +72,7 @@ public class SdlEditorActivity extends AppCompatActivity {
     private SdleSdlListAdapter sdlAdapter;
     private SdleShiftListAdapter2 sftAdapter;
 
-    ConstraintLayout cvBottomSheet;
+    private ConstraintLayout cvBottomSheet;
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private Menu menu;
     private Toolbar toolbar;
@@ -88,7 +93,6 @@ public class SdlEditorActivity extends AppCompatActivity {
                         try {
                             PopupWarning pwarn = new PopupWarning(this, this.getText(R.string.sdle_notSavedBack).toString());
                             pwarn.setOnPositiveClickListener("", ()-> {
-//                                MODE = sdlMODE;
                                 sdleModel.setEditorMode(sdlMODE);
                                 sdleModel.getSdlsListLD();
                             });
@@ -115,28 +119,31 @@ public class SdlEditorActivity extends AppCompatActivity {
         return true;
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onKeyDown(KeyEvent.KEYCODE_BACK, new KeyEvent(0,KeyEvent.KEYCODE_BACK));
-            case R.id.menu_sdls_help:
+            case (R.id.menu_sdls_help):
                 break;
-            case R.id.menu_sft_help:
+            case (R.id.menu_sft_help):
                 break;
-            case R.id.menu_sft_clear:
-                sftAdapter.clear();
+            case (R.id.menu_sft_clear):
+                try {
+                    PopupWarning pw = new PopupWarning(instance, "Вы уверены что хотите очистить этот график");
+                    pw.setOnPositiveClickListener("", ()->sftAdapter.clear());
+                    pw.setOnNegativeClickListener("", ()->{});
+                }catch (JSONException e) {}
+
                 break;
-            case R.id.menu_sft_save:
+            case (R.id.menu_sft_save):
                 Schedule sdlToSave = SdleShiftListAdapter2.getSchedule();
                 if (sftAdapter!=null)  {
                     if (sdlToSave.getSdl().length() < 1) {
-                        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Добавьте смены в график перед сохранением!")
-                                .setPositiveButton("Оk", (dialog, which) -> {
-                                })
-                                .show();
+                        try {
+                            PopupWarning pw = new PopupWarning(instance, "Добавьте смены в график перед сохранением!");
+                            pw.setOnPositiveClickListener("", ()->{});
+                        }catch (JSONException e) {}
                         break;
                     }else {
                         try {
@@ -170,6 +177,25 @@ public class SdlEditorActivity extends AppCompatActivity {
         sdleModel = getSdleVM();
 
 
+        final View activityRootView = findViewById(R.id.activity_sdle_v2);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+            if (heightDiff > Utils.dpToPx(instance, 200)) { // if more than 200 dp, it's probably a keyboard...
+                Log.d(TAG, "onGlobalLayout: keyboard ON");
+                keyboardState = true;
+            }
+            else {
+                Log.d(TAG, "onGlobalLayout: keyboard OFF");
+                keyboardState = false;
+                if (needSlide) {
+                    needSlide = false;
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    bottomSheetBehavior.setHideable(false);
+                }
+            }
+        });
+
+
 
 
 ////  **** MODE SWITCHER ****  ////
@@ -177,6 +203,7 @@ public class SdlEditorActivity extends AppCompatActivity {
         editorModeLD.observe(this, mode -> {
             Log.d(TAG, "Observe: MODE LD => "+mode);
             MODE = mode;
+            /// SCHEDULE MODE
             if (!MODE) {
                 bottomSheetBehavior.setHideable(true);
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -186,14 +213,21 @@ public class SdlEditorActivity extends AppCompatActivity {
                     menu.clear();
                     getMenuInflater().inflate(R.menu.sdle_sdl_menu, menu);
                 }
-            }else {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                bottomSheetBehavior.setHideable(false);
+            }
+            /// SHIFT MODE
+            else {
+                if (!keyboardState) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    bottomSheetBehavior.setHideable(false);
+                }else {
+                    needSlide = true;
+                }
 
                 if (menu != null) {
                     menu.clear();
                     getMenuInflater().inflate(R.menu.sdle_sft_menu, menu);
                 }
+
             }
         });
 
@@ -205,54 +239,7 @@ public class SdlEditorActivity extends AppCompatActivity {
         sdlsListLD.observe(this, schedules -> {
             Log.d(TAG, "Observe: SDLS LD");
             sdlList = schedules;
-            if (!MODE) {
-                toolbar.setTitle(R.string.sdle_sdl_title);
-
-                if (sdlList.size() > 0) {
-                    llInfo.setVisibility(View.GONE);
-                }else {
-                    llInfo.setVisibility(View.VISIBLE);
-                    tvInfoLine1.setText("У вас нет графиков.");
-                    tvInfoLine2.setText("Нажмите \"+\", чтобы создать новый.");
-                }
-                sftAdapter = null;
-                if (sdlAdapter == null) {
-                    sdlAdapter = new SdleSdlListAdapter(this, sdlList);
-                    sdlAdapter.setOnMenuClickListener(new SdleSdlListAdapter.OnMenuClickListener() {
-                        @Override
-                        public void onDelClick(Schedule sdl) {
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(instance);
-                            builder.setMessage("Вы уверены что хотите удалить график \""+sdl.getName()+"\"?")
-                                    .setPositiveButton("Оk", (dialog, which) -> {
-                                        try {
-                                            new SDLSettings(instance).removeSchedule(sdl);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                        sdleModel.getSdlsListLD();
-                                    })
-                                    .setNegativeButton("Cancel", (dialog, which) -> {})
-                                    .show();
-                        }
-
-                        @Override
-                        public void onEditClick(Schedule sdl) {
-                            sdleModel.setEditorMode(sftMODE);
-                            sdleModel.setSfts(sdl);
-                        }
-                    });
-                    FrameLayout.LayoutParams rvParams = (FrameLayout.LayoutParams) rv.getLayoutParams();
-                    rvParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
-                    rv.setLayoutParams(rvParams);
-                    rv.setLayoutManager(new LinearLayoutManager(this));
-                    rv.setAdapter(sdlAdapter);
-                }else {
-                    sdlAdapter.notifySdlsChanged(sdlList);
-                }
-
-
-
-            }
+            sdlCreateSet();
         });
 
 
@@ -263,27 +250,7 @@ public class SdlEditorActivity extends AppCompatActivity {
         sftsLD.observe(this, s -> {
             Log.d(TAG, "Observe: SFT LD");
             sdl = s;
-            if (MODE) {
-                toolbar.setTitle(R.string.sdle_sft_title);
-                sdleModel.getColorsLD(sdl.getMapSdlColors());
-                if (!sdl.getSdl().equals("")) {
-                    llInfo.setVisibility(View.GONE);
-                }else {
-                    llInfo.setVisibility(View.VISIBLE);
-                    tvInfoLine1.setText("Этот график пуст.");
-                    tvInfoLine2.setText("Нажмите \"+\", чтобы добавить смены.");
-                }
-                sdlAdapter = null;
-                if (sftAdapter == null) {
-                    sftAdapter = new SdleShiftListAdapter2(instance, sdl);
-
-                    FrameLayout.LayoutParams rvParams = (FrameLayout.LayoutParams) rv.getLayoutParams();
-                    rvParams.width = (int) Utils.dpToPx(this, 371f);
-                    rv.setLayoutParams(rvParams);
-                    rv.setLayoutManager(new GridLayoutManager(this, 7));
-                    rv.setAdapter(sftAdapter);
-                }
-            }
+            sftEditSet();
         });
 
 
@@ -300,7 +267,7 @@ public class SdlEditorActivity extends AppCompatActivity {
                     Objects.requireNonNull(flMap.get(sft)).setBackgroundTintList(ColorStateList.valueOf(colorMap.get(sft)));
             }
         });
-
+//
     }
 
 
@@ -326,6 +293,9 @@ public class SdlEditorActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+//                sdleModel.setEditorMode(sftMODE);
+//                sdleModel.setSfts(new Schedule("qq", ""));
+
             }else {
                 sftAdapter.addItem("W");
             }
@@ -334,14 +304,17 @@ public class SdlEditorActivity extends AppCompatActivity {
 
     private void setViews() {
         toolbar = findViewById(R.id.sdle_toolbar);
-        if (toolbar != null) setSupportActionBar(toolbar);
-        toolbar.setSubtitleTextAppearance(this, R.style.TextAppearance_MaterialComponents_Subtitle2);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+
 
         cvBottomSheet = findViewById(R.id.sdle_cl_bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(cvBottomSheet);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                Log.d(TAG, "onStateChanged: STATE = "+newState);
                 if (rv!=null){
                     if (newState == BottomSheetBehavior.STATE_HIDDEN) rv.setPadding(0,0,0,0);
                     else rv.setPadding(0,0,0, getResources().getDimensionPixelSize(R.dimen.bottom_sheet_collapse_height));
@@ -349,9 +322,7 @@ public class SdlEditorActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
         });
 
         llInfo = findViewById(R.id.sdle_ll_info_text);
@@ -426,6 +397,90 @@ public class SdlEditorActivity extends AppCompatActivity {
 
     }
 
+    private void sdlCreateSet() {
+        if (!MODE) {
+            toolbar.setTitle(R.string.sdle_sdl_title);
+
+            if (sdlList.size() > 0) {
+                llInfo.setVisibility(View.GONE);
+            }else {
+                llInfo.setVisibility(View.VISIBLE);
+                tvInfoLine1.setText("У вас нет графиков.");
+                tvInfoLine2.setText("Нажмите \"+\", чтобы создать новый.");
+            }
+            sftAdapter = null;
+            if (sdlAdapter == null) {
+                sdlAdapter = new SdleSdlListAdapter(this, sdlList);
+                sdlAdapter.setOnMenuClickListener(new SdleSdlListAdapter.OnMenuClickListener() {
+                    @Override
+                    public void onDelClick(Schedule sdl) {
+                        try {
+                            PopupWarning pwarn = new PopupWarning(instance, "Вы уверены что хотите удалить график \""+sdl.getName()+"\"?");
+                            pwarn.setOnPositiveClickListener("", ()->{
+                                new SDLSettings(instance).removeSchedule(sdl);
+                                sdleModel.getSdlsListLD();
+                            });
+                            pwarn.setOnNegativeClickListener("", ()->{});
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onEditClick(Schedule sdl) {
+                        sdleModel.setEditorMode(sftMODE);
+                        sdleModel.setSfts(sdl);
+                    }
+                });
+                LinearLayout.LayoutParams rvParams = (LinearLayout.LayoutParams) rv.getLayoutParams();
+                rvParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
+                rv.setLayoutParams(rvParams);
+                rv.setLayoutManager(new LinearLayoutManager(this));
+                rv.setAdapter(sdlAdapter);
+            }else {
+                sdlAdapter.notifySdlsChanged(sdlList);
+            }
+
+
+
+        }
+    }
+
+    private void sftEditSet() {
+        if (MODE) {
+            toolbar.setTitle(R.string.sdle_sft_title);
+            sdleModel.getColorsLD(sdl.getMapSdlColors());
+            if (!sdl.getSdl().equals("")) {
+                llInfo.setVisibility(View.INVISIBLE);
+            }else {
+                llInfo.setVisibility(View.VISIBLE);
+                tvInfoLine1.setText("Этот график пуст.");
+                tvInfoLine2.setText("Нажмите \"+\", чтобы добавить смены.");
+            }
+            sdlAdapter = null;
+            if (sftAdapter == null) {
+                sftAdapter = new SdleShiftListAdapter2(instance, sdl);
+
+                LinearLayout.LayoutParams rvParams = (LinearLayout.LayoutParams) rv.getLayoutParams();
+                rvParams.width = (int) Utils.dpToPx(this, 371f);
+                rv.setLayoutParams(rvParams);
+                rv.setLayoutManager(new GridLayoutManager(this, 7));
+                rv.setAdapter(sftAdapter);
+            }
+        }
+    }
+
+
+
+/// Actyviti UTILS
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     public static SdleVM getSdleVM() {
         return new ViewModelProvider(instance, new ViewModelProvider.NewInstanceFactory()).get(SdleVM.class);

@@ -69,6 +69,7 @@
     </style>
 
     <style name="AppTheme.MaterialBtn" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="backgroundTint">@color/black_transparent_15</item>
         <item name="android:layout_marginVertical">@dimen/btn_vertical_margin</item>
         <item name="android:minHeight">@dimen/btn_min_height</item>
         <item name="android:minWidth">@dimen/btn_min_width</item>

@@ -73,31 +73,29 @@ public class PopupSdlCreate extends PopupView {
         btnCancel.setOnClickListener(v -> pw.dismiss());
 
         Button btnSave = pwView.findViewById(R.id.btn_save_confirm);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etName.getText().toString();
-                if (name.equals("")) {
-                    setWarningInfo("Поле не должно быть пустым!");
-                    return;
-                }else if (isUsesName(name)) {
-                    setWarningInfo("Такой график уже существует!");
-                    return;
-                }
-                sdl.setName(name);
-                pw.dismiss();
-
-                sdleModel.setEditorMode(SdlEditorActivity.sftMODE);
-                sdleModel.getSdlsListLD();
-                sdleModel.getSftsLD(sdl);
-
+        btnSave.setOnClickListener(v -> {
+            String name = etName.getText().toString();
+            if (name.equals("")) {
+                setWarningInfo("Поле не должно быть пустым!");
+                return;
+            }else if (isUsesName(name)) {
+                setWarningInfo("Такой график уже существует!");
+                return;
             }
+            pw.dismiss();
+            sdl.setName(name);
+            sdleModel.setEditorMode(SdlEditorActivity.sftMODE);
+            sdleModel.getSftsLD(sdl);
+
+            sdleModel.getSdlsListLD();
+
+//
+
         });
     }
 
     private void setWarningInfo(String info) {
         Log.d(TAG, "setWarningInfo: "+info);
-        info = info;
         tvInfo.setText(info);
         tvInfo.setVisibility(View.VISIBLE);
     }

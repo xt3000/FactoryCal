@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_expanded_height"
     android:background="@drawable/sdle_bsheet_header"
-    android:clickable="true"
     app:behavior_hideable="true"
     app:behavior_peekHeight="@dimen/bottom_sheet_collapse_height"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
