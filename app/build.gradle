@@ -32,19 +32,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
 
-//	implementation 'com.android.support:appcompat-v7:26.1.0'
-//	implementation 'com.android.support:design:26.1.0'
-//	implementation 'com.android.support:support-v4:26.1.0'
-//	implementation 'com.android.support:cardview-v7:26.1.0'
-
-    //Подключение LifeCycle, LiveData и ViewModel
-//    implementation "android.arch.lifecycle:extensions:1.1.1"
-//    implementation 'android.arch.lifecycle:livedata:1.1.1'
-//    implementation 'android.arch.lifecycle:viewmodel:1.1.1'
-//    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-//    //noinspection LifecycleAnnotationProcessorWithJava8
-//    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
-
     implementation 'com.github.bmelnychuk:atv:1.2.9'
 
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'

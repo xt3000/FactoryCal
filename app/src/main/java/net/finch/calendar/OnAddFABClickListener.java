@@ -19,6 +19,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.transition.ChangeBounds;
 import androidx.transition.Fade;
 import androidx.transition.Scene;
@@ -31,7 +32,7 @@ import static net.finch.calendar.CalendarVM.TAG;
 
 public class OnAddFABClickListener implements View.OnClickListener {
 
-    FrameLayout flFabMenu;
+    ConstraintLayout flFabMenu;
     @SuppressLint("StaticFieldLeak")
     private FloatingActionButton fabMark;
     @SuppressLint("StaticFieldLeak")

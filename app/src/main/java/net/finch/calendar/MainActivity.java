@@ -6,6 +6,7 @@ import android.app.Activity;
 //import android.arch.lifecycle.Observer;
 //import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 //import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 ////import android.support.v7app.AppCompatActivity;
 //import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,11 +38,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -72,8 +76,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	String debugTxt="";
 
 	ConstraintLayout cl_bottomContainer;
-
-	ImageButton ibtnMainMenu;
+	Toolbar toolbar;
 
 	FloatingActionButton fabAdd;
 	FloatingActionButton fabAddMark;
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	BottomSheetBehavior sliderBehavior;
 
 	LinearLayout llListInfo;
-	LinearLayout llAdd;
+//	LinearLayout llAdd;
 
 	DayView dv;
 	TextView tvMonth;
@@ -114,13 +117,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	@Override
 	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.main_menu_1:
+			case (R.id.main_menu_1):
 				Intent intent = new Intent(this, SdlEditorActivity.class);
 				startActivity(intent);
 				break;
-			case R.id.main_menu_2:
+			case (R.id.main_menu_2):
 				break;
-			case R.id.main_menu_3:
+			case (R.id.main_menu_3):
 
 		}
 		return true;
@@ -137,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			}
 		}
 
-		model.updInfoList();
+		if (model != null) model.updInfoList();
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.N)
@@ -148,13 +151,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_layout);
 		
-		Toolbar toolbar = findViewById(R.id.main_toolbar);
+		toolbar = findViewById(R.id.main_toolbar);
 		if(toolbar != null) setSupportActionBar(toolbar);
 
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Factory Calendar");
-
-//		ibtnMainMenu = findViewById(R.id.ibtn_mainMenu);
-//		ibtnMainMenu.setOnClickListener(new OnMenuFABClickListener());
 
 		fabClickListener = new OnAddFABClickListener();
 
@@ -168,15 +168,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		fabAddSdl.setOnClickListener(this);
 
 
-		//***TEST ViewModel***
+		//***  ViewModel  ***
 
-		sliderLayout = findViewById(R.id.bottom_sheet);
+		sliderLayout = findViewById(R.id.main_ll_bottom_sheet);					//bottom_sheet
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
-//		sliderBehavior.setBottomSheetCallback(new SliderBehaviorCallback());
 		sliderBehavior.addBottomSheetCallback(new SliderBehaviorCallback());
 
 		llListInfo = findViewById(R.id.ll_markList);
-		llAdd = findViewById(R.id.ll_sdlList);
+//		llAdd = findViewById(R.id.ll_sdlList);
 		cl_bottomContainer = findViewById(R.id.cl_bottomContainer);
 
 		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
@@ -213,33 +212,30 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		});
 
 		dayInfoListData = model.getDayInfoLiveData();
-		dayInfoListData.observe(this, new Observer<DayInfo>() {
-			@Override
-			public void onChanged(@Nullable DayInfo dayInfo) {
+		dayInfoListData.observe(this, dayInfo -> {
 
 //				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+dayInfo.size());
-				if (dayInfo == null) return;
-				llListInfo.removeAllViews();
+			if (dayInfo == null) return;
+			llListInfo.removeAllViews();
 
-				TreeNode listRoot = TreeNode.root();
-				if(dayInfo.getShiftList().size() != 0) {
-					Log.d(TAG, "onChanged: SFTList.size = "+dayInfo.getShiftList().size());
-					listRoot.addChild(new TreeNode("   Графики:"));
-					for (Shift s : dayInfo.getShiftList()) {
-						listRoot.addChild(new TreeNode(s).setViewHolder(new ShiftListHolder(MainActivity.this)));
-					}
+			TreeNode listRoot = TreeNode.root();
+			if(dayInfo.getShiftList().size() != 0) {
+//				Log.d(TAG, "onChanged: SFTList.size = "+dayInfo.getShiftList().size());
+				listRoot.addChild(new TreeNode("   Графики:"));
+				for (Shift s : dayInfo.getShiftList()) {
+					listRoot.addChild(new TreeNode(s).setViewHolder(new ShiftListHolder(MainActivity.this)));
 				}
-
-				if(dayInfo.getMarkList().size() != 0) {
-					listRoot.addChild(new TreeNode("\n   Пометки:"));
-					for (Mark m : dayInfo.getMarkList()) {
-						listRoot.addChild(new TreeNode(m).setViewHolder(new MarkListHolder(MainActivity.this)));
-					}
-				}
-
-				AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, listRoot);
-				llListInfo.addView(treeView.getView());
 			}
+
+			if(dayInfo.getMarkList().size() != 0) {
+				listRoot.addChild(new TreeNode("\n   Пометки:"));
+				for (Mark m : dayInfo.getMarkList()) {
+					listRoot.addChild(new TreeNode(m).setViewHolder(new MarkListHolder(MainActivity.this)));
+				}
+			}
+
+			AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, listRoot);
+			llListInfo.addView(treeView.getView());
 		});
 
 
@@ -263,7 +259,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		tvYear = findViewById(R.id.tv_year);
 
 
+		sliderLayout.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				sliderLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) sliderLayout.getLayoutParams();
 
+				params.height = sliderLayout.getMeasuredHeight() - toolbar.getMeasuredHeight();
+				sliderLayout.setLayoutParams(params);
+			}
+		});
 
 		llWeaks[0].getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
 

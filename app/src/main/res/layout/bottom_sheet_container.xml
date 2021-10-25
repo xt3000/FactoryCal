@@ -8,31 +8,17 @@
 
 
     <LinearLayout
-        android:id="@+id/ll_sdlList"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/bg_shedowed"
-        android:orientation="vertical"
-        android:overScrollMode="ifContentScrolls"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone" />
-
-    <LinearLayout
         android:id="@+id/ll_markList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="false"
         android:minHeight="250dp"
-        android:nestedScrollingEnabled="true"
+        android:nestedScrollingEnabled="false"
         android:orientation="vertical"
-        android:overScrollMode="ifContentScrolls"
+        android:overScrollMode="never"
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

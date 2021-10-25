@@ -23,7 +23,7 @@
 		android:background="@color/colorPrimaryDark">
 
 		<LinearLayout
-			android:id="@+id/ll_conteiner"
+			android:id="@+id/main.ll_bottom_sheet"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:background="#8848b3ff"
