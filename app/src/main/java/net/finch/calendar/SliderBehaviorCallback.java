@@ -1,37 +1,30 @@
 package net.finch.calendar;
 
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.transition.ChangeBounds;
-import androidx.transition.Fade;
-import androidx.transition.Scene;
-import androidx.transition.TransitionManager;
-import androidx.transition.TransitionSet;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import static net.finch.calendar.CalendarVM.TAG;
 
 public class SliderBehaviorCallback extends BottomSheetBehavior.BottomSheetCallback {
     FloatingActionButton afab;
     FrameLayout flFabMenu;
     CalendarVM model;
-    LinearLayout llListInfo;
+    LinearLayout llContent;
     AppBarLayout appBar;
 
     SliderBehaviorCallback() {
         this.afab = MainActivity.getContext().findViewById(R.id.afab_add);
         this.flFabMenu = MainActivity.getContext().findViewById(R.id.fl_fabMenu_root);
-        this.llListInfo = MainActivity.getContext().findViewById(R.id.ll_markList);
+        this.llContent = MainActivity.getContext().findViewById(R.id.main_ll_content);
         this.appBar = MainActivity.getContext().findViewById(R.id.main_appbar);
 
         this.model = MainActivity.getCalendarVM();
@@ -40,15 +33,6 @@ public class SliderBehaviorCallback extends BottomSheetBehavior.BottomSheetCallb
     @Override
     public void onStateChanged(@NonNull View bottomSheet, int newState) {
         if(newState == BottomSheetBehavior.STATE_HIDDEN) model.setSliderState(false);
-//        Log.d(TAG, "onStateChanged: newState"+newState);
-        if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) {
-            llListInfo.setNestedScrollingEnabled(false);
-            llListInfo.setFocusable(false);
-            llListInfo.setFocusableInTouchMode(false);
-        }
-        else llListInfo.setNestedScrollingEnabled(true);
-
-//        if (newState == BottomSheetBehavior.STATE_COLLAPSED) appBar.setExpanded(false, true);
     }
 
     @Override
@@ -81,8 +65,11 @@ public class SliderBehaviorCallback extends BottomSheetBehavior.BottomSheetCallb
             afab.animate().alpha(1f).scaleX(1).scaleY(1).setDuration(0).start();
         }
 
+        // COLLAPSE & EXPENDED APPBAR
         appBar.setExpanded(!(slideOffset > -1), true);
-    }
 
+        // SET ALPHA TO CONTENT
+        if (slideOffset >= 0) llContent.setAlpha((float)Math.pow((1-slideOffset), 4));
+    }
 
 }

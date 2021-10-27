@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/bg_bottomWindow"
     android:clickable="true"
+    android:nestedScrollingEnabled="false"
     android:orientation="vertical"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="450dp"
+    app:behavior_peekHeight="350dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,21 +69,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:focusableInTouchMode="true">
 
         <LinearLayout
-            android:id="@+id/ll_markList"
+            android:id="@+id/ll_infoList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="false"
-            android:minHeight="250dp"
+            android:minHeight="200dp"
+            android:nestedScrollingEnabled="false"
             android:orientation="vertical"
             android:overScrollMode="ifContentScrolls"
             android:paddingBottom="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:paddingBottom="8dp"
+                app:cardBackgroundColor="@color/bg_bottomHeader"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:id="@+id/main.bottom.ll_sdllist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:paddingBottom="16dp"
+                app:cardBackgroundColor="@color/bg_bottomHeader"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:id="@+id/main.bottom.ll_marklist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

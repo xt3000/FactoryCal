@@ -12,13 +12,15 @@
 		android:layout_width="match_parent"
 		android:layout_height="200dp"
 		android:fitsSystemWindows="false"
-		android:labelFor="@id/afab_add">
+		android:labelFor="@id/afab_add"
+		app:layout_behavior="net.finch.calendar.AppBarBehavior">
 
 		<com.google.android.material.appbar.CollapsingToolbarLayout
 			android:id="@+id/main.collapsing"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:fitsSystemWindows="false"
+			android:minHeight="@dimen/toolbar_height"
 			app:contentScrim="@color/colorPrimary_v2"
 			app:expandedTitleMarginBottom="32dp"
 			app:expandedTitleMarginEnd="64dp"
@@ -40,6 +42,7 @@
 				android:id="@+id/main.toolbar"
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
+				android:fitsSystemWindows="false"
 				app:layout_collapseMode="pin"
 				app:menu="@menu/main_menu"
 				app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />

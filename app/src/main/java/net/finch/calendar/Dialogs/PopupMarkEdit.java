@@ -28,6 +28,7 @@ public class PopupMarkEdit extends PopupAdd{
         DBMarks db = new DBMarks(activity);
         Mark mrk = db.readMark(sqlId);
         tvAddTime.setText(mrk.getTime());
+        etMarkNote.setText(mrk.getInfo());
 
         btnMarkConfirm.setOnClickListener((v)->{
             if (v.getId() == (R.id.btn_markConfirm)) {

@@ -33,34 +33,22 @@ import static net.finch.calendar.CalendarVM.TAG;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implements View.OnClickListener {
-    private View view;
-    private ImageView ivbMenu;
+    private boolean isLost;
+
+    @SuppressLint("StaticFieldLeak")
     private static View openedView = null;
 
     CalendarVM model = MainActivity.getCalendarVM();
 
-    public ShiftListHolder(Context context) {
+    public ShiftListHolder(Context context, boolean isLost) {
         super(context);
+        this.isLost = isLost;
     }
 
     @Override
     public View createNodeView(TreeNode node, Shift value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.shift_item, null, false);
-
-//// ****TEST**** ////
-//        LinearLayout clContent = view.findViewById(R.id.ll_shiftItem_content);
-//        ConstraintLayout clItem = view.findViewById(R.id.cl_shiftItemContainer);
-//
-//
-//        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) clContent.getLayoutParams();
-//        if (params.getMarginStart() > 0) {
-//            TransitionManager.beginDelayedTransition(clItem);
-//            params.width = 0;
-//            params.leftMargin = 0;
-//            clContent.setLayoutParams(params);
-//        }
-/////////TEST/////////
+        View view = inflater.inflate(R.layout.shift_item, null, false);
 
         Log.d(TAG, "createNodeView: sql_ID = "+value.getDb_id());
         TextView sqlId = view.findViewById(R.id.tv_sdl_sqlId);
@@ -68,22 +56,17 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
 
         TextView tvSdlName = view.findViewById(R.id.tv_item_sdlName);
         tvSdlName.setText(value.getSdlName());
-//        tvSdlName.setBackgroundColor(value.getColor());
         TextView tvShift = view.findViewById(R.id.tv_item_shift);
         tvShift.setText(String.valueOf(value.getShiftName()));
         tvShift.setBackgroundColor(value.getColor());
+//        view.findViewById(R.id.iv_item_shift).setBackgroundColor(value.getColor());
 
-        ivbMenu = view.findViewById(R.id.ivb_shiftMenu);
+        ImageView ivbMenu = view.findViewById(R.id.ivb_shiftMenu);
         ivbMenu.setOnClickListener(this);
-//        ivbMenu.setOnClickListener((v) -> {
-//            onMenuBtnClick(view);
-//        });
+        if (isLost) view.findViewById(R.id.ll_shiftItem_menu).setBackgroundColor(context.getColor(R.color.bg_bottomHeader));
 
         view.findViewById(R.id.iv_btn_sdlDel).setOnClickListener(this);
-//        ivbDel.setOnClickListener(this);
-
         view.findViewById(R.id.iv_btn_sdlEdit).setOnClickListener(this);
-//        ivbEdit.setOnClickListener(this);
 
         return view;
     }
@@ -94,7 +77,7 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         int vid = v.getId();
         if (vid == R.id.ivb_shiftMenu) onMenuBtnClick(v);
         else {
-            View parent = (View) v.getParent();
+            View parent = (View) v.getParent().getParent();
             TextView tvSqlId = parent.findViewById(R.id.tv_sdl_sqlId);
             int sqlId = Integer.parseInt(tvSqlId.getText().toString());
 
@@ -118,11 +101,6 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         
     }
 
-//    public int dpToPx(int dp) {
-//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-//        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-//    }
-
     public void onMenuBtnClick(View v) {
         if (openedView !=null) {
             ConstraintLayout vgOpen = (ConstraintLayout) openedView.getParent().getParent();
@@ -136,7 +114,6 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
 
         ConstraintLayout vg = (ConstraintLayout) v.getParent().getParent();
         View item = vg.findViewById(R.id.ll_shiftItem_content);
-//        View menu = vg.getViewById(R.id.ll_shiftItem_menu);
 
         TransitionManager.beginDelayedTransition(vg);
 
@@ -149,7 +126,7 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
             openedView = v;
             Log.d(TAG, "onClick: margin = "+params.rightMargin);
             params.width = item.getWidth();
-            params.rightMargin = (int)Utils.dpToPx(context, 84f)*2;
+            params.rightMargin = (int)Utils.dpToPx(context, 103f)*2;
         }
 
         item.setLayoutParams(params);

@@ -5,11 +5,8 @@
     android:id="@+id/rl_markItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="2dp">
+    android:background="@drawable/bg_underline_blue"
+    android:paddingBottom="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_markItem_container"
@@ -21,20 +18,21 @@
             android:id="@+id/ll_markItem_menu"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:background="@android:color/transparent"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/bg_black_trans_rounded"
             android:gravity="right|center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/iv_btn_markEdit"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -44,9 +42,10 @@
 
             <ImageView
                 android:id="@+id/iv_btn_markDel"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="4dp"
@@ -61,14 +60,15 @@
                 tools:visibility="gone" />
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_markItem_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#4C85B1"
+            android:layout_marginBottom="0.5dp"
+            android:background="@color/bg_bottomHeader"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:minHeight="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,33 +76,42 @@
 
             <TextView
                 android:id="@+id/tv_item_markTime"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:text="23.13" />
+                android:text="23.13"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_item_markDesc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_item_markDesc"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:text="fgjhjfjhdfhjfh gdfh gfdh d" />
+                android:text="Описание"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivb_markMenu"
+                app:layout_constraintStart_toEndOf="@+id/tv_item_markTime"
+                app:layout_constraintTop_toTopOf="@+id/tv_item_markTime" />
 
             <ImageView
                 android:id="@+id/ivb_markMenu"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="0"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_item_markDesc"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/menu_dots"
                 tools:srcCompat="@drawable/menu_dots" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

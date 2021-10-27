@@ -32,13 +32,15 @@ import static net.finch.calendar.CalendarVM.TAG;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements View.OnClickListener {
     private static View openedView = null;
+    private boolean isLost;
 
     ImageView ivMenu, ivbDel, ivbEdit;
     CalendarVM model = MainActivity.getCalendarVM();
 
 
-    public MarkListHolder(Context context) {
+    public MarkListHolder(Context context, boolean isLost) {
         super(context);
+        this.isLost = isLost;
     }
 
 
@@ -55,6 +57,8 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         tvTime.setText(value.getTime());
         TextView tvInfo = view.findViewById(R.id.tv_item_markDesc);
         tvInfo.setText(value.getInfo());
+
+        if (isLost) view.findViewById(R.id.rl_markItem).setBackgroundColor(context.getColor(R.color.bg_bottomHeader));
 
         ivMenu = view.findViewById(R.id.ivb_markMenu);
         ivMenu.setOnClickListener(this);
@@ -121,7 +125,7 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
             openedView = v;
             Log.d(TAG, "onClick: margin = "+params.rightMargin);
             params.width = item.getWidth();
-            params.rightMargin = (int) Utils.dpToPx(context, 84f)*2;
+            params.rightMargin = (int) Utils.dpToPx(context, 103f)*2;
         }
 
         item.setLayoutParams(params);
@@ -141,4 +145,6 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         Log.d(TAG, "onMarkEditBtnClick: ");
         new PopupMarkEdit(context, PopupMarkEdit.MARK, sqlId);
     }
+
+
 }

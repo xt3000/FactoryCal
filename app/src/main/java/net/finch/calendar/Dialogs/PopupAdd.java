@@ -135,7 +135,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
     protected void setSpinnerAdapter() {
         final ArrayList<String> sdlNames = getSdlNames(sdlList);
-        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<String>(activity, R.layout.sdl_list_tvitem, sdlNames);
+        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<String>(activity, R.layout.sdl_spiner_tvitem, sdlNames);
         spinner.setAdapter(sdlSpinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

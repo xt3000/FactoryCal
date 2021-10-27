@@ -8,7 +8,7 @@
 
 
     <LinearLayout
-        android:id="@+id/ll_markList"
+        android:id="@+id/ll_infoList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="false"

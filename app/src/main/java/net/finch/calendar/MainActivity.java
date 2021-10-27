@@ -6,7 +6,6 @@ import android.app.Activity;
 //import android.arch.lifecycle.Observer;
 //import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 //import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import android.os.Bundle;
 ////import android.support.v7app.AppCompatActivity;
 //import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,12 +26,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -41,10 +37,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -88,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	LinearLayout sliderLayout;
 	BottomSheetBehavior sliderBehavior;
 
-	LinearLayout llListInfo;
+	LinearLayout llListInfo, llSdlInfoList, llMarkInfoList;
 //	LinearLayout llAdd;
 
 	DayView dv;
@@ -149,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     {
     	instance = this;
         super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_layout);
+		setContentView(R.layout.activity_main);
 		
 		toolbar = findViewById(R.id.main_toolbar);
 		if(toolbar != null) setSupportActionBar(toolbar);
@@ -174,8 +168,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
 		sliderBehavior.addBottomSheetCallback(new SliderBehaviorCallback());
 
-		llListInfo = findViewById(R.id.ll_markList);
-//		llAdd = findViewById(R.id.ll_sdlList);
+		llListInfo = findViewById(R.id.ll_infoList);
+		llSdlInfoList = findViewById(R.id.main_bottom_ll_sdllist);
+		llMarkInfoList = findViewById(R.id.main_bottom_ll_marklist);
+
 		cl_bottomContainer = findViewById(R.id.cl_bottomContainer);
 
 		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
@@ -188,26 +184,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		FODdata.observe(this, new Observer<ArrayList<DayInfo>>() {
-			@Override
-			public void onChanged(@Nullable ArrayList<DayInfo> fod) {
-				Log.d(TAG, "onChanged: FOD LD");
-				frameOfDates = fod;
-				updFrame();
-			}
+		FODdata.observe(this, fod -> {
+			Log.d(TAG, "onChanged: FOD LD");
+			frameOfDates = fod;
+			updFrame();
 		});
 
 		SSdata = model.getSStateLiveData();
-		SSdata.observe(this, new Observer<Boolean>() {
-			@Override
-			public void onChanged(Boolean sliderState) {
-				hideKeyboard(MainActivity.this);
-				if(sliderState) {
-					sliderBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-				}
-				else {
-					sliderBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-				}
+		SSdata.observe(this, sliderState -> {
+			hideKeyboard(MainActivity.this);
+			if(sliderState) {
+				sliderBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+			}
+			else {
+				sliderBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 			}
 		});
 
@@ -216,26 +206,31 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 //				Log.d(CalendarVM.TAG, "=> onInfoChanged: "+dayInfo.size());
 			if (dayInfo == null) return;
-			llListInfo.removeAllViews();
+//			llListInfo.removeAllViews();
+			llSdlInfoList.removeAllViews();
+			llMarkInfoList.removeAllViews();
 
-			TreeNode listRoot = TreeNode.root();
 			if(dayInfo.getShiftList().size() != 0) {
-//				Log.d(TAG, "onChanged: SFTList.size = "+dayInfo.getShiftList().size());
-				listRoot.addChild(new TreeNode("   Графики:"));
-				for (Shift s : dayInfo.getShiftList()) {
-					listRoot.addChild(new TreeNode(s).setViewHolder(new ShiftListHolder(MainActivity.this)));
+				TreeNode sdlListRoot = TreeNode.root();
+				sdlListRoot.addChild(new TreeNode(new MainBottomChapterObject(android.R.drawable.ic_menu_today, "Смены")).setViewHolder(new MainListHolder(instance)));
+				for (int i=0; i<dayInfo.getShiftList().size(); i++) {
+					sdlListRoot.addChild(new TreeNode(dayInfo.getShiftList().get(i)).setViewHolder(new ShiftListHolder(MainActivity.this, (i==(dayInfo.getShiftList().size()-1)))));
 				}
+//				sdlListRoot.addChild(new TreeNode("   "));
+				AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, sdlListRoot);
+				llSdlInfoList.addView(treeView.getView());
 			}
+
 
 			if(dayInfo.getMarkList().size() != 0) {
-				listRoot.addChild(new TreeNode("\n   Пометки:"));
-				for (Mark m : dayInfo.getMarkList()) {
-					listRoot.addChild(new TreeNode(m).setViewHolder(new MarkListHolder(MainActivity.this)));
+				TreeNode markListRoot = TreeNode.root();
+				markListRoot.addChild(new TreeNode(new MainBottomChapterObject(R.drawable.ic_baseline_create_24, "Заметки")).setViewHolder(new MainListHolder(instance)));
+				for (int i=0; i<dayInfo.getMarkList().size(); i++) {
+					markListRoot.addChild(new TreeNode(dayInfo.getMarkList().get(i)).setViewHolder(new MarkListHolder(MainActivity.this, (i==(dayInfo.getMarkList().size()-1)))));
 				}
+				AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, markListRoot);
+				llMarkInfoList.addView(treeView.getView());
 			}
-
-			AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, listRoot);
-			llListInfo.addView(treeView.getView());
 		});
 
 

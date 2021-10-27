@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="2dp">
+    android:paddingBottom="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_shiftItem_container"
@@ -16,58 +14,75 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_shiftItem_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_underline_blue"
             android:gravity="right|center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-            <ImageView
-                android:id="@+id/iv_btn_sdlEdit"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="4dp"
-                app:srcCompat="@drawable/ic_baseline_create_24"
-                tools:srcCompat="@drawable/ic_baseline_create_24" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_black_trans_rounded"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_btn_sdlDel"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="4dp"
-                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                tools:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+                <ImageView
+                    android:id="@+id/iv_btn_sdlEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/ic_baseline_create_24"
+                    tools:srcCompat="@drawable/ic_baseline_create_24" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_sdlDel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/ic_baseline_delete_forever_24"
+                    tools:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_sdl_sqlId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="gone" />
-        </LinearLayout>
 
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_shiftItem_content"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="#4C85B1"
+            android:layout_height="48dp"
+            android:background="@color/bg_bottomHeader"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,39 +90,48 @@
 
             <TextView
                 android:id="@+id/tv_item_shift"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:background="@android:color/transparent"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/W"
                 android:gravity="center"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="fdg fdg d"
-                android:textAlignment="center" />
+                android:text="Утро"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_item_sdlName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_item_sdlName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="24dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="gfdhg dfg " />
+                android:text="Описание"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_item_shift"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/ivb_shiftMenu"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="0"
+                android:layout_height="0dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:paddingStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/menu_dots"
                 tools:srcCompat="@drawable/menu_dots" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
