@@ -1,7 +1,6 @@
 package net.finch.calendar;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.transition.ChangeBounds;
 //import android.support.transition.Fade;
@@ -10,19 +9,17 @@ import android.content.Context;
 //import android.support.transition.TransitionSet;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
-import android.widget.PopupWindow;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.transition.ChangeBounds;
 import androidx.transition.Fade;
 import androidx.transition.Scene;
+import androidx.transition.Slide;
 import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
 
@@ -32,7 +29,7 @@ import static net.finch.calendar.CalendarVM.TAG;
 
 public class OnAddFABClickListener implements View.OnClickListener {
 
-    ConstraintLayout flFabMenu;
+    FrameLayout flFabMenu;
     @SuppressLint("StaticFieldLeak")
     private FloatingActionButton fabMark;
     @SuppressLint("StaticFieldLeak")
@@ -41,7 +38,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
 
     private  Scene scOn;
     private Scene scOff;
-    private TransitionSet tSet;
+//    private TransitionSet tSetOn;
 
     private  Animation rotateOn;
     private  Animation rotateOff;
@@ -59,11 +56,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
         fabSdl= MainActivity.getContext().findViewById(R.id.fab_sdl);
         ViewGroup root = MainActivity.getContext().findViewById(R.id.fl_fabMenu_root);
 
-        tSet = new TransitionSet();
-        tSet.addTransition(new Fade()).addTransition(new ChangeBounds());
-        tSet.setOrdering(TransitionSet.ORDERING_TOGETHER);
-        tSet.setDuration(200);
-        tSet.setInterpolator(new DecelerateInterpolator());
+
 
         scOn = Scene.getSceneForLayout(root, R.layout.fab_layout_on, MainActivity.getContext());
         scOff = Scene.getSceneForLayout(root, R.layout.fab_layout_off, MainActivity.getContext());
@@ -90,7 +83,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
         addFAB.startAnimation(rotateOn);
         fabSdl.setClickable(true);
         fabMark.setClickable(true);
-        TransitionManager.go(scOn, tSet);
+        TransitionManager.go(scOn, tSetOn());
         return true;
     }
 
@@ -98,7 +91,31 @@ public class OnAddFABClickListener implements View.OnClickListener {
         addFAB.startAnimation(rotateOff);
         fabSdl.setClickable(false);
         fabMark.setClickable(false);
-        TransitionManager.go(scOff, tSet);
+        TransitionManager.go(scOff, tSetOff());
         return false;
+    }
+
+    private TransitionSet tSetOn() {
+        TransitionSet tSet = getTransitionSet();
+        tSet.addTransition(new Fade().setStartDelay(tSet.getDuration()/3));
+        tSet.addTransition(new Slide(Gravity.TOP));
+
+        return tSet;
+    }
+
+    private TransitionSet tSetOff() {
+        TransitionSet tSet = getTransitionSet();
+        tSet.addTransition(new Fade());
+        tSet.addTransition(new Slide(Gravity.TOP).setStartDelay(tSet.getDuration()/3));
+        return tSet;
+    }
+
+    private TransitionSet getTransitionSet() {
+        TransitionSet tSet = new TransitionSet();
+        tSet.setOrdering(TransitionSet.ORDERING_TOGETHER);
+        tSet.setDuration(400);
+        tSet.setInterpolator(new DecelerateInterpolator());
+
+        return tSet;
     }
 }

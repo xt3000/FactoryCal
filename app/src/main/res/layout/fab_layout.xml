@@ -8,10 +8,8 @@
     android:layout_gravity="bottom"
     android:transformPivotX="200dp"
     android:transformPivotY="200dp"
-    android:visibility="gone"
     app:layout_anchor="@id/afab_add"
-    app:layout_anchorGravity="center_horizontal|top|end"
-    tools:visibility="visible">
+    app:layout_anchorGravity="bottom|center_horizontal|end">
 
     <include layout="@layout/fab_layout_off" />
 </FrameLayout>

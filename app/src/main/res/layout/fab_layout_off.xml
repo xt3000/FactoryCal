@@ -1,79 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fl_fabMenu"
     android:layout_width="200dp"
     android:layout_height="200dp"
-    android:alpha="0"
-    android:visibility="invisible"
     app:layout_anchor="@id/afab_add">
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_sdl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:alpha="0"
-        android:clickable="false"
-        android:focusableInTouchMode="true"
-        android:src="@android:drawable/ic_menu_today"
-        android:visibility="invisible"
-        app:backgroundTint="@color/black_semi_transparent"
-        app:fabSize="mini"
-        app:fab_colorNormal="@color/colorPrimary"
-        app:fab_colorPressed="@color/colorPrimary72"
-        app:fab_size="mini"
-        app:fab_title="add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:alpha="0"
+        android:alpha="0.7"
         android:clickable="false"
         android:src="@android:drawable/ic_menu_edit"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:backgroundTint="@color/black_semi_transparent"
         app:fabSize="mini"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/fab_mark_text2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="16dp"
-        android:alpha="0"
+        android:layout_height="40dp"
+        android:layout_gravity="start|top"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_black_trans_rounded"
-        android:gravity="center"
+        android:gravity="start|center_vertical"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
         android:text="Добавить заметку"
-        app:layout_constraintBottom_toBottomOf="@+id/fab_mark"
-        app:layout_constraintEnd_toStartOf="@+id/fab_mark"
-        app:layout_constraintTop_toTopOf="@+id/fab_mark" />
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_sdl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.7"
+        android:clickable="false"
+        android:src="@android:drawable/ic_menu_today"
+        android:visibility="gone"
+        app:backgroundTint="@color/black_semi_transparent"
+        app:fabSize="mini"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorPrimary72"
+        app:fab_size="mini"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/fab_sdl_text2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="16dp"
-        android:alpha="0"
+        android:layout_height="40dp"
+        android:layout_gravity="start|top"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_black_trans_rounded"
-        android:gravity="center"
+        android:gravity="start|center_vertical"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
         android:text="Добавить график"
-        app:layout_constraintBottom_toBottomOf="@+id/fab_sdl"
-        app:layout_constraintEnd_toStartOf="@+id/fab_sdl"
-        app:layout_constraintTop_toTopOf="@+id/fab_sdl" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
