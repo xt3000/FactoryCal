@@ -18,6 +18,7 @@ public class Time {
         }else PM = false;
 
         String[] t = strTime.split(":");
+        if (t.length < 2) return NULLTIME;
         int h = Integer.parseInt(t[0]);
         if (PM && h!=12) h += 12;
         int m = Integer.parseInt(t[1]);

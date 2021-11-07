@@ -133,6 +133,7 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
 
     private void onSdlDelBtnClick(int sqlId) throws JSONException {
         PopupWarning pwarn = new PopupWarning(context, context.getText(R.string.del_calMark_text).toString());
+        pwarn.setBgColor(PopupWarning.COLOR_ERROR);
         pwarn.setOnPositiveClickListener("", ()-> {
             new DBMarks(MainActivity.getContext()).delete(sqlId);
             model.getFODLiveData();
@@ -143,7 +144,7 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
 
     private void onMarkEditBtnClick(int sqlId) throws JSONException {
         Log.d(TAG, "onMarkEditBtnClick: ");
-        new PopupMarkEdit(context, PopupMarkEdit.MARK, sqlId);
+        new PopupMarkEdit(context, sqlId);
     }
 
 

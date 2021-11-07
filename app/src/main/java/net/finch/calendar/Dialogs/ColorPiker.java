@@ -6,11 +6,13 @@ import android.content.DialogInterface;
 import android.os.Build;
 //import android.support.annotation.RequiresApi;
 //import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
@@ -19,10 +21,12 @@ import net.finch.calendar.MainActivity;
 import net.finch.calendar.SDLEditor.SdlEditorActivity;
 import net.finch.calendar.SDLEditor.SdleVM;
 
+import static net.finch.calendar.CalendarVM.TAG;
+
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class ColorPiker {
-
+private static boolean change = false;
 
     public static void Bilder(Context ctx, final String sft, int currentColor) {
 //        int currentColor = ctx.getColor(R.color.U);
@@ -34,23 +38,25 @@ public class ColorPiker {
                 .initialColor(currentColor)
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
-                .setOnColorSelectedListener(new OnColorSelectedListener() {
-                    @Override
-                    public void onColorSelected(int selectedColor) {
-                        toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
-                    }
+                .setOnColorChangedListener(selectedColor -> {
+                    change = true;
+                    Log.d(TAG, "Bilder: colorChanged");
                 })
-                .setPositiveButton("ok", new ColorPickerClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-//                        changeBackgroundColor(selectedColor);
+                .setOnColorSelectedListener(selectedColor -> {
+                    Log.d(TAG, "Bilder: ");
+                    change = true;
+                    toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
+                })
+                .setPositiveButton("ok", (dialog, selectedColor, allColors) -> {
+                    Log.d(TAG, "onClick: current = "+currentColor+"; new = "+selectedColor);
+                    if (change) {
+                        change = false;
+                        SdlEditorActivity.isChanged(true);
                         colorsVM.setColor(sft, selectedColor);
                     }
                 })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                .setNegativeButton("cancel", (dialog, which) -> {
+                    change = false;
                 })
                 .build()
                 .show();

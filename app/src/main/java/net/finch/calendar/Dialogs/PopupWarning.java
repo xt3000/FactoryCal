@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import net.finch.calendar.CalendarVM;
 import net.finch.calendar.DB;
@@ -26,9 +27,13 @@ import org.json.JSONException;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class PopupWarning extends PopupView implements View.OnClickListener {
+    final static public int COLOR_INFO = R.color.bg_bottomWindow;
+    final static public int COLOR_SUCCESS = R.color.colorSucces;
+    final static public int COLOR_ERROR = R.color.colorAccent;
+
     final static public int SDL_DEL = 0;
     final static public int MRK_DEL = 1;
-    final private static int layoutDel = R.layout.popup_warning;
+    final private static int layoutWarn = R.layout.popup_warning;
     final private int rootId;
 
     private AppCompatActivity activity;
@@ -38,8 +43,8 @@ public class PopupWarning extends PopupView implements View.OnClickListener {
     private CalendarVM model;
     private DB[] db = {new DBSchedules(MainActivity.getContext()), new DBMarks(MainActivity.getContext())};
 
-    private String headerDate;
-    private TextView tvHeader, tvDelText;
+    private CardView cvBg;
+    private TextView tvDelText;
     String text;
     private Button btnOk, btnCancel;
 
@@ -47,7 +52,7 @@ public class PopupWarning extends PopupView implements View.OnClickListener {
     private OnNegativeClickListener negativeClickListener;
 
     public PopupWarning(Context ctx, String text) throws JSONException {
-        super(ctx, layoutDel);
+        super(ctx, layoutWarn);
         this.text = text;
         this.activity = (AppCompatActivity) ctx;
         if(activity.getClass().equals(MainActivity.class)) rootId = MainActivity.ROOT_ID;
@@ -76,7 +81,9 @@ public class PopupWarning extends PopupView implements View.OnClickListener {
 
     }
 
-
+    public void setBgColor(int colorRes) {
+        ((CardView)pwView.findViewById(R.id.popup_cv_window)).setCardBackgroundColor(activity.getColor(colorRes));
+    }
 
     @Override
     public void onClick(View v) {

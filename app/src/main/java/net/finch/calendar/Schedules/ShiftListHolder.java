@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -22,7 +21,7 @@ import com.unnamed.b.atv.model.TreeNode;
 
 import net.finch.calendar.CalendarVM;
 import net.finch.calendar.Dialogs.PopupWarning;
-import net.finch.calendar.Dialogs.PopupEdit;
+import net.finch.calendar.Dialogs.PopupSdlEdit;
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
 import net.finch.calendar.Utils;
@@ -135,6 +134,7 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
     public void onSdlDelBtnClick(int sqlId) throws JSONException {
         String name = new DBSchedules(context).readSdlName(sqlId);
         PopupWarning pwarn = new PopupWarning(context, context.getText(R.string.del_calSdl_text_1)+name+context.getText(R.string.del_calSdl_text_2));
+        pwarn.setBgColor(PopupWarning.COLOR_ERROR);
         pwarn.setOnPositiveClickListener("", ()-> {
             new DBSchedules(MainActivity.getContext()).delete(sqlId);
             model.getFODLiveData();
@@ -144,6 +144,6 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
     }
 
     public void onSdlEditBtnClick(int sqlId) throws JSONException {
-        new PopupEdit(context, PopupEdit.SCHEDULE, sqlId);
+        new PopupSdlEdit(context, sqlId);
     }
 }

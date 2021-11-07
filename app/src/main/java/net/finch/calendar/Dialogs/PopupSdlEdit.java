@@ -3,7 +3,6 @@ package net.finch.calendar.Dialogs;
 import android.content.Context;
 import android.os.Build;
 //import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,10 +11,6 @@ import android.widget.PopupWindow;
 
 import androidx.annotation.RequiresApi;
 
-import net.finch.calendar.CalendarVM;
-import net.finch.calendar.MainActivity;
-import net.finch.calendar.Marks.DBMarks;
-import net.finch.calendar.Marks.Mark;
 import net.finch.calendar.R;
 import net.finch.calendar.Schedules.DBSchedules;
 
@@ -23,15 +18,12 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import static net.finch.calendar.CalendarVM.TAG;
-
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class PopupEdit extends  PopupAdd{
+public class PopupSdlEdit extends  PopupAdd{
     CheckBox chbNewDay;
-    CalendarVM model = MainActivity.getCalendarVM();
 
-    public PopupEdit(Context ctx, int layout, int sqlId) throws JSONException {
-        super(ctx, layout, sqlId);
+    public PopupSdlEdit(Context ctx, int sqlId) throws JSONException {
+        super(ctx, PopupAdd.SCHEDULE, sqlId);
     }
 
     @Override
@@ -58,7 +50,7 @@ public class PopupEdit extends  PopupAdd{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                PopupEdit.super.sdlSelected = name;
+                PopupSdlEdit.super.sdlSelected = name;
 //                Log.d(CalendarVM.TAG, "onItemSelected: itemID = "+pos);
             }
 

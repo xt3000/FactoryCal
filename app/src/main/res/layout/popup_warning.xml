@@ -15,41 +15,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginHorizontal="20dp"
+        app:cardBackgroundColor="@color/bg_bottomWindow">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/bg_bottomWindow"
             android:gravity="center"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/fl_popup_del_header"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:visibility="gone"
-                tools:visibility="gone">
-
-                <include layout="@layout/popup_header" />
-
-            </FrameLayout>
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:alpha="0.8"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_outline_info_24" />
 
             <TextView
                 android:id="@+id/tv_popup_del_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/open_sans_light"
                 android:gravity="center"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="16dp"
-                android:textSize="18sp" />
+                android:text="ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="40dp"
+                tools:layout_conversion_absoluteWidth="371dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="8dp">
+                android:id="@+id/constraintLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_conversion_absoluteHeight="74dp"
+                tools:layout_conversion_absoluteWidth="355dp">
 
                 <Button
                     android:id="@+id/btn_wern_confirm"
@@ -65,7 +80,9 @@
                     app:layout_constraintStart_toEndOf="@id/btn_wern_cancel"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_conversion_absoluteHeight="42dp"
-                    tools:layout_conversion_absoluteWidth="186dp"
+                    tools:layout_conversion_absoluteWidth="130dp"
+                    tools:layout_editor_absoluteX="222dp"
+                    tools:layout_editor_absoluteY="328dp"
                     tools:visibility="visible" />
 
                 <Button
@@ -80,11 +97,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_conversion_absoluteHeight="42dp"
-                    tools:layout_conversion_absoluteWidth="186dp"
+                    tools:layout_conversion_absoluteWidth="130dp"
+                    tools:layout_editor_absoluteX="60dp"
+                    tools:layout_editor_absoluteY="328dp"
                     tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

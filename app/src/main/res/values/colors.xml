@@ -25,4 +25,7 @@
 	<color name="W">#00FFFFFF</color>
 	<color name="black_transparent_33">#33000000</color>
 	<color name="black_transparent_15">#15000000</color>
+    <color name="colorSucces">#7CB342</color>
+	<color name="colorInfo">#039BE5</color>
+	<color name="colorError">#E53935</color>
 </resources>

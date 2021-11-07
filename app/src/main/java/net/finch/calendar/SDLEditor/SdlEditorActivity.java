@@ -7,12 +7,13 @@ import android.os.Bundle;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,13 +21,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.ResultReceiver;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -39,6 +43,7 @@ import net.finch.calendar.R;
 import net.finch.calendar.Schedules.Schedule;
 import net.finch.calendar.Settings.SDLSettings;
 import net.finch.calendar.Utils;
+import net.finch.calendar.Views.SnakeView;
 
 import org.json.JSONException;
 
@@ -55,9 +60,8 @@ public class SdlEditorActivity extends AppCompatActivity {
 
     public static final boolean sdlMODE = false;
     public static final boolean sftMODE = true;
-    private boolean MODE;
-    private boolean keyboardState;
-    private boolean needSlide = false;
+    private boolean MODE, keyboardState, needSlide = false;
+    private static boolean isChanged = false;
 
     private SdleVM sdleModel;
     private LiveData<Schedule> sftsLD;
@@ -70,8 +74,9 @@ public class SdlEditorActivity extends AppCompatActivity {
     private Map<String, Integer> colorMap;
 
     private SdleSdlListAdapter sdlAdapter;
-    private SdleShiftListAdapter2 sftAdapter;
+    private SdleShiftListAdapter sftAdapter;
 
+    private FloatingActionButton fab;
     private ConstraintLayout cvBottomSheet;
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private Menu menu;
@@ -81,6 +86,7 @@ public class SdlEditorActivity extends AppCompatActivity {
     private RecyclerView rv;
     private Map<String, FrameLayout> flMap;
     private MaterialButton btnDefColors;
+    private CoordinatorLayout clWindow;
 
 
 
@@ -89,12 +95,13 @@ public class SdlEditorActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {
             if (MODE) {
                 if (sftAdapter != null) {
-                    if (sftAdapter.isSdlChanged()) {
+                    if (isChanged) {
                         try {
                             PopupWarning pwarn = new PopupWarning(this, this.getText(R.string.sdle_notSavedBack).toString());
                             pwarn.setOnPositiveClickListener("", ()-> {
                                 sdleModel.setEditorMode(sdlMODE);
                                 sdleModel.getSdlsListLD();
+                                isChanged(false);
                             });
                             pwarn.setOnNegativeClickListener("", ()->{});
                         } catch (JSONException e) {
@@ -103,6 +110,7 @@ public class SdlEditorActivity extends AppCompatActivity {
                     }else {
                         sdleModel.setEditorMode(sdlMODE);
                         sdleModel.getSdlsListLD();
+                        isChanged(false);
                     }
                 }
 
@@ -137,13 +145,19 @@ public class SdlEditorActivity extends AppCompatActivity {
 
                 break;
             case (R.id.menu_sft_save):
-                Schedule sdlToSave = SdleShiftListAdapter2.getSchedule();
+                Schedule sdlToSave = SdleShiftListAdapter.getSchedule();
                 if (sftAdapter!=null)  {
                     if (sdlToSave.getSdl().length() < 1) {
-                        try {
-                            PopupWarning pw = new PopupWarning(instance, "Добавьте смены в график перед сохранением!");
-                            pw.setOnPositiveClickListener("", ()->{});
-                        }catch (JSONException e) {}
+//                        try {
+//                            PopupWarning pw = new PopupWarning(instance, "Добавьте смены в график перед сохранением!");
+//                            pw.setOnPositiveClickListener("", ()->{});
+//                        }catch (JSONException e) {}
+                        SnakeView.make(fab,
+                                SnakeView.ICONS[SnakeView.TYPE_INFO],
+                                "Добавьте смены в график перед сохранением!",
+                                SnakeView.COLORS[SnakeView.TYPE_INFO])
+                                .show();
+
                         break;
                     }else {
                         try {
@@ -151,13 +165,21 @@ public class SdlEditorActivity extends AppCompatActivity {
                             sdlToSave.setId(set.getNewSdlId());
                             set.saveSchedule(sdlToSave);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Spanned txt = Html.fromHtml("Произошла ошибка! График \"<b>"+sdlToSave.getName()+"\"</b> НЕ сохранён.", Html.FROM_HTML_MODE_COMPACT);
+                            SnakeView.make(fab,
+                                    SnakeView.ICONS[SnakeView.TYPE_ERROR],
+                                    txt,
+                                    SnakeView.COLORS[SnakeView.TYPE_ERROR]).show();
+                        }finally {
+                            Spanned txt = Html.fromHtml("График \"<b>"+sdlToSave.getName()+"\"</b> успешно сохранён!", Html.FROM_HTML_MODE_COMPACT);
+                            SnakeView.make(fab,
+                                    SnakeView.ICONS[SnakeView.TYPE_SUCCESS],
+                                    txt,
+                                    SnakeView.COLORS[SnakeView.TYPE_SUCCESS]).show();
                         }
+                        isChanged(false);
                         sdleModel.setEditorMode(sdlMODE);
-
                     }
-
-
                     Log.d(TAG, "onOptionsItemSelected: newSDL = "+ sdlToSave.getSdl());
                 }
                 break;
@@ -285,7 +307,7 @@ public class SdlEditorActivity extends AppCompatActivity {
     }
 
     private void setFAB() {
-        FloatingActionButton fab = findViewById(R.id.sdle_fab);
+        fab = findViewById(R.id.sdle_fab);
         fab.setOnClickListener(view -> {
             if (!MODE) {
                 try {
@@ -303,6 +325,7 @@ public class SdlEditorActivity extends AppCompatActivity {
     }
 
     private void setViews() {
+        clWindow = findViewById(R.id.activity_sdle_v2);
         toolbar = findViewById(R.id.sdle_toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -459,7 +482,7 @@ public class SdlEditorActivity extends AppCompatActivity {
             }
             sdlAdapter = null;
             if (sftAdapter == null) {
-                sftAdapter = new SdleShiftListAdapter2(instance, sdl);
+                sftAdapter = new SdleShiftListAdapter(instance, sdl);
 
                 LinearLayout.LayoutParams rvParams = (LinearLayout.LayoutParams) rv.getLayoutParams();
                 rvParams.width = (int) Utils.dpToPx(this, 371f);
@@ -488,5 +511,9 @@ public class SdlEditorActivity extends AppCompatActivity {
 
     public static AppCompatActivity getInstance() {
         return instance;
+    }
+
+    public static void isChanged(boolean changed) {
+        isChanged = changed;
     }
 }

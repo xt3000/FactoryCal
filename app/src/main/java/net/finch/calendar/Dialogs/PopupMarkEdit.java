@@ -16,8 +16,8 @@ import java.util.Objects;
 import static net.finch.calendar.CalendarVM.TAG;
 
 public class PopupMarkEdit extends PopupAdd{
-    public PopupMarkEdit(Context ctx, int layout, int sqlId) throws JSONException {
-        super(ctx, layout, sqlId);
+    public PopupMarkEdit(Context ctx, int sqlId) throws JSONException {
+        super(ctx, PopupAdd.MARK, sqlId);
         Log.d(TAG, "PopupMarkEdit: ");
     }
 

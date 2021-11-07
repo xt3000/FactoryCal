@@ -61,11 +61,14 @@
                     <TextView
                         android:id="@+id/tv_addTime"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/bg_underline"
                         android:clickable="true"
                         android:foreground="?attr/selectableItemBackground"
                         android:gravity="center"
-                        android:paddingTop="12dp"
+                        android:paddingBottom="4dp"
                         android:text="- - : - -"
                         android:textColor="@color/rbActive"
                         android:textSize="14sp" />

@@ -37,7 +37,7 @@
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button" >
-        <item name="android:background">@drawable/blue_outline</item>
+        <item name="android:background">@drawable/fg_trans15_outline</item>
         <item name="android:layout_marginVertical">@dimen/btn_vertical_margin</item>
         <item name="android:minHeight">@dimen/btn_min_height</item>
         <item name="android:minWidth">@dimen/btn_min_width</item>
