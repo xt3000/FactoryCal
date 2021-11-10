@@ -20,8 +20,7 @@
         android:src="@android:drawable/ic_menu_edit"
         android:visibility="visible"
         app:backgroundTint="@android:color/black"
-        app:fabSize="mini"
-        app:fab_size="mini" />
+        app:fabSize="mini" />
 
     <TextView
         android:id="@+id/fab_mark_text"
@@ -50,8 +49,7 @@
         android:src="@android:drawable/ic_menu_today"
         android:visibility="visible"
         app:backgroundTint="@android:color/black"
-        app:fabSize="mini"
-        app:fab_size="mini" />
+        app:fabSize="mini" />
 
     <TextView
         android:id="@+id/fab_sdl_text"

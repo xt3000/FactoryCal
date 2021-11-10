@@ -1,7 +1,5 @@
 package net.finch.calendar;
 
-import com.google.gson.internal.$Gson$Preconditions;
-
 public class Result {
     public static final String OK = "ok";                                           // ok
     public static final String NAME_USES = "the name is already in use";            // the name is already in use

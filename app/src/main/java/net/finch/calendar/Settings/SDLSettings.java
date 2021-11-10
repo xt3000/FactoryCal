@@ -9,10 +9,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-
 import net.finch.calendar.R;
 import net.finch.calendar.Result;
 import net.finch.calendar.Schedules.Schedule;

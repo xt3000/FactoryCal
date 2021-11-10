@@ -49,9 +49,6 @@
         android:visibility="gone"
         app:backgroundTint="@color/black_semi_transparent"
         app:fabSize="mini"
-        app:fab_colorNormal="@color/colorPrimary"
-        app:fab_colorPressed="@color/colorPrimary72"
-        app:fab_size="mini"
         tools:visibility="visible" />
 
     <TextView
