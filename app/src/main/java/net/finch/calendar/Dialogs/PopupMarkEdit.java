@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.PopupWindow;
 
+import net.finch.calendar.MainActivity;
 import net.finch.calendar.Marks.DBMarks;
 import net.finch.calendar.Marks.Mark;
 import net.finch.calendar.R;
@@ -16,13 +17,13 @@ import java.util.Objects;
 import static net.finch.calendar.CalendarVM.TAG;
 
 public class PopupMarkEdit extends PopupAdd{
-    public PopupMarkEdit(Context ctx, int sqlId) throws JSONException {
+    public PopupMarkEdit(Context ctx, int sqlId) {
         super(ctx, PopupAdd.MARK, sqlId);
         Log.d(TAG, "PopupMarkEdit: ");
     }
 
     @Override
-    protected void layoutSettings(PopupWindow pw) throws JSONException {
+    protected void layoutSettings(PopupWindow pw) {
         super.layoutSettings(pw);
 
         DBMarks db = new DBMarks(activity);
@@ -37,11 +38,7 @@ public class PopupMarkEdit extends PopupAdd{
 
                 boolean isSaved = db.update(mrk);
                 Log.d(TAG, "layoutSettings: mrkSaved - "+isSaved);
-                try {
-                    model.getFODLiveData();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                model.getFODLiveData(MainActivity.pageOffset);
                 model.updInfoList();
                 model.setSliderState(true);
             }

@@ -40,10 +40,10 @@ public class PopupSdlCreate extends PopupView {
     PopupWindow pw;
     TextView tvInfo;
 
-    ArrayList<String> sdlNamesArr;
+    ArrayList<String> sdlNamesArr = new ArrayList<>();
 
 
-    public PopupSdlCreate(Context ctx, Schedule sdl) throws JSONException {
+    public PopupSdlCreate(Context ctx, Schedule sdl) {
         super(ctx, layout);
 
         this.ctx = ctx;
@@ -58,11 +58,15 @@ public class PopupSdlCreate extends PopupView {
 
 
     @Override
-    protected void layoutSettings(PopupWindow pw) throws JSONException {
+    protected void layoutSettings(PopupWindow pw) {
         super.layoutSettings(pw);
 
         tvInfo = pwView.findViewById(R.id.popup_save_tv_info);
-        sdlNamesArr = new SDLSettings(activity).getSdlNames();
+        try {
+            sdlNamesArr = new SDLSettings(activity).getSdlNames();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         TextView tvHeader = pwView.findViewById(R.id.tv_popupHeader);
         tvHeader.setText("Создание графика");

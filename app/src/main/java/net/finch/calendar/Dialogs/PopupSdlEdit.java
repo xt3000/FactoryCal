@@ -22,12 +22,12 @@ import java.util.ArrayList;
 public class PopupSdlEdit extends  PopupAdd{
     CheckBox chbNewDay;
 
-    public PopupSdlEdit(Context ctx, int sqlId) throws JSONException {
+    public PopupSdlEdit(Context ctx, int sqlId) {
         super(ctx, PopupAdd.SCHEDULE, sqlId);
     }
 
     @Override
-    protected void layoutSettings(PopupWindow pw) throws JSONException {
+    protected void layoutSettings(PopupWindow pw) {
         super.layoutSettings(pw);
 
         chbNewDay = pwView.findViewById(R.id.chb_newDayStart);

@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/main.ll_content"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:gravity="top|center_horizontal"
-	android:orientation="vertical"
-	android:id="@+id/main.ll_content"
-	android:paddingTop="10dp">
+	android:orientation="vertical">
 
 	<androidx.viewpager2.widget.ViewPager2
 		android:id="@+id/calendar_pager"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:visibility="visible" />
+		android:layout_height="wrap_content"
+		android:paddingTop="8dp" />
 
 	<include
 		layout="@layout/calendar_layout"
 		android:visibility="gone" />
 
 	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
 		android:id="@+id/tv_debag"
-		android:layout_marginTop="30dp"
-		android:layout_marginStart="10dp"/>
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_gravity="center"
+		android:layout_marginHorizontal="32dp"
+		android:layout_marginStart="32dp"
+		android:layout_marginBottom="144dp"
+		android:alpha="0.2"
+		android:gravity="center"
+		android:text="Выберите дату чтоб управлять событиями." />
 
 </LinearLayout>
 

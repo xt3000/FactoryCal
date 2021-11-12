@@ -35,7 +35,7 @@ public class CalendarNavigator
 	private DBMarks dbMarks;
 	private DBSchedules dbSDLs;
 	private ArrayList<Schedule> prefSDLs;
-	private Calendar c;
+	private Calendar initDate;
 	private int month;
 	private int year;
 	private Map<Integer, ArrayList<Mark>> markDates;
@@ -43,33 +43,37 @@ public class CalendarNavigator
 	private LinkedList<ScheduleNav> sdlList;
 
 	public CalendarNavigator() {
-		c = new GregorianCalendar();
+		initDate = new GregorianCalendar();
 		init();
 	}
 	
-	public CalendarNavigator(int y, int m, int d) {
-		c = new GregorianCalendar(y, m, d);
+	public CalendarNavigator(Calendar initDate) {
+		this.initDate = initDate;
+		init();
+	}
+
+	public CalendarNavigator(int monthOffset) {
+		initDate = new GregorianCalendar();
+		initDate.add(Calendar.MONTH, monthOffset);
 		init();
 	}
 	
 	
 	protected void init() {
-		year = c.get(GregorianCalendar.YEAR);
-		month = c.get(GregorianCalendar.MONTH);
-		
-		
+		year = initDate.get(GregorianCalendar.YEAR);
+		month = initDate.get(GregorianCalendar.MONTH);
 	}
 
 	protected void nextMonth() {
-		c.add(GregorianCalendar.MONTH, 1);
+		initDate.add(GregorianCalendar.MONTH, 1);
 		init();
 	}
 	protected void previousMonth() {
-		c.add(GregorianCalendar.MONTH, -1);
+		initDate.add(GregorianCalendar.MONTH, -1);
 		init();
 	}
 
-	protected Calendar getNow() {
+	public static Calendar getNow() {
 		Calendar now = new GregorianCalendar();
 		now.set(now.get(GregorianCalendar.YEAR)
 				, now.get(GregorianCalendar.MONTH)
@@ -80,11 +84,11 @@ public class CalendarNavigator
 
 
 	protected int getMonth() {
-		return c.get(GregorianCalendar.MONTH);
+		return initDate.get(GregorianCalendar.MONTH);
 	}
 
 	protected int getYear() {
-		return c.get(GregorianCalendar.YEAR);
+		return initDate.get(GregorianCalendar.YEAR);
 	}
 
 	protected int firstWeakDayOfMonth() {
@@ -102,10 +106,10 @@ public class CalendarNavigator
 		return cpm.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 	}
 
-	protected ArrayList<DayInfo> frameOfDates() throws JSONException {
+	protected ArrayList<DayInfo> frameOfDates() {
 		int cnt = 0;
 		int fwd = firstWeakDayOfMonth();
-		int mda = c.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		int mda = initDate.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 		int mdp = maxDateInPreviousMonth();
 		ArrayList<DayInfo> fod = new ArrayList<>();
 		
@@ -201,16 +205,18 @@ public class CalendarNavigator
 		db.close();
 	}
 
-	protected void dbReadSdls(int offset) throws JSONException {
+	protected void dbReadSdls(int offset) {
 		if(dbSDLs == null) dbSDLs = new DBSchedules(MainActivity.getContext());
-		if (prefSDLs == null) prefSDLs = new SDLSettings(MainActivity.getContext()).getSdlArray();
-//		Map<Integer, ArrayList<Schedule>> sdlDates = new HashMap<>();
+		if (prefSDLs == null) {
+			try {
+				prefSDLs = new SDLSettings(MainActivity.getContext()).getSdlArray();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 		sdlList = new LinkedList<>();
 		Calendar mc = new GregorianCalendar(year, month+offset,1);
 		SQLiteDatabase db = dbSDLs.getWritableDatabase();
-
-//		String select = "(year = ? and month <= ?) or (year < ?)";
-//		String[] selArgs = {String.valueOf(mc.get(GregorianCalendar.YEAR)), String.valueOf(mc.get(GregorianCalendar.MONTH)), String.valueOf(mc.get(GregorianCalendar.YEAR))};
 		@SuppressLint("Recycle") Cursor cur = db.query(DBSchedules.DB_NAME, null, "", null, null, null, null);
 
 		ArrayList<Integer> sqlIdsToRemove = new ArrayList<>();

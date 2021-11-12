@@ -32,19 +32,19 @@ public class CalendarVM extends ViewModel {
 
 //*********** Frame Of Dates live data **************
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public LiveData<ArrayList<DayInfo>> getFODLiveData() throws JSONException {
+    public LiveData<ArrayList<DayInfo>> getFODLiveData(int monthOffset) {
         Log.d(TAG, "getFODLiveData: VM");
         if (FOD_ld == null) {
             FOD_ld = new MutableLiveData<>();
         }
-        nCal = new CalendarNavigator();
+        nCal = new CalendarNavigator(monthOffset);
         frameOfDates = nCal.frameOfDates();
         FOD_ld.setValue(frameOfDates);
         return FOD_ld;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public  void nextMonth() throws JSONException {
+    public  void nextMonth() {
         Log.d(TAG, "nextMonth: VM");
         nCal.nextMonth();
         frameOfDates = nCal.frameOfDates();
@@ -54,7 +54,7 @@ public class CalendarVM extends ViewModel {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public  void previousMonth() throws JSONException {
+    public  void previousMonth() {
         nCal.previousMonth();
         frameOfDates = nCal.frameOfDates();
         FOD_ld.setValue(frameOfDates);

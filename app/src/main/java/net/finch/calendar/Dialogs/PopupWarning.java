@@ -51,7 +51,7 @@ public class PopupWarning extends PopupView implements View.OnClickListener {
     private OnPositiveClickListener positiveClickListener;
     private OnNegativeClickListener negativeClickListener;
 
-    public PopupWarning(Context ctx, String text) throws JSONException {
+    public PopupWarning(Context ctx, String text) {
         super(ctx, layoutWarn);
         this.text = text;
         this.activity = (AppCompatActivity) ctx;
@@ -66,7 +66,7 @@ public class PopupWarning extends PopupView implements View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void layoutSettings(PopupWindow pw) throws JSONException {
+    protected void layoutSettings(PopupWindow pw) {
         super.layoutSettings(pw);
 
 //        tvHeader = pwView.findViewById(R.id.tv_popupHeader);

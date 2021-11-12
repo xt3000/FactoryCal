@@ -74,7 +74,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
 
 
-    public PopupAdd(Context ctx, int layout) throws JSONException {
+    public PopupAdd(Context ctx, int layout) {
         super(ctx, layout);
         this.activity = (AppCompatActivity) ctx;
         this.layout = layout;
@@ -84,7 +84,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         init(rootId);
     }
 
-    public PopupAdd(Context ctx, int layout, int sqlId) throws JSONException {
+    public PopupAdd(Context ctx, int layout, int sqlId) {
         super(ctx, layout);
         this.activity = (AppCompatActivity) ctx;
         this.layout = layout;
@@ -96,7 +96,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
     }
 
-    private  void init(int rootId) throws JSONException {
+    private  void init(int rootId) {
         headerDate = ((TextView) activity.findViewById(R.id.tv_slider_title)).getText().toString();
         model = MainActivity.getCalendarVM();
         pw = super.show(rootId);
@@ -104,7 +104,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     }
 
     @Override
-    protected void layoutSettings(PopupWindow pw) throws JSONException {
+    protected void layoutSettings(PopupWindow pw) {
         super.layoutSettings(pw);
 
         chbNewDay = pwView.findViewById(R.id.chb_newDayStart);
@@ -152,8 +152,13 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         });
     }
 
-    private void ReadSDLs() throws JSONException {
-        sdlList = new SDLSettings(activity).getSdlArray();
+    private void ReadSDLs() {
+        try {
+            sdlList = new SDLSettings(activity).getSdlArray();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public ArrayList<String> getSdlNames(ArrayList<Schedule> sdlArray) {
@@ -220,11 +225,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         DBMarks dbMarks = new DBMarks(activity);
 
         dbMarks.save(pd.getY(), pd.getM(), pd.getD(), t, text);
-        try {
-            model.getFODLiveData();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        model.getFODLiveData(MainActivity.pageOffset);
         model.updInfoList();
         model.setSliderState(true);
     }
@@ -241,7 +242,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
 
 
-        model.getFODLiveData();
+        model.getFODLiveData(MainActivity.pageOffset);
         model.updInfoList();
     }
 

@@ -96,17 +96,13 @@ public class SdlEditorActivity extends AppCompatActivity {
             if (MODE) {
                 if (sftAdapter != null) {
                     if (isChanged) {
-                        try {
-                            PopupWarning pwarn = new PopupWarning(this, this.getText(R.string.sdle_notSavedBack).toString());
-                            pwarn.setOnPositiveClickListener("", ()-> {
-                                sdleModel.setEditorMode(sdlMODE);
-                                sdleModel.getSdlsListLD();
-                                isChanged(false);
-                            });
-                            pwarn.setOnNegativeClickListener("", ()->{});
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        PopupWarning pwarn = new PopupWarning(this, this.getText(R.string.sdle_notSavedBack).toString());
+                        pwarn.setOnPositiveClickListener("", ()-> {
+                            sdleModel.setEditorMode(sdlMODE);
+                            sdleModel.getSdlsListLD();
+                            isChanged(false);
+                        });
+                        pwarn.setOnNegativeClickListener("", ()->{});
                     }else {
                         sdleModel.setEditorMode(sdlMODE);
                         sdleModel.getSdlsListLD();
@@ -137,11 +133,9 @@ public class SdlEditorActivity extends AppCompatActivity {
             case (R.id.menu_sft_help):
                 break;
             case (R.id.menu_sft_clear):
-                try {
-                    PopupWarning pw = new PopupWarning(instance, "Вы уверены что хотите очистить этот график");
-                    pw.setOnPositiveClickListener("", ()->sftAdapter.clear());
-                    pw.setOnNegativeClickListener("", ()->{});
-                }catch (JSONException e) {}
+                PopupWarning pw = new PopupWarning(instance, "Вы уверены что хотите очистить этот график");
+                pw.setOnPositiveClickListener("", ()->sftAdapter.clear());
+                pw.setOnNegativeClickListener("", ()->{});
 
                 break;
             case (R.id.menu_sft_save):
@@ -310,11 +304,7 @@ public class SdlEditorActivity extends AppCompatActivity {
         fab = findViewById(R.id.sdle_fab);
         fab.setOnClickListener(view -> {
             if (!MODE) {
-                try {
-                    new PopupSdlCreate(instance, new Schedule("", ""));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                new PopupSdlCreate(instance, new Schedule("", ""));
 //                sdleModel.setEditorMode(sftMODE);
 //                sdleModel.setSfts(new Schedule("qq", ""));
 
@@ -437,16 +427,12 @@ public class SdlEditorActivity extends AppCompatActivity {
                 sdlAdapter.setOnMenuClickListener(new SdleSdlListAdapter.OnMenuClickListener() {
                     @Override
                     public void onDelClick(Schedule sdl) {
-                        try {
-                            PopupWarning pwarn = new PopupWarning(instance, "Вы уверены что хотите удалить график \""+sdl.getName()+"\"?");
-                            pwarn.setOnPositiveClickListener("", ()->{
-                                new SDLSettings(instance).removeSchedule(sdl);
-                                sdleModel.getSdlsListLD();
-                            });
-                            pwarn.setOnNegativeClickListener("", ()->{});
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        PopupWarning pwarn = new PopupWarning(instance, "Вы уверены что хотите удалить график \""+sdl.getName()+"\"?");
+                        pwarn.setOnPositiveClickListener("", ()->{
+                            new SDLSettings(instance).removeSchedule(sdl);
+                            sdleModel.getSdlsListLD();
+                        });
+                        pwarn.setOnNegativeClickListener("", ()->{});
                     }
 
                     @Override

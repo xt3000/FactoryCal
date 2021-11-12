@@ -46,7 +46,7 @@ public class PopupView {
         return pw;
     }
 
-    protected void layoutSettings(PopupWindow pw) throws JSONException {
+    protected void layoutSettings(PopupWindow pw) {
         pwView = pw.getContentView();
         FrameLayout flDarkBG = pwView.findViewById(R.id.popup_bg_dark);
         flDarkBG.setOnClickListener(v -> {
