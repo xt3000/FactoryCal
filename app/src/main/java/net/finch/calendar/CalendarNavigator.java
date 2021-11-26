@@ -165,6 +165,9 @@ public class CalendarNavigator
 	}
 
 
+
+
+
 	protected void dbReadMarks(int offset) {
 		if(dbMarks == null) dbMarks = new DBMarks(MainActivity.getContext());
 		markDates = new HashMap<>();

@@ -21,45 +21,32 @@ import java.util.ArrayList;
 public class CalendarVM extends ViewModel {
     public static final String TAG = "FINCH_TAG";
 
-    MutableLiveData<ArrayList<DayInfo>> FOD_ld;
-    CalendarNavigator nCal;
-    ArrayList<DayInfo> frameOfDates;
-    Integer selectedDayId = null;
+    private MutableLiveData<ArrayList<DayInfo>> FOD_ld;
+    private CalendarNavigator nCal;
+//    private  ArrayList<DayInfo> frameOfDates;
+    protected Integer selectedDayId = null;
 
     MutableLiveData<Boolean> SState_ld;
     MutableLiveData<DayInfo> tgtDayInfo_ld;
+    private int monthOffset;
 
 
 //*********** Frame Of Dates live data **************
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public LiveData<ArrayList<DayInfo>> getFODLiveData(int monthOffset) {
+    public LiveData<ArrayList<DayInfo>> getFODLiveData(Integer mOffset) {
         Log.d(TAG, "getFODLiveData: VM");
         if (FOD_ld == null) {
             FOD_ld = new MutableLiveData<>();
         }
+        if (mOffset != null) this.monthOffset = mOffset;
         nCal = new CalendarNavigator(monthOffset);
-        frameOfDates = nCal.frameOfDates();
-        FOD_ld.setValue(frameOfDates);
+        new Thread(() -> {
+            ArrayList<DayInfo> asyncFoD = nCal.frameOfDates();
+            FOD_ld.postValue(asyncFoD);
+        }).start();
+//        frameOfDates = nCal.frameOfDates();
+//        FOD_ld.setValue(frameOfDates);
         return FOD_ld;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public  void nextMonth() {
-        Log.d(TAG, "nextMonth: VM");
-        nCal.nextMonth();
-        frameOfDates = nCal.frameOfDates();
-        FOD_ld.setValue(frameOfDates);
-//        setSliderState(false);
-//        setDayId(null);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public  void previousMonth() {
-        nCal.previousMonth();
-        frameOfDates = nCal.frameOfDates();
-        FOD_ld.setValue(frameOfDates);
-//        setSliderState(false);
-//        setDayId(null);
     }
 
 
@@ -92,16 +79,15 @@ public class CalendarVM extends ViewModel {
 
     public void setDayId(Integer dayId) {
         selectedDayId = dayId;
-        if (dayId != null) tgtDayInfo_ld.setValue(frameOfDates.get(dayId));
+        ArrayList<DayInfo> f = (ArrayList<DayInfo>) FOD_ld.getValue();
+        if (dayId != null) tgtDayInfo_ld.setValue(FOD_ld.getValue().get(dayId));
         else tgtDayInfo_ld.setValue(null);
         Log.d(TAG, "setDayId: "+selectedDayId);
     }
 
     public void updInfoList() {
-
         setDayId(selectedDayId);
         Log.d(TAG, "setDayId: "+selectedDayId);
-
     }
 
 }

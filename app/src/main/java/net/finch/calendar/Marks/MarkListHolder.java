@@ -136,8 +136,8 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         pwarn.setBgColor(PopupWarning.COLOR_ERROR);
         pwarn.setOnPositiveClickListener("", ()-> {
             new DBMarks(MainActivity.getContext()).delete(sqlId);
-            model.getFODLiveData(MainActivity.pageOffset);
-            model.updInfoList();
+            model.getFODLiveData(null);
+//            model.updInfoList();
         });
         pwarn.setOnNegativeClickListener("", ()->{});
     }

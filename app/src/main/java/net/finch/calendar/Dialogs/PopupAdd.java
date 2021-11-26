@@ -225,9 +225,9 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         DBMarks dbMarks = new DBMarks(activity);
 
         dbMarks.save(pd.getY(), pd.getM(), pd.getD(), t, text);
-        model.getFODLiveData(MainActivity.pageOffset);
-        model.updInfoList();
-        model.setSliderState(true);
+        model.getFODLiveData(null);
+//        model.updInfoList();
+//        model.setSliderState(true);
     }
 
     protected void saveSdl() throws JSONException {
@@ -240,10 +240,8 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         if (chbNewDay.getVisibility() == View.VISIBLE && !chbNewDay.isChecked()) dbSdl.save(sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
             else dbSdl.save(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
 
-
-
-        model.getFODLiveData(MainActivity.pageOffset);
-        model.updInfoList();
+        model.getFODLiveData(null);
+//        model.updInfoList();
     }
 
     private Schedule getSdlByName(String sdlSelected) {

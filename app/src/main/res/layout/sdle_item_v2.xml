@@ -5,7 +5,8 @@
     android:id="@+id/sdle.sdl.rv.cl_item"
     android:layout_width="match_parent"
     android:layout_height="64dp"
-    android:layout_marginTop="2dp"
+    android:layout_marginTop="0dp"
+    android:background="@drawable/dark_outline"
     android:elevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,9 +42,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sdle.sdl.rv.cl_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#4A6477"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark_2"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="parent"

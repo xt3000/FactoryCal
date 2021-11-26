@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.gridlayout.widget.GridLayout;
+
+import net.finch.calendar.R;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
@@ -23,7 +26,7 @@ public class DayView extends AppCompatTextView
     private String msg="";
     private boolean markedUp = false;
     private boolean markedDown = false;
-    private int colorDown;
+    private int colorDown, colorUp;;
     private final int MARGIN = 15;
 
     public DayView(Context context){
@@ -35,6 +38,8 @@ public class DayView extends AppCompatTextView
         lp.setMargins(MARGIN,MARGIN,MARGIN,MARGIN);
         setLayoutParams(lp);
         setGravity(Gravity.CENTER);
+        setTypeface(ResourcesCompat.getFont(getContext(), R.font.open_sans_semibold));
+        colorUp = context.getColor(R.color.colorAccent);
 
 //        setBackground(context.getDrawable(R.drawable.circle));
     }
@@ -74,7 +79,7 @@ public class DayView extends AppCompatTextView
                 int radius = 5;
 
                 paint.setStyle(Paint.Style.FILL);
-                paint.setColor(Color.parseColor("#CD5C5C"));
+                paint.setColor(colorUp);
                 canvas.drawCircle(x/2, y/6, radius, paint);
             }
 
@@ -84,9 +89,10 @@ public class DayView extends AppCompatTextView
                 Paint paint = new Paint();
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(colorDown);
-                canvas.drawLine(x/r, y-(y/5), x-(x/r), y-(y/5), paint);
-                canvas.drawLine(x/r, y-(y/5)+1, x-(x/r), y-(y/5)+1, paint);
-                canvas.drawLine(x/r, y-(y/5)+2, x-(x/r), y-(y/5)+2, paint);
+                canvas.drawRect(x/r, y-(y/5)+5, x-(x/r), y-(y/5), paint);
+//                canvas.drawLine(x/r, y-(y/5), x-(x/r), y-(y/5), paint);
+//                canvas.drawLine(x/r, y-(y/5)+1, x-(x/r), y-(y/5)+1, paint);
+//                canvas.drawLine(x/r, y-(y/5)+2, x-(x/r), y-(y/5)+2, paint);
             }
             setText(msg);
             super.onDraw(canvas);

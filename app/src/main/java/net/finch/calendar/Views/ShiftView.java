@@ -31,7 +31,7 @@ public class ShiftView extends CardView {
         setCardBackgroundColor(bgColor);
         setCardElevation(0);
         setRadius((int)Utils.dpToPx(context, 4));
-        setForeground(context.getDrawable(R.drawable.fg_trans_outline));
+        setForeground(context.getDrawable(R.drawable.fg_trans_outline_4dp));
     }
 
 

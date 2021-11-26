@@ -26,7 +26,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -44,6 +46,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
+import net.finch.calendar.Dialogs.PopupAbout;
 import net.finch.calendar.Dialogs.PopupAdd;
 import net.finch.calendar.Marks.MarkListHolder;
 import net.finch.calendar.SDLEditor.SdlEditorActivity;
@@ -60,23 +63,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	public static MainActivity instance;
 	public final static int ROOT_ID = R.id.main_layout;
 	public static int pageOffset = 0;
-	private boolean pageChanged = false;
 
-	ConstraintLayout cl_bottomContainer;
-	Toolbar toolbar;
-	FloatingActionButton fabAdd, fabAddMark, fabAddSdl;
-	OnAddFABClickListener fabClickListener;
-	LinearLayout sliderLayout;
-	BottomSheetBehavior sliderBehavior;
-	LinearLayout llSdlInfoList, llMarkInfoList;
-	Button btnMarkConfirm;
-	TextInputEditText etMarkNote;
+	private Toolbar toolbar;
+	private FloatingActionButton fabAdd, fabAddMark, fabAddSdl;
+	private OnAddFABClickListener fabClickListener;
+	private TextView tvSliderTitle;
+	private LinearLayout sliderLayout;
+	private BottomSheetBehavior<View> sliderBehavior;
+	private LinearLayout llSdlInfoList, llMarkInfoList;
+	private CalendarPagerAdapter pagerAdapter;
+	private ImageButton ibtnPrevious, ibtnNext;
 
-	CalendarVM model;
-	LiveData<ArrayList<DayInfo>> FODdata;
-	LiveData<DayInfo> dayInfoListData;
-	LiveData<Boolean> SSdata;
-	ArrayList<DayInfo> frameOfDates;
+	private CalendarVM model;
+	private LiveData<ArrayList<DayInfo>> FODdata;
+	private LiveData<DayInfo> dayInfoListData;
+	private LiveData<Boolean> SSdata;
+	protected ArrayList<DayInfo> frameOfDates = new ArrayList<>();
+
 
 
 	@Override
@@ -95,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			case (R.id.main_menu_2):
 				break;
 			case (R.id.main_menu_3):
+				new PopupAbout(this);
 
 		}
 		return true;
@@ -104,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	protected void onPostResume() {
 		super.onPostResume();
 		if (model != null) {
-		model.getFODLiveData(pageOffset);
+		model.getFODLiveData(null);
 		}
 
 		if (model != null) model.updInfoList();
@@ -118,75 +122,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     	model = getCalendarVM();
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		toolbar = findViewById(R.id.main_toolbar);
-		if(toolbar != null) setSupportActionBar(toolbar);
+		setViews();
 
-		Objects.requireNonNull(getSupportActionBar()).setTitle("Factory Calendar");
-
-		fabClickListener = new OnAddFABClickListener();
-
-		fabAdd = findViewById(R.id.afab_add);
-		fabAdd.setOnClickListener(fabClickListener);
-
-		fabAddMark = findViewById(R.id.fab_mark);
-		fabAddMark.setOnClickListener(this);
-
-		fabAddSdl = findViewById(R.id.fab_sdl);
-		fabAddSdl.setOnClickListener(this);
-
-
-// *** ViewPager2 ***
-		ViewPager2 pager = findViewById(R.id.calendar_pager);
-		CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(this);
-
-		pager.setAdapter(pagerAdapter);
-		pager.setOffscreenPageLimit(1);
-		pager.setCurrentItem(CalendarPagerAdapter.START_PAGE, false);
-
-		pagerAdapter.setOnBtnClickListener(new CalendarPagerAdapter.OnBtnClickListener() {
-			@Override
-			public void onPrevClick() {
-				pager.setCurrentItem(pager.getCurrentItem()-1, true);
-			}
-
-			@Override
-			public void onNextClick() {
-				pager.setCurrentItem(pager.getCurrentItem()+1, true);
-			}
-		});
-
-		pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-			@Override
-			public void onPageSelected(int position) {
-				pageOffset = position-CalendarPagerAdapter.START_PAGE;
-				pageChanged = true;
-				model.getFODLiveData(pageOffset);
-			}
-		});
-
-//*******************
 
 		//***  ViewModel  ***
-
+		llSdlInfoList = findViewById(R.id.main_bottom_ll_sdllist);
+		llMarkInfoList = findViewById(R.id.main_bottom_ll_marklist);
+		tvSliderTitle = findViewById(R.id.tv_slider_title);
 		sliderLayout = findViewById(R.id.main_ll_bottom_sheet);					//bottom_sheet
 		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
 		sliderBehavior.addBottomSheetCallback(new SliderBehaviorCallback());
 
-//		llListInfo = findViewById(R.id.ll_infoList);
-		llSdlInfoList = findViewById(R.id.main_bottom_ll_sdllist);
-		llMarkInfoList = findViewById(R.id.main_bottom_ll_marklist);
-		cl_bottomContainer = findViewById(R.id.cl_bottomContainer);
-		btnMarkConfirm = findViewById(R.id.btn_markConfirm);
-		etMarkNote = findViewById(R.id.et_markNote);
 
 
 //  *** FRAME OF DATE LD Observer ***  //
-		FODdata = model.getFODLiveData(pageOffset);
+		FODdata = model.getFODLiveData(null);
 		FODdata.observe(this, fod -> {
+			Log.d(TAG, "onFODdata Changed:");
 			frameOfDates = fod;
-			if (!pageChanged) pagerAdapter.notifyDataSetChanged();
-			else pageChanged = false;
+			model.updInfoList();
+			if (model.selectedDayId != null) {
+				tvSliderTitle.setText(fod.get(model.selectedDayId).getFullDateString());
+				pagerAdapter.notifyDataSetChanged();
+			}
 		});
 
 
@@ -244,6 +202,53 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			}
 		});
     }
+
+    private void setViews() {
+		toolbar = findViewById(R.id.main_toolbar);
+		if(toolbar != null) setSupportActionBar(toolbar);
+
+//		Objects.requireNonNull(getSupportActionBar()).setTitle("Factory Calendar");
+
+		fabClickListener = new OnAddFABClickListener();
+
+		fabAdd = findViewById(R.id.afab_add);
+		fabAdd.setOnClickListener(fabClickListener);
+
+		fabAddMark = findViewById(R.id.fab_mark);
+		fabAddMark.setOnClickListener(this);
+
+		fabAddSdl = findViewById(R.id.fab_sdl);
+		fabAddSdl.setOnClickListener(this);
+
+
+
+
+
+
+// *** ViewPager2 ***
+		ViewPager2 pager = findViewById(R.id.calendar_pager);
+		pagerAdapter = new CalendarPagerAdapter();
+
+		pager.setAdapter(pagerAdapter);
+		pager.setOffscreenPageLimit(1);
+		pager.setCurrentItem(CalendarPagerAdapter.START_PAGE, false);
+		pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+			@Override
+			public void onPageSelected(int position) {
+				pageOffset = position-CalendarPagerAdapter.START_PAGE;
+			}
+		});
+
+		ibtnPrevious = findViewById(R.id.calendar_ibtn_previous);
+		ibtnPrevious.setOnClickListener((v)-> {
+			pager.setCurrentItem(pager.getCurrentItem()-1, true);
+		});
+
+		ibtnNext = findViewById(R.id.calendar_ibtn_next);
+		ibtnNext.setOnClickListener((v)-> {
+			pager.setCurrentItem(pager.getCurrentItem()+1, true);
+		});
+	}
 
 
 

@@ -1,85 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:id="@+id/sdle.sftList.item.cv_background"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="2dp"
+    app:cardBackgroundColor="@color/colorPrimaryDark_2"
+    app:cardCornerRadius="4dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/sdle.sftList.item.cv_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="2dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark_2"
-        app:cardCornerRadius="4dp">
+    <FrameLayout
+        android:id="@+id/sdle.sftList.item.fl_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sdle.sftList.item.cl_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/sdle.sftList.item.sftText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fg_trans_outline_4dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:text="Утро" />
+    </FrameLayout>
 
-            <TextView
-                android:id="@+id/sdle.sftList.item.tv_num"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="100"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone" />
-
-            <TextView
-                android:id="@+id/sdle.sftList.item.sftText"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/fg_trans15_outline"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:paddingTop="6dp"
-                android:paddingBottom="8dp"
-                android:text="Утро"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/sdle.sftList.item.tv_num"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/sdle.sftList.item.ivb_color"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/fg_trans15_outline"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="4dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/sdle.sftList.item.ivb_del"
-                app:layout_constraintStart_toEndOf="@+id/sdle.sftList.item.sftText"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_palette_24"
-                tools:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/sdle.sftList.item.ivb_del"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginEnd="32dp"
-                android:background="@color/black_transparent_33"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="4dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                tools:visibility="gone" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

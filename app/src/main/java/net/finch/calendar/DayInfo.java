@@ -16,7 +16,7 @@ public class DayInfo
 	//int month;
 	//int year;
 	private final Boolean mark;
-	private final Boolean shift;
+	private Boolean shift;
 	private final ArrayList<Mark> markList;
 	private final ArrayList<Shift> shiftList;
 
@@ -40,7 +40,7 @@ public class DayInfo
 		if (shiftList != null) {
 //			Log.d(TAG, "DayInfo: shiftList = NOT null; size = "+ shiftList.size());
 			this.shiftList = shiftList;
-			this.shift = true;
+			if (shiftList.size() > 0) this.shift = true;
 		}else {
 //			Log.d(TAG, "DayInfo: shiftList = null");
 			this.shiftList = new ArrayList<>();

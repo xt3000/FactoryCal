@@ -38,9 +38,9 @@ public class PopupMarkEdit extends PopupAdd{
 
                 boolean isSaved = db.update(mrk);
                 Log.d(TAG, "layoutSettings: mrkSaved - "+isSaved);
-                model.getFODLiveData(MainActivity.pageOffset);
-                model.updInfoList();
-                model.setSliderState(true);
+                model.getFODLiveData(null);
+//                model.updInfoList();
+//                model.setSliderState(true);
             }
             pw.dismiss();
         });

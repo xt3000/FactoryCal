@@ -137,8 +137,8 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         pwarn.setBgColor(PopupWarning.COLOR_ERROR);
         pwarn.setOnPositiveClickListener("", ()-> {
             new DBSchedules(MainActivity.getContext()).delete(sqlId);
-            model.getFODLiveData(MainActivity.pageOffset);
-            model.updInfoList();
+            model.getFODLiveData(null);
+//            model.updInfoList();
         });
         pwarn.setOnNegativeClickListener("", ()-> {});
     }

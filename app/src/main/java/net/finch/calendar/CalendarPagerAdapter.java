@@ -23,12 +23,12 @@ import static net.finch.calendar.CalendarVM.TAG;
 
 public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdapter.PagerVH> {
     protected final static int START_PAGE = 101;
-    private final Context ctx;
-    private OnBtnClickListener onBtnClickListener;
+//    private final Context ctx;
+//    private OnBtnClickListener onBtnClickListener;
     private Handler handler;
 
-    CalendarPagerAdapter(Context ctx) {
-        this.ctx = ctx;
+    CalendarPagerAdapter(/*Context ctx*/) {
+//        this.ctx = ctx;
     }
 
 //   VIEW HOLDER
@@ -39,6 +39,8 @@ public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdap
 
     PagerVH(View itemView){
             super(itemView);
+            setIsRecyclable(false);
+
             flCalendarLayout = itemView.findViewById(R.id.fl_calendar);
             tvMonth = itemView.findViewById(R.id.calendar_tv_month);
             tvYear = itemView.findViewById(R.id.calendar_tv_year);
@@ -68,7 +70,6 @@ public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdap
         // ADD DAYS
         CalendarLayout calendarLayout = (CalendarLayout) holder.flCalendarLayout.getChildAt(0);
 
-// TODO: replace on new thread
         CalendarNavigator cNav = new CalendarNavigator(position-START_PAGE);
         handler = new Handler(Looper.getMainLooper());
         new Thread(() -> {
@@ -78,41 +79,18 @@ public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdap
             });
         }).start();
 
-//TODO ///////////////////////
-
         // SET MONTH
         holder.tvMonth.setText(Month.getString(cNav.getMonth()));
 
         // SET YEAR
         holder.tvYear.setText(String.valueOf(cNav.getYear()));
 
-        // SET LISTENERS
-        if (onBtnClickListener != null) {
-            holder.ibtnPrevious.setOnClickListener((v)-> {
-                onBtnClickListener.onPrevClick();
-            });
-
-            holder.ibtnNext.setOnClickListener((v)-> {
-                onBtnClickListener.onNextClick();
-            });
-        }
 
     }
 
     @Override
     public int getItemCount() {
-        return 200;
-    }
-
-
-    //// *****  CALLBACK  ***** ////
-    public void setOnBtnClickListener(OnBtnClickListener onBtnClickListener) {
-        this.onBtnClickListener = onBtnClickListener;
-    }
-
-    public interface OnBtnClickListener {
-        void onPrevClick();
-        void onNextClick();
+        return 900;
     }
 
 }

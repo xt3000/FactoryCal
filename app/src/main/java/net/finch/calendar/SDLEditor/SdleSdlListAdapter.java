@@ -80,7 +80,7 @@ public class SdleSdlListAdapter extends RecyclerView.Adapter<SdleSdlListAdapter.
         holder.ivDots.setVisibility(View.GONE);
         for (int i=0; i<sftarr.length; i++) {
             if (i<7) holder.llSftLine1.addView(new ShiftView(ctx, sdl.getShiftColor(sftarr[i])));
-            else if (i>=7 && i<14) {
+            else if (i<14) {
                 holder.llSftLine2.setVisibility(View.VISIBLE);
                 holder.llSftLine2.addView(new ShiftView(ctx, sdl.getShiftColor(sftarr[i])));
             }

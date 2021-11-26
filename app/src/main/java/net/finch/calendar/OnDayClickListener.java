@@ -32,9 +32,10 @@ public class OnDayClickListener implements View.OnClickListener {
     public void onClick(View v) {
         Integer id = (Integer) v.getTag();
         if (id != null) {
+            model.getFODLiveData(MainActivity.pageOffset);
             model.setDayId(id);
-            tvSliderTitle = ma.findViewById(R.id.tv_slider_title);
-            tvSliderTitle.setText(ma.frameOfDates.get(id).getFullDateString());
+//            tvSliderTitle = ma.findViewById(R.id.tv_slider_title);
+//            tvSliderTitle.setText(ma.frameOfDates.get(id).getFullDateString());
             model.setSliderState(true);
         }
 

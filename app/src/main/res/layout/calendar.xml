@@ -1,33 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/main.ll_content"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:gravity="top|center_horizontal"
-	android:orientation="vertical">
+	android:gravity="top|center_horizontal">
 
 	<androidx.viewpager2.widget.ViewPager2
 		android:id="@+id/calendar_pager"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:paddingTop="8dp" />
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:paddingTop="8dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:layout_conversion_absoluteHeight="8dp"
+		tools:layout_conversion_absoluteWidth="411dp" />
 
-	<include
-		layout="@layout/calendar_layout"
-		android:visibility="gone" />
+	<ImageButton
+		android:id="@+id/calendar.ibtn_previous"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
+		android:background="@color/colorPrimaryDark_2"
+		android:rotation="180"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/arrow_side" />
+
+	<ImageButton
+		android:id="@+id/calendar.ibtn_next"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
+		android:background="@color/colorPrimaryDark_2"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/arrow_side" />
 
 	<TextView
 		android:id="@+id/tv_debag"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_gravity="center"
-		android:layout_marginHorizontal="32dp"
-		android:layout_marginStart="32dp"
-		android:layout_marginBottom="144dp"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
 		android:alpha="0.2"
 		android:gravity="center"
-		android:text="Выберите дату чтоб управлять событиями." />
+		android:text="Выберите дату чтоб управлять событиями."
+		android:visibility="gone"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		tools:layout_conversion_absoluteHeight="0dp"
+		tools:layout_conversion_absoluteWidth="0dp" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

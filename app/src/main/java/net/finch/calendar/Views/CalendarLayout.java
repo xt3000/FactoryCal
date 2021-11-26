@@ -58,33 +58,30 @@ public class CalendarLayout extends GridLayout {
             dv.setDayText(di.getDateString());
 
             /// Выделение текущего месяца
-            if (di.getMonthOffset() == 0){
-                dv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.open_sans_semibold));
-            }else dv.setTextColor(0x55808080);
+//            if (di.getMonthOffset() == 0){
+//                dv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.open_sans_semibold));
+//            }else dv.setTextColor(0x55808080);
+            if (di.getMonthOffset() != 0) dv.setTextColor(0x55808080);
 
             /// Выделение дат с заметками
             dv.markedUp(di.isMarked());
-
+//
             ///  Выделение смен графика
-            if (di.isShifted()
-                    && di.getShiftList().size() > 0
-                    && di.getShiftList().get(0).isPrime()) {
-//                Log.d(TAG, "setDays: sdlSetMarked id = "+di.getId());
+            if (di.isShifted() && di.getShiftList().get(0).isPrime()) {
                 dv.markedDown(true, di.getShiftList().get(0).getColor());
-            }else dv.markedDown(false, 0);
-
+            }//else dv.markedDown(false, 0);
+//
             /// Выделение сегодняшней даты
             Calendar now = CalendarNavigator.getNow();
             if (now.get(Calendar.YEAR) == di.getCalendar().get(Calendar.YEAR)
                     && now.get(Calendar.DAY_OF_YEAR) == di.getCalendar().get(Calendar.DAY_OF_YEAR)
                     && di.getMonthOffset() == 0) {
                 dv.setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.circle));
-            }
+            }//else dv.setBackgroundColor(Color.TRANSPARENT);
 
             /// Слушатель нажатия на дату
             dv.setOnClickListener(new OnDayClickListener());
 //            dv.setBackgroundColor(getContext().getColor(R.color.colorAccent));
-//            addView(dv);
 
         }
     }

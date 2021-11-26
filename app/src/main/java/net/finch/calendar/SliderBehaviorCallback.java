@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -18,7 +19,7 @@ public class SliderBehaviorCallback extends BottomSheetBehavior.BottomSheetCallb
     FloatingActionButton afab;
     FrameLayout flFabMenu;
     CalendarVM model;
-    LinearLayout llContent;
+    ConstraintLayout llContent;
     AppBarLayout appBar;
 
     SliderBehaviorCallback() {

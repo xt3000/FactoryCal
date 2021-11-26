@@ -5,11 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,7 +44,7 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
 /////// ***  ViewHolder *** ///////
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvSftName;
-        private ConstraintLayout clBG;
+        private FrameLayout flBG;
 
         private SdleVM holderModel = SdlEditorActivity.getSdleVM();
         private LiveData<Map<String, Integer>> colorsLD;
@@ -55,7 +56,7 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
             colorsLD = holderModel.getColorsLD(null);
 
             tvSftName = itemView.findViewById(R.id.sdle_sftList_item_sftText);
-            clBG = itemView.findViewById(R.id.sdle_sftList_item_cl_background);
+            flBG = itemView.findViewById(R.id.sdle_sftList_item_fl_background);
 
             tvSftName.setOnClickListener(v -> nextSft());
             Log.d(TAG, "ViewHolder: !!!!!!!!!!!!!!!");
@@ -65,7 +66,7 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
                 String sftName = tvSftName.getText().toString();
                 if (!sftName.isEmpty()) {
                     Character s = Shift.shiftCharOf(sftName);
-                    if (s != null) clBG.setBackgroundColor(colorsMap.get(s.toString()));
+                    if (s != null) flBG.setBackgroundColor(colorsMap.get(s.toString()));
                 }
 
             });
@@ -84,7 +85,7 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
                 modelNotify();
 
                 tvSftName.setText(Shift.shiftNameOf(nextSft.charAt(0)));
-                clBG.setBackgroundColor(colorsMap.get(nextSft));
+                flBG.setBackgroundColor(colorsMap.get(nextSft));
                 SdlEditorActivity.isChanged(true);
 //                sdlChanged = true;
             }
@@ -111,7 +112,7 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String sft = sftList.get(position);
         holder.tvSftName.setText(Shift.shiftNameOf(sft.charAt(0)));
-        holder.clBG.setBackgroundColor(colorsMap.get(sft));
+        holder.flBG.setBackgroundColor(colorsMap.get(sft));
     }
 
     @Override
