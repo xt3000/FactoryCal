@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.finch.calendar.Dialogs.ColorPiker;
+import net.finch.calendar.Dialogs.PopupSDLEHelp;
 import net.finch.calendar.Dialogs.PopupSdlCreate;
 import net.finch.calendar.Dialogs.PopupWarning;
 import net.finch.calendar.R;
@@ -128,9 +129,12 @@ public class SdlEditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onKeyDown(KeyEvent.KEYCODE_BACK, new KeyEvent(0,KeyEvent.KEYCODE_BACK));
+                break;
             case (R.id.menu_sdls_help):
+                new PopupSDLEHelp(this, PopupSDLEHelp.layoutId_sdl);
                 break;
             case (R.id.menu_sft_help):
+                new PopupSDLEHelp(this, PopupSDLEHelp.layoutId_sft);
                 break;
             case (R.id.menu_sft_clear):
                 PopupWarning pw = new PopupWarning(instance, "Вы уверены что хотите очистить этот график");
