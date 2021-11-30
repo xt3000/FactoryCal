@@ -65,7 +65,7 @@ public class SdleSdlListAdapter extends RecyclerView.Adapter<SdleSdlListAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.sdle_item_v2,  parent, false);
+        View view = inflater.inflate(R.layout.sdle_sdllist_item,  parent, false);
 
         return new ViewHolder(view);
     }

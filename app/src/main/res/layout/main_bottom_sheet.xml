@@ -98,6 +98,7 @@
                     android:id="@+id/main.bottom.ll_sdllist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:forceDarkAllowed="false"
                     android:orientation="vertical" />
             </com.google.android.material.card.MaterialCardView>
 
@@ -113,6 +114,7 @@
                     android:id="@+id/main.bottom.ll_marklist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:forceDarkAllowed="false"
                     android:orientation="vertical" />
             </com.google.android.material.card.MaterialCardView>
 

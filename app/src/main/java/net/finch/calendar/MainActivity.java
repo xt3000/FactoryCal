@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 			if(dayInfo.getShiftList().size() != 0) {
 				TreeNode sdlListRoot = TreeNode.root();
-				sdlListRoot.addChild(new TreeNode(new MainBottomChapterObject(android.R.drawable.ic_menu_today, "Смены")).setViewHolder(new MainListHolder(instance)));
+				sdlListRoot.addChild(new TreeNode(new MainBottomChapterObject(R.drawable.ic_calendar_sdl, "Смены")).setViewHolder(new MainListHolder(instance)));
 				for (int i=0; i<dayInfo.getShiftList().size(); i++) {
 					sdlListRoot.addChild(new TreeNode(dayInfo.getShiftList().get(i)).setViewHolder(new ShiftListHolder(MainActivity.this, (i==(dayInfo.getShiftList().size()-1)))));
 				}
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 			if(dayInfo.getMarkList().size() != 0) {
 				TreeNode markListRoot = TreeNode.root();
-				markListRoot.addChild(new TreeNode(new MainBottomChapterObject(R.drawable.ic_baseline_create_24, "Заметки")).setViewHolder(new MainListHolder(instance)));
+				markListRoot.addChild(new TreeNode(new MainBottomChapterObject(R.drawable.ic_mark, "Заметки")).setViewHolder(new MainListHolder(instance)));
 				for (int i=0; i<dayInfo.getMarkList().size(); i++) {
 					markListRoot.addChild(new TreeNode(dayInfo.getMarkList().get(i)).setViewHolder(new MarkListHolder(MainActivity.this, (i==(dayInfo.getMarkList().size()-1)))));
 				}

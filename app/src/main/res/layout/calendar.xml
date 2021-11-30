@@ -5,6 +5,7 @@
 	android:id="@+id/main.ll_content"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:forceDarkAllowed="false"
 	android:gravity="top|center_horizontal">
 
 	<androidx.viewpager2.widget.ViewPager2

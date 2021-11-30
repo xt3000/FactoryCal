@@ -73,10 +73,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_black_trans_rounded"
+                android:padding="1dp"
                 app:layout_constraintBottom_toBottomOf="@id/sft.help_tv2_1"
                 app:layout_constraintStart_toEndOf="@+id/sft.help_tv2_1"
                 app:layout_constraintTop_toTopOf="@+id/sft.help_tv2_1"
-                app:srcCompat="@drawable/ic_baseline_save_24" />
+                app:srcCompat="@drawable/ic_save" />
 
             <TextView
                 android:id="@+id/sft.help_tv2_2"
@@ -103,10 +104,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_black_trans_rounded"
+                android:padding="1dp"
                 app:layout_constraintBottom_toBottomOf="@+id/sft.help_tv3_1"
                 app:layout_constraintStart_toEndOf="@+id/sft.help_tv3_1"
                 app:layout_constraintTop_toTopOf="@+id/sft.help_tv3_1"
-                app:srcCompat="@drawable/ic_clearlist_24" />
+                app:srcCompat="@drawable/ic_calendar_clear_24dp" />
 
             <TextView
                 android:id="@+id/sft.help_tv3_2"

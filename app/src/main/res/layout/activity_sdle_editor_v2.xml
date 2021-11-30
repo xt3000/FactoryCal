@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimaryDark_2"
+            android:forceDarkAllowed="false"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/sdle_sdl_title" />
@@ -49,10 +50,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:forceDarkAllowed="false"
                 android:nestedScrollingEnabled="true"
                 android:paddingTop="5dp"
                 tools:itemCount="5"
-                tools:listitem="@layout/sdle_item_v2" />
+                tools:listitem="@layout/sdle_sdllist_item" />
 
 
             <LinearLayout
