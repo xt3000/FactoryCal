@@ -26,6 +26,10 @@
         <item name="android:textSize">9pt</item>
     </style>
 
+    <style name="AppTheme.TextAppearance" parent="TextAppearance.AppCompat.Display1">
+        <item name="android:fontFamily">@font/open_sans</item>
+    </style>
+
     <style name="menu_labels_style">
         <item name="android:background">@drawable/fab_label_bg</item>
         <item name="android:textColor">@color/white</item>

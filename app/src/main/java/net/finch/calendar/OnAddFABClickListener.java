@@ -38,7 +38,6 @@ public class OnAddFABClickListener implements View.OnClickListener {
 
     private  Scene scOn;
     private Scene scOff;
-//    private TransitionSet tSetOn;
 
     private  Animation rotateOn;
     private  Animation rotateOff;
@@ -99,7 +98,6 @@ public class OnAddFABClickListener implements View.OnClickListener {
         TransitionSet tSet = getTransitionSet();
         tSet.addTransition(new Fade().setStartDelay(tSet.getDuration()/3));
         tSet.addTransition(new Slide(Gravity.TOP));
-
         return tSet;
     }
 
@@ -113,9 +111,8 @@ public class OnAddFABClickListener implements View.OnClickListener {
     private TransitionSet getTransitionSet() {
         TransitionSet tSet = new TransitionSet();
         tSet.setOrdering(TransitionSet.ORDERING_TOGETHER);
-        tSet.setDuration(400);
+        tSet.setDuration(300);
         tSet.setInterpolator(new DecelerateInterpolator());
-
         return tSet;
     }
 }

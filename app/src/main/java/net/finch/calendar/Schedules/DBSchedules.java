@@ -29,8 +29,8 @@ public class DBSchedules extends DB {
                 + "date integer NOT NULL,"
                 + "month integer NOT NULL,"
                 + "year integer NOT NULL,"
-                + "name varchar(16) UNIQUE,"
-                + "sdl varchar(31) NOT NULL,"
+                + "name varchar(25) UNIQUE,"
+                + "sdl varchar(366) NOT NULL,"
                 + "prime boolean NOT NULL"
                 + ");");
     }

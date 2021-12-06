@@ -2,22 +2,9 @@ package net.finch.calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-//import android.arch.lifecycle.LiveData;
-//import android.arch.lifecycle.Observer;
-//import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-//import android.support.annotation.Nullable;
-//import android.support.annotation.RequiresApi;
-//import android.support.constraint.ConstraintLayout;
-//import android.support.constraint.ConstraintSet;
-//import android.support.design.widget.BottomSheetBehavior;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.design.widget.TextInputEditText;
-//import android.support.v7.app.AppCompatActivity;
-////import android.support.v7app.AppCompatActivity;
-//import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,7 +27,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -53,7 +37,6 @@ import net.finch.calendar.SDLEditor.SdlEditorActivity;
 import net.finch.calendar.Schedules.ShiftListHolder;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
@@ -126,19 +109,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 
 		//***  ViewModel  ***
-		llSdlInfoList = findViewById(R.id.main_bottom_ll_sdllist);
-		llMarkInfoList = findViewById(R.id.main_bottom_ll_marklist);
-		tvSliderTitle = findViewById(R.id.tv_slider_title);
-		sliderLayout = findViewById(R.id.main_ll_bottom_sheet);					//bottom_sheet
-		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
-		sliderBehavior.addBottomSheetCallback(new SliderBehaviorCallback());
+
 
 
 
 //  *** FRAME OF DATE LD Observer ***  //
 		FODdata = model.getFODLiveData(null);
 		FODdata.observe(this, fod -> {
-			Log.d(TAG, "onFODdata Changed:");
+			if (frameOfDates.equals(fod)) Log.d(TAG, "onFODdata Changed: TRUE!!!!!!!!!!!!");
 			frameOfDates = fod;
 			model.updInfoList();
 			if (model.selectedDayId != null) {
@@ -188,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 				AndroidTreeView treeView = new AndroidTreeView(MainActivity.this, markListRoot);
 				llMarkInfoList.addView(treeView.getView());
 			}
+//			model.setSliderState(true);
 		});
 
 
@@ -219,6 +198,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 		fabAddSdl = findViewById(R.id.fab_sdl);
 		fabAddSdl.setOnClickListener(this);
+
+		llSdlInfoList = findViewById(R.id.main_bottom_ll_sdllist);
+		llMarkInfoList = findViewById(R.id.main_bottom_ll_marklist);
+		tvSliderTitle = findViewById(R.id.tv_slider_title);
+		sliderLayout = findViewById(R.id.main_ll_bottom_sheet);					//bottom_sheet
+		sliderBehavior = BottomSheetBehavior.from(sliderLayout);
+		sliderBehavior.addBottomSheetCallback(new SliderBehaviorCallback());
 
 
 

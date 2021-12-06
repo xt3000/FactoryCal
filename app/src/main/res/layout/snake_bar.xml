@@ -23,9 +23,10 @@
 
             <ImageView
                 android:id="@+id/snake.iv_icon"
-                android:layout_width="24dp"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginStart="8dp"
+                android:background="@drawable/circle_15white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/snake.tv_text"
                 app:layout_constraintStart_toStartOf="parent"

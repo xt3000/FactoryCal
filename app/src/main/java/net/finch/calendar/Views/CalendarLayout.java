@@ -22,66 +22,70 @@ import java.util.Calendar;
 import static net.finch.calendar.CalendarVM.TAG;
 
 public class CalendarLayout extends GridLayout {
+    Context context;
     public CalendarLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     public CalendarLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
+        init();
     }
 
     public CalendarLayout(Context context) {
         super(context);
-        removeAllViews();
-        for (int i=0; i<42; i++) {
-            DayView dvi = new DayView(context);
-            dvi.setTag(i);
-//            dvi.setText(String.valueOf(i));
-            addView(dvi);
-        }
+        this.context = context;
 
+        init();
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.width = LayoutParams.MATCH_PARENT;
         params.height = LayoutParams.MATCH_PARENT;
         setLayoutParams(params);
-//        setBackgroundColor(context.getColor(R.color.rbHint));
         setColumnCount(7);
+    }
 
-        Log.d(TAG, "CalendarLayout: childCount = "+getChildCount());
+    private void init() {
+        for (int i=0; i<42; i++) {
+            DayView dvi = new DayView(context);
+            dvi.setTag(i);
+            addView(dvi);
+        }
+    }
+
+    public void clear() {
+        removeAllViewsInLayout();
+        init();
     }
 
     public void setDays(ArrayList<DayInfo> fod) {
-        Log.d(TAG, "setDays: fod: "+fod.get(0).getDate());
+        Log.d(TAG, "setDays: "+ getChildCount());
+//        init();
         for (DayInfo di : fod) {
             DayView dv = findViewWithTag(di.getId());
-//            dv.setTag(di.getId());
-            dv.setDayText(di.getDateString());
-
-            /// Выделение текущего месяца
-//            if (di.getMonthOffset() == 0){
-//                dv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.open_sans_semibold));
-//            }else dv.setTextColor(0x55808080);
-            if (di.getMonthOffset() != 0) dv.setTextColor(0x55808080);
-
-            /// Выделение дат с заметками
-            dv.markedUp(di.isMarked());
+            dv.setDayInfo(di);
+//            dv.setMonthOffset(di.getMonthOffset());
+//            dv.setDayText(di.getDateString());
 //
-            ///  Выделение смен графика
-            if (di.isShifted() && di.getShiftList().get(0).isPrime()) {
-                dv.markedDown(true, di.getShiftList().get(0).getColor());
-            }//else dv.markedDown(false, 0);
 //
-            /// Выделение сегодняшней даты
-            Calendar now = CalendarNavigator.getNow();
-            if (now.get(Calendar.YEAR) == di.getCalendar().get(Calendar.YEAR)
-                    && now.get(Calendar.DAY_OF_YEAR) == di.getCalendar().get(Calendar.DAY_OF_YEAR)
-                    && di.getMonthOffset() == 0) {
-                dv.setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.circle));
-            }//else dv.setBackgroundColor(Color.TRANSPARENT);
-
-            /// Слушатель нажатия на дату
-            dv.setOnClickListener(new OnDayClickListener());
-//            dv.setBackgroundColor(getContext().getColor(R.color.colorAccent));
+//            /// Выделение дат с заметками
+//            dv.markedUp(di.isMarked());
+////
+//            ///  Выделение смен графика
+//            if (di.isShifted() && di.getShiftList().get(0).isPrime()) {
+//                dv.markedDown(true, di.getShiftList().get(0).getColor());
+//            }
+////
+//            /// Выделение сегодняшней даты
+//            Calendar now = CalendarNavigator.getNow();
+//            if (now.get(Calendar.YEAR) == di.getCalendar().get(Calendar.YEAR)
+//                    && now.get(Calendar.DAY_OF_YEAR) == di.getCalendar().get(Calendar.DAY_OF_YEAR)
+//                    && di.getMonthOffset() == 0) {
+//                dv.setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.circle));
+//            }
+//
+//            /// Слушатель нажатия на дату
+//            dv.setOnClickListener(new OnDayClickListener());
 
         }
     }

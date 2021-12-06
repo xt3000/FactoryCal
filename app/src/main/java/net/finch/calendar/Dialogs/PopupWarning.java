@@ -8,9 +8,12 @@ import android.os.Build;
 //import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -27,9 +30,12 @@ import org.json.JSONException;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class PopupWarning extends PopupView implements View.OnClickListener {
-    final static public int COLOR_INFO = R.color.bg_bottomWindow;
-    final static public int COLOR_SUCCESS = R.color.colorSucces;
-    final static public int COLOR_ERROR = R.color.colorAccent;
+    public static final int ICON_INFO = R.drawable.ic_outline_info_24;
+    public static final int ICON_X = R.drawable.ic_round_clear_24;
+    public static final int ICON_DELETE = R.drawable.ic_round_delete_forever_24;
+
+    public static final int COLOR_INFO = R.color.colorInfo;
+    public static final int COLOR_ERROR = R.color.colorError;
 
     final static public int SDL_DEL = 0;
     final static public int MRK_DEL = 1;
@@ -45,13 +51,13 @@ public class PopupWarning extends PopupView implements View.OnClickListener {
 
     private CardView cvBg;
     private TextView tvDelText;
-    String text;
+    private CharSequence text;
     private Button btnOk, btnCancel;
 
     private OnPositiveClickListener positiveClickListener;
     private OnNegativeClickListener negativeClickListener;
 
-    public PopupWarning(Context ctx, String text) {
+    public PopupWarning(Context ctx, CharSequence text) {
         super(ctx, layoutWarn);
         this.text = text;
         this.activity = (AppCompatActivity) ctx;
@@ -81,8 +87,12 @@ public class PopupWarning extends PopupView implements View.OnClickListener {
 
     }
 
-    public void setBgColor(int colorRes) {
-        ((CardView)pwView.findViewById(R.id.popup_cv_window)).setCardBackgroundColor(activity.getColor(colorRes));
+    public void setBgColor(@ColorRes int colorResId) {
+        ((CardView)pwView.findViewById(R.id.popup_cv_window)).setCardBackgroundColor(activity.getColor(colorResId));
+    }
+
+    public void setIcon(@DrawableRes int iconResId) {
+        ((ImageView)pwView.findViewById(R.id.popupwarn_iv_icon)).setImageResource(iconResId);
     }
 
     @Override

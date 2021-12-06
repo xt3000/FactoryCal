@@ -6,29 +6,44 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.ColorRes;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.gridlayout.widget.GridLayout;
 
+import net.finch.calendar.CalendarNavigator;
+import net.finch.calendar.DayInfo;
+import net.finch.calendar.OnDayClickListener;
 import net.finch.calendar.R;
+
+import java.util.Calendar;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
 
 public class DayView extends AppCompatTextView
 {
-    private Canvas offscreen;
+    private int monthOffset = 0;
     private String msg="";
     private boolean markedUp = false;
     private boolean markedDown = false;
-    private int colorDown, colorUp;;
+    private int colorDown, colorUp, color0, color1;
     private final int MARGIN = 15;
 
+    private float w, h;
+    private Paint paintUp = new Paint(Paint.ANTI_ALIAS_FLAG), paintDown = new Paint(), paintTxt = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Rect rect = new Rect();
+    RectF rectF = new RectF();
+
+    @SuppressLint("ResourceAsColor")
     public DayView(Context context){
         super(context);
         GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
@@ -38,19 +53,16 @@ public class DayView extends AppCompatTextView
         lp.setMargins(MARGIN,MARGIN,MARGIN,MARGIN);
         setLayoutParams(lp);
         setGravity(Gravity.CENTER);
+        setTextColor(R.color.colorAccent);
         setTypeface(ResourcesCompat.getFont(getContext(), R.font.open_sans_semibold));
         colorUp = context.getColor(R.color.colorAccent);
-
-//        setBackground(context.getDrawable(R.drawable.circle));
+        color0 = context.getColor(R.color.rbActive);
+        color1 = 0x55808080;
+        setTextColor(color0);
     }
-
-//    public DayView(Context context, AttributeSet attrs) {
-//        super(context, attrs);
-//    }
 
     public void setDayText(String s){
         msg = s;
-        setText(s);
     }
 
     @Override
@@ -61,53 +73,74 @@ public class DayView extends AppCompatTextView
 
     @SuppressLint("DrawAllocation")
     @Override
-    protected void onDraw(Canvas canvas)
-    {
-        if(canvas==offscreen){
-            super.onDraw(offscreen);
+    protected void onDraw(Canvas canvas) {
+        w = getMeasuredWidth();
+        h = getMeasuredHeight();
+
+//  *** DRAW TEXT ***
+        paintTxt = getPaint();
+        if (monthOffset == 0) paintTxt.setColor(color0);
+        else paintTxt.setColor(color1);
+        paintTxt.setTextAlign(Paint.Align.CENTER);
+        paintTxt.getTextBounds(msg, 0, msg.length(), rect);
+        float y = h / 2f + rect.height() / 2f - rect.bottom;
+        canvas.drawText(msg, (w/2), y, paintTxt);
+
+//  *** DRAW MARKS ***
+        if(w==0 || h==0) return;
+        if (markedUp) {
+            int radius = 5;
+            canvas.drawCircle(w/2, h/6, radius, paintUp);
         }
-        else if (markedUp || markedDown) {
-            float x = getMeasuredWidth();
-            float y = getMeasuredHeight();
-            if(x==0 || y==0) return;
-            Bitmap bitmap=Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-            offscreen=new Canvas(bitmap);
-            super.draw(offscreen);
 
-            if (markedUp) {
-                Paint paint = new Paint();
-                int radius = 5;
-
-                paint.setStyle(Paint.Style.FILL);
-                paint.setColor(colorUp);
-                canvas.drawCircle(x/2, y/6, radius, paint);
-            }
-
-            if (markedDown) {
-//                Log.d(TAG, "onDraw: sdlMarked = "+markedDown);
-                float r = 3;
-                Paint paint = new Paint();
-                paint.setStyle(Paint.Style.FILL);
-                paint.setColor(colorDown);
-                canvas.drawRect(x/r, y-(y/5)+5, x-(x/r), y-(y/5), paint);
-//                canvas.drawLine(x/r, y-(y/5), x-(x/r), y-(y/5), paint);
-//                canvas.drawLine(x/r, y-(y/5)+1, x-(x/r), y-(y/5)+1, paint);
-//                canvas.drawLine(x/r, y-(y/5)+2, x-(x/r), y-(y/5)+2, paint);
-            }
-            setText(msg);
-            super.onDraw(canvas);
-        }
-        else{
-            super.onDraw(canvas);
+//  *** DRAW SHIFTS ***
+        if (markedDown) {
+            float r = 3;
+            canvas.drawRect(w/r, h-(h/5)+5, w-(w/r), h-(h/5), paintDown);
         }
     }
 
-    public void markedUp(boolean m) {
+    private void markedUp(boolean m) {
         markedUp = m;
+        paintUp.setStyle(Paint.Style.FILL);
+        paintUp.setColor(colorUp);
     }
 
-    public void markedDown(boolean m, int color) {
+    private void markedDown(boolean m, int color) {
         markedDown = m;
         colorDown = color;
+        paintDown.setStyle(Paint.Style.FILL);
+        paintDown.setColor(colorDown);
+    }
+
+    private void setMonthOffset(int offset) {
+        this.monthOffset = offset;
+    }
+
+    protected void setDayInfo(DayInfo di) {
+        setMonthOffset(di.getMonthOffset());
+        setDayText(di.getDateString());
+
+        /// Выделение дат с заметками
+        markedUp(di.isMarked());
+//
+        ///  Выделение смен графика
+        if (di.isShifted() && di.getShiftList().get(0).isPrime()) {
+            markedDown(true, di.getShiftList().get(0).getColor());
+        }
+//
+        /// Выделение сегодняшней даты
+        Calendar now = CalendarNavigator.getNow();
+        if (now.get(Calendar.YEAR) == di.getCalendar().get(Calendar.YEAR)
+                && now.get(Calendar.DAY_OF_YEAR) == di.getCalendar().get(Calendar.DAY_OF_YEAR)
+                && di.getMonthOffset() == 0) {
+            setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.circle));
+        }
+
+        /// Слушатель нажатия на дату
+        setOnClickListener(new OnDayClickListener());
+
+        /// Перерисовка изменений
+        invalidate();
     }
 }

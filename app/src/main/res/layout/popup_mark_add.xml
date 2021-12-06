@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center">
 
-    <include
-        layout="@layout/popup_bg_dark"
-        android:layout_height="match_parent" />
+    <include layout="@layout/popup_bg_dark" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/popup.cv_window"
@@ -60,13 +58,13 @@
                     <TextView
                         android:id="@+id/tv_addTime"
                         android:layout_width="70dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="bottom"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="28dp"
                         android:background="@drawable/bg_underline"
                         android:clickable="true"
                         android:foreground="?attr/selectableItemBackground"
-                        android:gravity="center"
+                        android:gravity="bottom|center_horizontal"
                         android:paddingBottom="4dp"
                         android:text="- - : - -"
                         android:textColor="@color/rbActive"
@@ -84,7 +82,15 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="auto">
+                    android:focusable="auto"
+                    android:hint="краткое описание"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="255"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_round_clear_24"
+                    app:endIconMode="clear_text"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_markNote"
@@ -93,9 +99,13 @@
                         android:layout_height="wrap_content"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:hint="краткое описание"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
+                        android:inputType="textLongMessage|textMultiLine"
+                        android:maxLength="255"
+                        android:maxLines="5"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:textAlignment="viewStart"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>

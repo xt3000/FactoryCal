@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Calendar</string>
+    <string name="app_name">WorkCalendar</string>
     <string name="null_time">- - : - -</string>
     <!-- TODO: Default Schedule String -->
     <string name="schedule1">UNWW</string>

@@ -1,12 +1,8 @@
 package net.finch.calendar.Schedules;
 
 import android.annotation.SuppressLint;
-//import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Build;
-//import android.support.annotation.RequiresApi;
-//import android.support.constraint.ConstraintLayout;
-//import android.support.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +21,6 @@ import net.finch.calendar.Dialogs.PopupSdlEdit;
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
 import net.finch.calendar.Utils;
-
-import org.json.JSONException;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
@@ -58,7 +52,6 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         TextView tvShift = view.findViewById(R.id.tv_item_shift);
         tvShift.setText(String.valueOf(value.getShiftName()));
         tvShift.setBackgroundColor(value.getColor());
-//        view.findViewById(R.id.iv_item_shift).setBackgroundColor(value.getColor());
 
         ImageView ivbMenu = view.findViewById(R.id.ivb_shiftMenu);
         ivbMenu.setOnClickListener(this);
@@ -83,18 +76,10 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
 
 
             if (vid == R.id.iv_btn_sdlDel) {
-                try {
-                    onSdlDelBtnClick(sqlId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                onSdlDelBtnClick(sqlId);
             }
             else if (vid == R.id.iv_btn_sdlEdit) {
-                try {
-                    onSdlEditBtnClick(sqlId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                onSdlEditBtnClick(sqlId);
             }
         }
         
@@ -131,19 +116,19 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         item.setLayoutParams(params);
     }
 
-    public void onSdlDelBtnClick(int sqlId) throws JSONException {
+    public void onSdlDelBtnClick(int sqlId) {
         String name = new DBSchedules(context).readSdlName(sqlId);
         PopupWarning pwarn = new PopupWarning(context, context.getText(R.string.del_calSdl_text_1)+name+context.getText(R.string.del_calSdl_text_2));
         pwarn.setBgColor(PopupWarning.COLOR_ERROR);
+        pwarn.setIcon(PopupWarning.ICON_DELETE);
         pwarn.setOnPositiveClickListener("", ()-> {
             new DBSchedules(MainActivity.getContext()).delete(sqlId);
             model.getFODLiveData(null);
-//            model.updInfoList();
         });
         pwarn.setOnNegativeClickListener("", ()-> {});
     }
 
-    public void onSdlEditBtnClick(int sqlId) throws JSONException {
+    public void onSdlEditBtnClick(int sqlId) {
         new PopupSdlEdit(context, sqlId);
     }
 }

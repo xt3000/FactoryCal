@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import static net.finch.calendar.CalendarVM.TAG;
 
 public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdapter.PagerVH> {
-    protected final static int START_PAGE = 101;
+    protected final static int START_PAGE = 501;
 //    private final Context ctx;
 //    private OnBtnClickListener onBtnClickListener;
     private Handler handler;
@@ -36,18 +36,22 @@ public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdap
     private final FrameLayout flCalendarLayout;
     private final TextView tvMonth, tvYear;
     private final ImageButton ibtnPrevious, ibtnNext;
+    private final CalendarLayout calendarLayout;
 
     PagerVH(View itemView){
             super(itemView);
-            setIsRecyclable(false);
+            setIsRecyclable(true);
 
             flCalendarLayout = itemView.findViewById(R.id.fl_calendar);
             tvMonth = itemView.findViewById(R.id.calendar_tv_month);
             tvYear = itemView.findViewById(R.id.calendar_tv_year);
             ibtnPrevious = itemView.findViewById(R.id.calendar_ibtn_previous);
             ibtnNext = itemView.findViewById(R.id.calendar_ibtn_next);
+//            calendarLayout = itemView.findViewById(R.id.calendar_layout);
+            calendarLayout = (CalendarLayout) flCalendarLayout.getChildAt(0);
 
-            flCalendarLayout.addView(new CalendarLayout(itemView.getContext()));
+//            flCalendarLayout.removeAllViewsInLayout();
+//            flCalendarLayout.addView(new CalendarLayout(itemView.getContext()));
         }
     }
 /////////////////////
@@ -59,6 +63,9 @@ public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdap
     public PagerVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.calendar_layout_v2,  parent, false);
+        FrameLayout fl = view.findViewById(R.id.fl_calendar);
+        CalendarLayout cl = new CalendarLayout(parent.getContext());
+        fl.addView(cl);
 
         return new PagerVH(view);
     }
@@ -68,16 +75,11 @@ public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdap
 
 
         // ADD DAYS
-        CalendarLayout calendarLayout = (CalendarLayout) holder.flCalendarLayout.getChildAt(0);
+//        CalendarLayout calendarLayout = (CalendarLayout) holder.flCalendarLayout.getChildAt(0);
 
         CalendarNavigator cNav = new CalendarNavigator(position-START_PAGE);
-        handler = new Handler(Looper.getMainLooper());
-        new Thread(() -> {
-            ArrayList<DayInfo> fod = cNav.frameOfDates();
-            handler.post(() -> {
-                calendarLayout.setDays(fod);
-            });
-        }).start();
+        ArrayList<DayInfo> fod = cNav.frameOfDates();
+        holder.calendarLayout.setDays(fod);
 
         // SET MONTH
         holder.tvMonth.setText(Month.getString(cNav.getMonth()));
@@ -90,7 +92,12 @@ public class CalendarPagerAdapter extends RecyclerView.Adapter<CalendarPagerAdap
 
     @Override
     public int getItemCount() {
-        return 900;
+        return 1000;
     }
 
+    @Override
+    public void onViewRecycled(@NonNull PagerVH holder) {
+        super.onViewRecycled(holder);
+        holder.calendarLayout.clear();
+    }
 }

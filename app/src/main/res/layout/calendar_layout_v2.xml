@@ -115,8 +115,8 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_devider">
+        app:layout_constraintTop_toBottomOf="@id/ll_devider"/>
 
-    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

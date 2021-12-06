@@ -27,5 +27,6 @@
 	<color name="black_transparent_15">#15000000</color>
     <color name="colorSucces">#7CB342</color>
 	<color name="colorInfo">#039BE5</color>
-	<color name="colorError">#E53935</color>
+	<color name="colorError">#ff6670</color>
+	<color name="colorError2">#E53935</color>
 </resources>

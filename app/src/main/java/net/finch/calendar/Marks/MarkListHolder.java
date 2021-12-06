@@ -83,18 +83,10 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
 
             if (vid == (R.id.iv_btn_markDel)) {
                 Log.d(TAG, "onClick: btn_markDel");
-                try {
-                    onSdlDelBtnClick(id);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                onSdlDelBtnClick(id);
             }else  if (vid == (R.id.iv_btn_markEdit)) {
                 Log.d(TAG, "onClick: btn_markEdit");
-                try {
-                    onMarkEditBtnClick(id);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                onMarkEditBtnClick(id);
             }
         }
     }
@@ -131,9 +123,10 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         item.setLayoutParams(params);
     }
 
-    private void onSdlDelBtnClick(int sqlId) throws JSONException {
+    private void onSdlDelBtnClick(int sqlId) {
         PopupWarning pwarn = new PopupWarning(context, context.getText(R.string.del_calMark_text).toString());
         pwarn.setBgColor(PopupWarning.COLOR_ERROR);
+        pwarn.setIcon(PopupWarning.ICON_DELETE);
         pwarn.setOnPositiveClickListener("", ()-> {
             new DBMarks(MainActivity.getContext()).delete(sqlId);
             model.getFODLiveData(null);
@@ -142,7 +135,7 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         pwarn.setOnNegativeClickListener("", ()->{});
     }
 
-    private void onMarkEditBtnClick(int sqlId) throws JSONException {
+    private void onMarkEditBtnClick(int sqlId) {
         Log.d(TAG, "onMarkEditBtnClick: ");
         new PopupMarkEdit(context, sqlId);
     }

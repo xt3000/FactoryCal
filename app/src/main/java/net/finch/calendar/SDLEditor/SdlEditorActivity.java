@@ -97,7 +97,9 @@ public class SdlEditorActivity extends AppCompatActivity {
             if (MODE) {
                 if (sftAdapter != null) {
                     if (isChanged) {
-                        PopupWarning pwarn = new PopupWarning(this, this.getText(R.string.sdle_notSavedBack).toString());
+                        PopupWarning pwarn = new PopupWarning(this, this.getText(R.string.sdle_notSavedBack));
+                        pwarn.setBgColor(PopupWarning.COLOR_ERROR);
+                        pwarn.setIcon(PopupWarning.ICON_INFO);
                         pwarn.setOnPositiveClickListener("", ()-> {
                             sdleModel.setEditorMode(sdlMODE);
                             sdleModel.getSdlsListLD();
@@ -138,6 +140,8 @@ public class SdlEditorActivity extends AppCompatActivity {
                 break;
             case (R.id.menu_sft_clear):
                 PopupWarning pw = new PopupWarning(instance, "Вы уверены что хотите очистить этот график");
+                pw.setBgColor(PopupWarning.COLOR_ERROR);
+                pw.setIcon(PopupWarning.ICON_X);
                 pw.setOnPositiveClickListener("", ()->sftAdapter.clear());
                 pw.setOnNegativeClickListener("", ()->{});
 
@@ -309,11 +313,13 @@ public class SdlEditorActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> {
             if (!MODE) {
                 new PopupSdlCreate(instance, new Schedule("", ""));
-//                sdleModel.setEditorMode(sftMODE);
-//                sdleModel.setSfts(new Schedule("qq", ""));
-
             }else {
-                sftAdapter.addItem("W");
+                if (sftAdapter.getItemCount() == 365) SnakeView.make(fab,
+                        SnakeView.ICONS[SnakeView.TYPE_ERROR],
+                        "Добавлено 365 смен. График заполнен!",
+                        SnakeView.COLORS[SnakeView.TYPE_ERROR]).show();
+                else sftAdapter.addItem("W");
+
             }
         });
     }
@@ -432,6 +438,8 @@ public class SdlEditorActivity extends AppCompatActivity {
                     @Override
                     public void onDelClick(Schedule sdl) {
                         PopupWarning pwarn = new PopupWarning(instance, "Вы уверены что хотите удалить график \""+sdl.getName()+"\"?");
+                        pwarn.setBgColor(PopupWarning.COLOR_ERROR);
+                        pwarn.setIcon(PopupWarning.ICON_DELETE);
                         pwarn.setOnPositiveClickListener("", ()->{
                             new SDLSettings(instance).removeSchedule(sdl);
                             sdleModel.getSdlsListLD();

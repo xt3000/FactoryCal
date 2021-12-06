@@ -91,6 +91,7 @@
                 android:id="@+id/tv_item_markDesc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:paddingTop="15dp"
