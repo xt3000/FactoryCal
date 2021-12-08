@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/popup_bg_dark" />
+    <include
+        layout="@layout/popup_bg_dark"
+        android:visibility="gone"
+        tools:visibility="gone" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/popup.cv_window"
@@ -25,8 +29,9 @@
                 android:id="@+id/popup.about.tv_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="О приложении"
+                android:text="Нравится приложение?"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -50,42 +55,48 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/about_text1"
+                android:text="@string/rate_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/about_text2_1"
-                android:textAlignment="textEnd"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/about_text3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
             <Button
                 android:id="@+id/btn_rate_now"
-                style="@style/AppTheme.MaterialBtn"
+                style="@style/AppTheme.MaterialIconBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="удалить рекламму"
-                android:textColor="@color/black_semi_transparent"
+                android:text="оценить"
+                android:textColor="@color/bg_bottomWindow"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <Button
+                android:id="@+id/btn_rate_later"
+                style="@style/AppTheme.MaterialIconBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="позже"
+                android:textColor="@color/black_transparent_33"
+                app:layout_constraintEnd_toStartOf="@+id/btn_rate_now"
+                app:layout_constraintStart_toEndOf="@+id/btn_rate_never"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <Button
+                android:id="@+id/btn_rate_never"
+                style="@style/AppTheme.MaterialIconBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="никогда"
+                android:textColor="@color/black_transparent_33"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

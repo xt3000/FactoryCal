@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,9 +33,12 @@ import com.unnamed.b.atv.view.AndroidTreeView;
 
 import net.finch.calendar.Dialogs.PopupAbout;
 import net.finch.calendar.Dialogs.PopupAdd;
+import net.finch.calendar.Dialogs.PopupRate;
+import net.finch.calendar.Dialogs.PopupWarning;
 import net.finch.calendar.Marks.MarkListHolder;
 import net.finch.calendar.SDLEditor.SdlEditorActivity;
 import net.finch.calendar.Schedules.ShiftListHolder;
+import net.finch.calendar.Settings.HSettings;
 
 import java.util.ArrayList;
 
@@ -63,7 +67,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	private LiveData<Boolean> SSdata;
 	protected ArrayList<DayInfo> frameOfDates = new ArrayList<>();
 
+	@Override
+	protected void onDestroy() {
+		new HSettings(this).rdcAdd();
+		super.onDestroy();
+	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.d(TAG, "onKeyDown: keycode = "+keyCode);
+		if (keyCode == KeyEvent.KEYCODE_BACK) { //TODO: Добавить проверку кнопки домой
+			int rdc = new HSettings(this).getRdc();
+			if (rdc >= HSettings.RDC_MAX) new PopupRate(this);
+
+			else {
+//				new PopupRate(this);
+				finish();
+			}
+		}
+		return true;
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

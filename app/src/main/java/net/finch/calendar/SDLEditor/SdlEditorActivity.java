@@ -150,10 +150,9 @@ public class SdlEditorActivity extends AppCompatActivity {
                 Schedule sdlToSave = SdleShiftListAdapter.getSchedule();
                 if (sftAdapter!=null)  {
                     if (sdlToSave.getSdl().length() < 1) {
-//                        try {
-//                            PopupWarning pw = new PopupWarning(instance, "Добавьте смены в график перед сохранением!");
-//                            pw.setOnPositiveClickListener("", ()->{});
-//                        }catch (JSONException e) {}
+//                        PopupWarning pw = new PopupWarning(instance, "Добавьте смены в график перед сохранением!");
+//                        pw.setOnPositiveClickListener("", ()->{});
+
                         SnakeView.make(fab,
                                 SnakeView.ICONS[SnakeView.TYPE_INFO],
                                 "Добавьте смены в график перед сохранением!",

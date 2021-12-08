@@ -21,25 +21,25 @@ import java.util.ArrayList;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
-public class SDLSettings {
-    private static final String OPTIONS = "OPTIONS";
-    private static final String SCHEDULES = "schedules";
-    private static final String MARKS = "marks";
-    private static final int MODE = Context.MODE_PRIVATE;
-
-    private final Context context;
-    private SharedPreferences.Editor editor;
-    private SharedPreferences prefs;
+public class SDLSettings extends Settings {
+//    private static final String OPTIONS = "OPTIONS";
+//    private static final String SCHEDULES = "schedules";
+//    private static final String MARKS = "marks";
+//    private static final int MODE = Context.MODE_PRIVATE;
+//
+//    private final Context context;
+//    private SharedPreferences.Editor editor;
 
 
     public SDLSettings(Context context) {
-        this.context = context;
+        super(context);
+//        this.context
     }
 
 
 
     public Result removeSchedule(Schedule sdl) throws JSONException {
-        editor = context.getSharedPreferences(OPTIONS, MODE).edit();
+        editor = prefs.edit();
         Integer sdlID = isExistsSdl(sdl.getName());
 //        ArrayList<Schedule> sdlList = getSdlArray();
         JSONArray sdlArr = getJSONsdls();
@@ -52,7 +52,7 @@ public class SDLSettings {
     }
 
     public Result saveSchedule(Schedule sdl) throws JSONException {
-        editor = context.getSharedPreferences(OPTIONS, MODE).edit();
+        editor = prefs.edit();
         Integer existsSdlId = isExistsSdl(sdl.getName());
         JSONArray sdlArr = new JSONArray();
         if (existsSdlId == null) {
@@ -72,7 +72,6 @@ public class SDLSettings {
     }
 
     private JSONArray getJSONsdls() throws JSONException {
-        prefs = context.getSharedPreferences(OPTIONS, MODE);
         String sdls = prefs.getString(SCHEDULES, "");
         if (sdls != null && !sdls.equals(""))return new JSONArray(sdls);
         return new JSONArray();

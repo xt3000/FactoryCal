@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">WorkCalendar</string>
     <string name="null_time">- - : - -</string>
     <!-- TODO: Default Schedule String -->
@@ -10,12 +9,12 @@
     <string name="schedule_default">{"id":0,"name":"default","sdl":"UNWW","shiftColors":{"U":-12012545,"D":-12012545,"N":-16689253,"S":-12012545,"V":-16689253,"W":16777215}}</string>
     <string name="title_activity_sdle_editor_v2">Schedule Editor</string>
 
-<!--   MWIN MENU   -->
+    <!--   MWIN MENU   -->
     <string name="main_menu_1">Редактор графиков</string>
     <string name="main_menu_2">Настройки</string>
     <string name="main_menu_3">О приложении</string>
 
-    
+
     <string name="del_calSdl_text_1">Вы уверены, что хотите удалить график \"</string>
     <string name="del_calSdl_text_2">\" из календаря?</string>
     <string name="del_calMark_text">Вы уверены, что хотите удалить это событие из календаря?</string>
@@ -26,7 +25,7 @@
     <string name="snake_info">Default snake Info</string>
     <string name="snake_err">Произошла ошибка!</string>
 
-<!--    ABOUT WINDOW    -->
+    <!--    ABOUT WINDOW    -->
     <string name="about_text1">
         Приложение <b>WorkCalendar</b> разработано <b>FDStudio</b> для удобного отслеживания нескольких графиков, а также дел, событий, создания заметок или напоминаний.\n\n
         Возможности приложения:
@@ -43,7 +42,7 @@
           <b>Все возможности в приложении полностью бесплатны.</b> \n\nВ приложении присудствует немного рекламмы, но если она вам всё же мешает её можно легко удалить.
     </string>
 
-<!--    SDLE HELP TEXTS  -->
+    <!--    SDLE HELP TEXTS  -->
     <string name="sdle_help_text1">
         - это удобное средство для создания новых, а так же редактирования и удаления ранее созданных графиков. \n
         \n
@@ -69,6 +68,7 @@
     <string name="sdle_help_text2_1">
         Когда всё готого нажми
     </string>
+
     <string name="sdle_help_text2_2">
         для сохнанения.
     </string>
@@ -76,12 +76,14 @@
     <string name="sdle_help_text3_1">
         Или
     </string>
-    <string name="sdle_help_text3_2">
-        , чтобы очистить график и начать сначала.
-    </string>
+
     <string name="rate_text">
-        Если вам нравится использовать это приложение, не могли бы вы уделить время, чтобы оценить его? \n
-        Это займет не больше минуты. \n
-        Спасибо за вашу поддержку!
+        If you enjoy using this app, would you mind taking a moment to rate it? \n
+        It won`t take more then a minute. \n
+        Thank for your support!
+    </string>
+
+    <string name="sdle_help_text3_2">
+
     </string>
 </resources>

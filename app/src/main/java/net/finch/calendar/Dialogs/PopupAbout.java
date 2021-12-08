@@ -26,5 +26,6 @@ public class PopupAbout extends PopupView {
     protected void layoutSettings(PopupWindow pw) {
         super.layoutSettings(pw);
 
+        // TODO: BTN_NO_ADS listener
     }
 }
