@@ -1,16 +1,16 @@
 package net.finch.calendar.Dialogs;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.widget.PopupWindow;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
 import net.finch.calendar.Settings.HSettings;
 
-public class PopupRate extends PopupView {
 
+public class PopupRate extends PopupView {
     final static int LAYOUT_ID_ABOUT = R.layout.popup_rate;
     Context ctx;
 
@@ -23,16 +23,17 @@ public class PopupRate extends PopupView {
 
     @Override
     protected void layoutSettings(PopupWindow pw) {
-//        super.layoutSettings(pw);
-        pwView = pw.getContentView();
-
-
 
 // *** RATE NOW ***
         (pwView.findViewById(R.id.btn_rate_now)).setOnClickListener(v -> {
             pw.dismiss();
-            new HSettings(ctx).rdcZero();
+            new HSettings(ctx).noRate();
             // TODO: Go to PlayMarket URL...
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(
+                    ctx.getString(R.string.market_url)));
+            intent.setPackage("com.android.vending");
+            ctx.startActivity(intent);
         });
 
 // *** RATE LATER ***
@@ -43,7 +44,7 @@ public class PopupRate extends PopupView {
 
 // *** RATE NEVER ***
         (pwView.findViewById(R.id.btn_rate_never)).setOnClickListener(v -> {
-            new HSettings(ctx).rdcZero();
+            new HSettings(ctx).noRate();
             pw.dismiss();
             ((AppCompatActivity)ctx).finish();
         });

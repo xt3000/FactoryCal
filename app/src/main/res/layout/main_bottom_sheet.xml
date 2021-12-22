@@ -59,7 +59,7 @@
             android:layout_marginStart="15dp"
             android:fontFamily="@font/open_sans"
             android:gravity="center_vertical"
-            android:text="События этого дня"
+            android:text="@string/main_bottom_evts_header"
             android:textColor="@android:color/white"
             android:textStyle="normal" />
 

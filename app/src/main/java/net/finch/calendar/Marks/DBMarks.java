@@ -1,14 +1,15 @@
 package net.finch.calendar.Marks;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
 import net.finch.calendar.DB;
 import net.finch.calendar.Time;
 
+
+@SuppressLint("Range")
 public class DBMarks extends DB
  {
 	public static final String DB_NAME = "marks";
@@ -50,7 +51,8 @@ public class DBMarks extends DB
         db.close();
     }
 
-    public boolean update(Mark mrk) {
+
+    public void update(Mark mrk) {
         SQLiteDatabase db = getReadableDatabase();
         int sqlId = mrk.getDB_id();
         String select = "id = ?";
@@ -73,10 +75,9 @@ public class DBMarks extends DB
             cv.put("time", Time.toInt(mrk.getTime()));
             cv.put("note", mrk.getInfo());
             db.update(DB_NAME, cv, select, selArgs);
-        }else return false;
+        }else return;
         db.close();
 
-        return true;
     }
 
     public Mark readMark(int sqlId) {

@@ -1,17 +1,14 @@
 package net.finch.calendar.Schedules;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
 import net.finch.calendar.DB;
-import net.finch.calendar.Marks.DBMarks;
 
-import static net.finch.calendar.CalendarVM.TAG;
 
+@SuppressLint("Range")
 public class DBSchedules extends DB {
     public static final String DB_NAME = "schedule";
 
@@ -40,6 +37,7 @@ public class DBSchedules extends DB {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
 
 
     public boolean isPrime(int id) {
@@ -109,14 +107,4 @@ public class DBSchedules extends DB {
         db.replace(DB_NAME, null, cv);
         db.close();
     }
-
-//    public void delete(int id){
-//
-//        SQLiteDatabase db = getWritableDatabase();
-//        String select = "id = ?";
-//        String[] selArgs = {""+id};
-//
-//        db.delete(DB_NAME, select, selArgs);
-//        db.close();
-//    }
 }

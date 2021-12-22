@@ -1,7 +1,6 @@
 package net.finch.calendar;
 
 import android.view.View;
-import static net.finch.calendar.CalendarVM.TAG;
 
 public class OnDayClickListener implements View.OnClickListener {
 

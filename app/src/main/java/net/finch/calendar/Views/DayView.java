@@ -2,31 +2,21 @@ package net.finch.calendar.Views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import androidx.annotation.ColorRes;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.gridlayout.widget.GridLayout;
-
 import net.finch.calendar.CalendarNavigator;
 import net.finch.calendar.DayInfo;
 import net.finch.calendar.OnDayClickListener;
 import net.finch.calendar.R;
-
 import java.util.Calendar;
-
-import static net.finch.calendar.CalendarVM.TAG;
 
 
 public class DayView extends AppCompatTextView
@@ -35,25 +25,26 @@ public class DayView extends AppCompatTextView
     private String msg="";
     private boolean markedUp = false;
     private boolean markedDown = false;
-    private int colorDown, colorUp, color0, color1;
-    private final int MARGIN = 15;
+    private final int colorUp;
+    private final int color0;
+    private final int color1;
 
-    private float w, h;
-    private Paint paintUp = new Paint(Paint.ANTI_ALIAS_FLAG), paintDown = new Paint(), paintTxt = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint paintUp = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint paintDown = new Paint();
     Rect rect = new Rect();
-    RectF rectF = new RectF();
 
-    @SuppressLint("ResourceAsColor")
+
     public DayView(Context context){
         super(context);
         GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
         lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         lp.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-        lp.setMargins(MARGIN,MARGIN,MARGIN,MARGIN);
+        int MARGIN = 15;
+        lp.setMargins(MARGIN, MARGIN, MARGIN, MARGIN);
         setLayoutParams(lp);
         setGravity(Gravity.CENTER);
-        setTextColor(R.color.colorAccent);
+        setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         setTypeface(ResourcesCompat.getFont(getContext(), R.font.open_sans_semibold));
         colorUp = context.getColor(R.color.colorAccent);
         color0 = context.getColor(R.color.rbActive);
@@ -74,29 +65,29 @@ public class DayView extends AppCompatTextView
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-        w = getMeasuredWidth();
-        h = getMeasuredHeight();
+        float w = getMeasuredWidth();
+        float h = getMeasuredHeight();
 
 //  *** DRAW TEXT ***
-        paintTxt = getPaint();
+        Paint paintTxt = getPaint();
         if (monthOffset == 0) paintTxt.setColor(color0);
         else paintTxt.setColor(color1);
         paintTxt.setTextAlign(Paint.Align.CENTER);
         paintTxt.getTextBounds(msg, 0, msg.length(), rect);
         float y = h / 2f + rect.height() / 2f - rect.bottom;
-        canvas.drawText(msg, (w/2), y, paintTxt);
+        canvas.drawText(msg, (w /2), y, paintTxt);
 
 //  *** DRAW MARKS ***
-        if(w==0 || h==0) return;
+        if(w ==0 || h ==0) return;
         if (markedUp) {
             int radius = 5;
-            canvas.drawCircle(w/2, h/6, radius, paintUp);
+            canvas.drawCircle(w /2, h /6, radius, paintUp);
         }
 
 //  *** DRAW SHIFTS ***
         if (markedDown) {
             float r = 3;
-            canvas.drawRect(w/r, h-(h/5)+5, w-(w/r), h-(h/5), paintDown);
+            canvas.drawRect(w /r, h -(h /5)+5, w -(w /r), h -(h /5), paintDown);
         }
     }
 
@@ -108,9 +99,8 @@ public class DayView extends AppCompatTextView
 
     private void markedDown(boolean m, int color) {
         markedDown = m;
-        colorDown = color;
         paintDown.setStyle(Paint.Style.FILL);
-        paintDown.setColor(colorDown);
+        paintDown.setColor(color);
     }
 
     private void setMonthOffset(int offset) {

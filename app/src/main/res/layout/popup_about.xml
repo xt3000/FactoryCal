@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,7 +26,7 @@
                 android:id="@+id/popup.about.tv_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="О приложении"
+                android:text="@string/main_menu_3"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,13 +77,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
             <Button
-                android:id="@+id/btn_rate_now"
+                android:id="@+id/btn_no_ads"
                 style="@style/AppTheme.MaterialBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="удалить рекламму"
+                android:text="@string/main_menu_2"
                 android:textColor="@color/black_semi_transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />

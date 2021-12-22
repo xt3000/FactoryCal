@@ -1,21 +1,16 @@
 package net.finch.calendar.SDLEditor;
 
 import android.os.Build;
-//import android.support.annotation.RequiresApi;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import net.finch.calendar.Schedules.Schedule;
 import net.finch.calendar.Settings.SDLSettings;
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Map;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class SdleVM extends ViewModel {
     private MutableLiveData<Boolean> editorModeLD;
     private boolean editorMode = SdlEditorActivity.sdlMODE;
@@ -25,12 +20,10 @@ public class SdleVM extends ViewModel {
 
     private MutableLiveData<Schedule> sftsLD;
     private Schedule sdl;
-    private int newId = 0;
 
     private MutableLiveData<ArrayList<Schedule>> sdlsListLD;
-    private ArrayList<Schedule>sdlsList;
 
-// *** COLOR LiveData ***
+    // *** COLOR LiveData ***
     public LiveData<Map<String, Integer>> getColorsLD(Map<String, Integer> c) {
         if (colorsLD == null) {
             colorsLD = new MutableLiveData<>();
@@ -47,10 +40,6 @@ public class SdleVM extends ViewModel {
             colors.replace(sft, color);
             colorsLD.setValue(colors);
         }
-    }
-
-    public int getCurrentSftColor(String sft){
-        return colors.get(sft);
     }
 
 
@@ -72,20 +61,13 @@ public class SdleVM extends ViewModel {
     }
 
 
-    public int getNewId(){
-        newId++;
-        return newId-1;
-    }
-
-
-
 // *** SDLS List LiveData ***
     public LiveData<ArrayList<Schedule>> getSdlsListLD() {
         if (sdlsListLD == null) {
             sdlsListLD = new MutableLiveData<>();
         }
 
-        sdlsList = new ArrayList<>();
+        ArrayList<Schedule> sdlsList = new ArrayList<>();
         try {
             sdlsList = new SDLSettings(SdlEditorActivity.getInstance()).getSdlArray();
         } catch (JSONException e) {

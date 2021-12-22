@@ -13,21 +13,15 @@ public class DayInfo
 	private final int id;
 	private final Calendar cal;
 	private final int monthOffset; // (-1,0,1)
-	//int month;
-	//int year;
 	private final Boolean mark;
 	private Boolean shift;
 	private final ArrayList<Mark> markList;
 	private final ArrayList<Shift> shiftList;
 
 	public DayInfo(int id, Calendar cal, int monthOffset, ArrayList<Mark> markList, ArrayList<Shift> shiftList) {
-//		Log.d(TAG, "DayInfo: id = "+id);
 		this.id = id;
 		this.cal = cal;
 		this.monthOffset = monthOffset;
-
-		//this.year = cal.get(GregorianCalendar.YEAR);
-		//this.month = cal.get(GregorianCalendar.MONTH);
 
 		if (markList != null) {
 			this.markList = markList;
@@ -38,16 +32,12 @@ public class DayInfo
 		}
 
 		if (shiftList != null) {
-//			Log.d(TAG, "DayInfo: shiftList = NOT null; size = "+ shiftList.size());
 			this.shiftList = shiftList;
 			if (shiftList.size() > 0) this.shift = true;
 		}else {
-//			Log.d(TAG, "DayInfo: shiftList = null");
 			this.shiftList = new ArrayList<>();
 			this.shift = false;
 		}
-		
-		//Calendar c = new GregorianCalendar(year, m
 	}
 
 

@@ -1,14 +1,8 @@
 package net.finch.calendar.Dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
-//import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.os.Build;
-//import android.support.annotation.RequiresApi;
-//import android.support.design.widget.TextInputEditText;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,12 +12,8 @@ import android.widget.CheckBox;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.textfield.TextInputEditText;
-
 import net.finch.calendar.CalendarVM;
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.Marks.DBMarks;
@@ -34,26 +24,20 @@ import net.finch.calendar.Schedules.DBSchedules;
 import net.finch.calendar.Schedules.Schedule;
 import net.finch.calendar.Settings.SDLSettings;
 import net.finch.calendar.Time;
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
-import static net.finch.calendar.CalendarVM.TAG;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class PopupAdd extends PopupView implements TextView.OnEditorActionListener, View.OnClickListener {
     public final static int MARK = R.layout.popup_mark_add;
     public final static int SCHEDULE = R.layout.popup_schedule_add;
     private final int rootId;
-
     protected AppCompatActivity activity;
     protected final int layout;
     protected int sqlId;
-
     private PopupWindow pw;
     private final Calendar mTime = new GregorianCalendar();
     protected Button btnMarkConfirm;
@@ -61,12 +45,8 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     private TimePickerDialog.OnTimeSetListener timeSetListener;
     protected TextInputEditText etMarkNote;
     protected Spinner spinner;
-
     private String headerDate;
-
     protected CalendarVM model;
-
-    protected int sdlPosId;
     protected String sdlSelected;
     protected CheckBox chbSdlPrime, chbNewDay;
     private ArrayList<Schedule> sdlList = new ArrayList<>();
@@ -135,19 +115,19 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 
     protected void setSpinnerAdapter() {
         final ArrayList<String> sdlNames = getSdlNames(sdlList);
-        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<String>(activity, R.layout.sdl_spiner_tvitem, sdlNames);
+        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<>(activity, R.layout.sdl_spiner_tvitem, sdlNames);
         spinner.setAdapter(sdlSpinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
                 sdlSelected = sdlNames.get(pos);
 //                sdlPosId = pos;
-                Log.d(CalendarVM.TAG, "onItemSelected: itemID = "+pos);
+//                Log.d(CalendarVM.TAG, "onItemSelected: itemID = "+pos);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.d(TAG, "onNothingSelected: ");
+//                Log.d(TAG, "onNothingSelected: ");
             }
         });
     }
@@ -178,29 +158,25 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         return false;
     }
 
-    @SuppressLint("NonConstantResourceId")
+
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.btn_markConfirm:
-                Log.d(CalendarVM.TAG, "onClick: btn_markConfirm");
+            case (R.id.btn_markConfirm):
+//                Log.d(CalendarVM.TAG, "onClick: btn_markConfirm");
                     saveMark();
                 pw.dismiss();
                 break;
-            case R.id.tv_addTime:
-                Log.d(CalendarVM.TAG, "onClick: setTime");
+            case (R.id.tv_addTime):
+//                Log.d(CalendarVM.TAG, "onClick: setTime");
                 new TimePickerDialog(activity, timeSetListener,
                         mTime.get(Calendar.HOUR_OF_DAY),
                         mTime.get(Calendar.MINUTE), true)
                         .show();
                 break;
-            case R.id.btn_sdlSave:
-                Log.d(TAG, "onClick: btn_sdlSave");
-                try {
-                    saveSdl();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            case (R.id.btn_sdlSave):
+//                Log.d(TAG, "onClick: btn_sdlSave");
+                saveSdl();
                 pw.dismiss();
         }
     }
@@ -230,18 +206,14 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
 //        model.setSliderState(true);
     }
 
-    protected void saveSdl() throws JSONException {
+    protected void saveSdl() {
         Schedule sdl = getSdlByName(sdlSelected);
-//        Schedule sdl = sdlList.get(sdlPosId); //  TODO: ERR:при PopupEdit всегда равна 0
-//        Log.d(CalendarVM.TAG, "onItemSelected: pos = "+sdlPosId+" save  "+sdl.getName()+" ("+sdl.getSdl()+")");
         DBSchedules dbSdl = new DBSchedules(activity);
         ParseDate pd = new ParseDate(headerDate);
-        Log.d(TAG, "saveSdl: prime = "+chbSdlPrime.isChecked());
         if (chbNewDay.getVisibility() == View.VISIBLE && !chbNewDay.isChecked()) dbSdl.save(sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
             else dbSdl.save(pd.getY(), pd.getM(), pd.getD(), sdl.getName(), sdl.getSdl(), chbSdlPrime.isChecked());
 
         model.getFODLiveData(null);
-//        model.updInfoList();
     }
 
     private Schedule getSdlByName(String sdlSelected) {

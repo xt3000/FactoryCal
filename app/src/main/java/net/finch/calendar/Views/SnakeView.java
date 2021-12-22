@@ -2,23 +2,13 @@ package net.finch.calendar.Views;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-
 import net.finch.calendar.R;
-
-import static net.finch.calendar.CalendarVM.TAG;
 
 public class SnakeView {
     public static final int TYPE_SUCCESS = 0;
@@ -31,7 +21,7 @@ public class SnakeView {
 
     public static Snackbar make(View view, int resIcon, CharSequence text, int color) {
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
-        Snackbar sbar = Snackbar.make(view, "", 2500);
+        Snackbar sbar = Snackbar.make(view, "", 4000);
 
         @SuppressLint("InflateParams") View customView = activity.getLayoutInflater().inflate(R.layout.snake_bar, null);
 
@@ -49,7 +39,11 @@ public class SnakeView {
         return sbar;
     }
 
-    public static Snackbar make(View view, int type) {
-        return make(view, ICONS[type], view.getContext().getString(TEXTS[type]), COLORS[type]);
+    public static Snackbar make(View view, int type, int txtRes) {
+        return make(view, ICONS[type], view.getContext().getString(txtRes), COLORS[type]);
+    }
+
+    public static Snackbar make(View view, int type, CharSequence text) {
+        return make(view, ICONS[type], text, COLORS[type]);
     }
 }

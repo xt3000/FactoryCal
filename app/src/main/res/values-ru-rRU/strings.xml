@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    APP NAME-->
+    <string name="app_name">WorkCalendar</string>
+
+    <!--   MWIN MENU   -->
+    <string name="main_menu_1">Редактор графиков</string>
+    <string name="main_menu_2">Удалить рекламму</string>
+    <string name="main_menu_3">О приложении</string>
+
+
+    <string name="del_calSdl_text_1">Вы уверены, что хотите удалить график \"</string>
+    <string name="del_calSdl_text_2">\" из календаря?</string>
+    <string name="del_calMark_text">Вы уверены, что хотите удалить это событие из календаря?</string>
+    <string name="sdle_notSavedBack">Вы действительно хотите выйти без сохранения изменений?</string>
+    <string name="sdle_sdl_title">Редактор графиков</string>
+    <string name="sdle_sft_title">Редактор смен</string>
+    <string name="snake_success">Успешно сохранено!</string>
+    <string name="snake_info">Default snake Info</string>
+    <string name="snake_err">Произошла ошибка!</string>
+
+    <!--    ABOUT WINDOW    -->
+    <string name="about_text1">
+        Приложение <b>WorkCalendar</b> разработано <b>FDStudio</b> для удобного отслеживания нескольких графиков, а также дел, событий, создания заметок или напоминаний.\n\n
+        Возможности приложения:
+    </string>
+
+    <string name="about_text2_1">
+        <li>Быстрое и удобное добавление рабочих графиков в календарь</li> \n
+      <li>Создание и кастомизация собственных графиков работы</li> \n
+      <li>Лёгкое и удобное добавление заметок в календарь</li> \n
+      <li>Удобное управление добавленными в календарь событиями</li> \n
+    </string>
+
+    <string name="about_text3">
+        <b>Все возможности в приложении полностью бесплатны.</b> \n
+        \n
+        В приложении присудствует немного рекламмы, но если она вам всё же мешает её можно легко удалить.
+    </string>
+
+    <!--    SDLE HELP TEXTS  -->
+    <string name="sdle_help_text1">
+        - это удобное средство для создания новых, а так же редактирования и удаления ранее созданных графиков. \n
+        \n
+        Использование: \n
+        <li>Просто <b>выбери график</b> из списка, чтоб открыть меню.</li> \n
+        <li>Либо <b>нажми \"+\"</b> для создания нового.</li>
+    </string>
+
+    <string name="sdle_help_text2">
+        - это инструмент для редактирования и кастомизации смен выбранного графика. \n
+        \n
+        Использование: \n
+        <li>Добавляй смены <b>нажатием кнопки \"+\"</b>.</li> \n
+        <li><b>Длинным нажатием на \"+\"</b> добавь сразу сколько нужно смен.</li> \n
+        <li><b>Нажимай на добавленную смену</b> чтоб изменить её.</li> \n
+        <li><b>Смахни смену</b> в сторону, чтоб удалить её из графика.</li> \n
+        <li><b>Выбери смену длинным нажатием</b>, затем <b>перетащи</b> и отпусти в любом другом месте для изменения её положения в графике.</li> \n
+        \n
+        В нижнем окне можно выбрать любые цвета для отметок смен в календаре. \n
+        Это окно можно смахнуть вниз, если оно мешает. \n
+    </string>
+
+    <string name="sdle_help_text2_1">
+        Когда всё готого нажми
+    </string>
+    <string name="sdle_help_text2_2">
+        для сохранения.
+    </string>
+
+    <string name="sdle_help_text3_1">
+        Или
+    </string>
+    <string name="sdle_help_text3_2">
+        , чтобы очистить график и начать сначала.
+    </string>
+    <string name="rate_text">
+        Если вам нравится использовать это приложение, не могли бы вы уделить время, чтобы оценить его? \n
+        Это займет не больше минуты. \n
+        Спасибо за вашу поддержку!
+    </string>
+    <string name="main_menu_0">Сегодня</string>
+    <string name="main_bottom_sftlist_name">Смены</string>
+    <string name="main_bottom_mrklist_name">События и заметки</string>
+
+    <string-array name="month">
+        <item>ЯНВАРЬ</item>
+        <item>ФЕВРАЛЬ</item>
+        <item>МАРТ</item>
+        <item>АПРЕЛЬ</item>
+        <item>МАЙ</item>
+        <item>ИЮНЬ</item>
+        <item>ИЮЛЬ</item>
+        <item>АВГУСТ</item>
+        <item>СЕНТЯБРЬ</item>
+        <item>ОКТЯБРЬ</item>
+        <item>НОЯБРЬ</item>
+        <item>ДЕКАБРЬ</item>
+    </string-array>
+
+    <string name="week_day_mon">ПH</string>
+    <string name="week_day_tue">ВТ</string>
+    <string name="week_day_wed">СР</string>
+    <string name="week_day_thu">ЧТ</string>
+    <string name="week_day_fri">ПТ</string>
+    <string name="week_day_sat">СБ</string>
+    <string name="week_day_sun">ВС</string>
+    <string name="popup_sdl_create">Создание графика</string>
+    <string name="err_empty_field">Поле не должно быть пустым!</string>
+    <string name="err_sdl_exists">Такой график уже существует!</string>
+    <string name="clear_sdl_msg">Вы уверены, что хотите очистить этот график?</string>
+    <string name="err_empty_sdl">Добавьте смены в график перед сохранением!</string>
+    <string name="err_sdl_notsaved">Произошла ошибка! График \"%s\" НЕ сохранён.</string>
+    <string name="sdl_saved_msg">График \"%s\" успешно сохранён!</string>
+    <string name="err_sdl_full">Добавлено 365 смен. График заполнен!</string>
+    <string name="sdle_sdllist_empty_msg">У вас нет графиков. \n Нажмите \"+\", чтобы создать новый.</string>
+    <string name="sdle_sftlist_empty">Этот график пуст. \nНажмите "+", что бы добавить смены.</string>
+    <string name="sdle_sdldel_msg">Вы уверены что хотите удалить график \"%s\"?</string>
+    <string name="main_bottom_evts_header">События этого дня:</string>
+    <string name="fabmenu_addmark">Добавить заметку</string>
+    <string name="fabmenu_addsdl">Добавить график</string>
+    <string name="time">время</string>
+    <string name="event">заметка или событие</string>
+    <string name="save">Сохранить</string>
+    <string name="rate_header">Нравится приложение?</string>
+    <string name="rate_app">оценить</string>
+    <string name="later">позже</string>
+    <string name="never">никогда</string>
+    <string name="calculate_from_new">Расчитать с новой даты</string>
+    <string name="show_in_calendar">Показать в календаре</string>
+    <string name="calculate">Расчитать</string>
+    <string name="sdl_create_tint">Введите название</string>
+    <string name="create">Создать</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">ok</string>
+    <string name="add">Добавить</string>
+
+    <string name="U">Утро</string>
+    <string name="D">День</string>
+    <string name="N">Ночь</string>
+    <string name="W">Вых</string>
+    <string name="S">Сут</string>
+    <string name="V">Вчр</string>
+
+    <string name="def_color">Цвета по умолчанию</string>
+    <string name="sdle_bottom_header_text">Выбор цветов смен</string>
+
+    <string name="full_D">День</string>
+    <string name="full_U">Утро</string>
+    <string name="full_N">Ночь</string>
+    <string name="full_W">Выходной</string>
+    <string name="full_S">Сутки</string>
+    <string name="full_V">Вечер</string>
+
+    <string name="purchase_success">Реклама успешно отключена. Спасибо, что пользуетесь нашим приложением!</string>
+    <string name="no_connect">Не удаётся подключиться к GooglePlay. Попробуйте в другой раз.</string>
+    <string name="main_menu_2_5">Оценить приложение</string>
+    <string name="purchase_err">Неудачная попытка покупки. Попробуйте в другой раз!</string>
+    <string name="purchase_pedding">Покупка совершена. Как только оплата поступит, вся рекламма будет отключена.</string>
+    <string name="popup_addsfts_text">Количество смен (0 - %d):</string>
+    <string name="popup_addsfts_hint">Количество</string>
+    <string name="popup_addsfts_header">Добавление смен</string>
+</resources>

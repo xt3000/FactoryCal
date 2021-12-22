@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sdle.cl_bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_expanded_height"
     android:background="@drawable/sdle_bsheet_header"
-    android:forceDarkAllowed="false"
     app:behavior_hideable="true"
     app:behavior_peekHeight="@dimen/bottom_sheet_collapse_height"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -48,7 +46,7 @@
                     style="@style/AppTheme.sdle_sft_color_text"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginTop="4dp"
-                    android:text="Утро" />
+                    android:text="@string/full_U" />
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>
@@ -74,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="День" />
+                    android:text="@string/full_D" />
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>
@@ -101,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Ночь" />
+                    android:text="@string/full_N" />
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>
@@ -129,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Сутки" />
+                    android:text="@string/full_S" />
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>
@@ -157,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Вечер" />
+                    android:text="@string/full_V" />
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>
@@ -185,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Вых" />
+                    android:text="@string/full_W" />
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>
@@ -197,7 +195,7 @@
         style="@style/AppTheme.MaterialBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Цвета по умолчанию"
+        android:text="@string/def_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

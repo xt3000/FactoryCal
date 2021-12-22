@@ -7,7 +7,7 @@
         <item name="android:windowBackground">@color/colorPrimaryDark_2</item>
         <item name="android:fontFamily">@font/open_sans_light</item>
         <item name="colorPrimary">@color/colorPrimary_v2</item>
-        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorPrimary2</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
         <item name="colorOnSurface">@color/rbActive</item>
@@ -62,12 +62,13 @@
         <item name="android:textSize">12sp</item>
         <item name="android:minWidth">50dp</item>
         <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">4dp</item>
         <item name="android:background">@drawable/bg_black_trans_rounded</item>
     </style>
 
     <style name="AppTheme.SftCardView">
-        <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
         <item name="android:foreground">@drawable/fg_trans_outline_8dp</item>
         <item name="cardCornerRadius">8dp</item>
     </style>

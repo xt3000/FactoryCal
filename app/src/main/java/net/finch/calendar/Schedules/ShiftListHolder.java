@@ -2,19 +2,13 @@ package net.finch.calendar.Schedules;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.transition.TransitionManager;
-
 import com.unnamed.b.atv.model.TreeNode;
-
 import net.finch.calendar.CalendarVM;
 import net.finch.calendar.Dialogs.PopupWarning;
 import net.finch.calendar.Dialogs.PopupSdlEdit;
@@ -22,9 +16,9 @@ import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
 import net.finch.calendar.Utils;
 
-import static net.finch.calendar.CalendarVM.TAG;
+import static net.finch.calendar.Schedules.Shift.sftRes;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implements View.OnClickListener {
     private boolean isLost;
 
@@ -41,16 +35,13 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
     @Override
     public View createNodeView(TreeNode node, Shift value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.shift_item, null, false);
-
-        Log.d(TAG, "createNodeView: sql_ID = "+value.getDb_id());
-        TextView sqlId = view.findViewById(R.id.tv_sdl_sqlId);
-        sqlId.setText(""+value.getDb_id());
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.shift_item, null, false);
 
         TextView tvSdlName = view.findViewById(R.id.tv_item_sdlName);
         tvSdlName.setText(value.getSdlName());
+        tvSdlName.setTag(value.getDb_id());
         TextView tvShift = view.findViewById(R.id.tv_item_shift);
-        tvShift.setText(String.valueOf(value.getShiftName()));
+        tvShift.setText(context.getString(sftRes[value.getSftId()]));
         tvShift.setBackgroundColor(value.getColor());
 
         ImageView ivbMenu = view.findViewById(R.id.ivb_shiftMenu);
@@ -69,11 +60,9 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         int vid = v.getId();
         if (vid == R.id.ivb_shiftMenu) onMenuBtnClick(v);
         else {
-            View parent = (View) v.getParent().getParent();
-            TextView tvSqlId = parent.findViewById(R.id.tv_sdl_sqlId);
-            int sqlId = Integer.parseInt(tvSqlId.getText().toString());
-
-
+            View parent = (View) v.getParent().getParent().getParent();
+            TextView tvSdlName = parent.findViewById(R.id.tv_item_sdlName);
+            int sqlId = (int) tvSdlName.getTag();
 
             if (vid == R.id.iv_btn_sdlDel) {
                 onSdlDelBtnClick(sqlId);
@@ -108,7 +97,7 @@ public class ShiftListHolder extends TreeNode.BaseNodeViewHolder<Shift> implemen
         }
         else {
             openedView = v;
-            Log.d(TAG, "onClick: margin = "+params.rightMargin);
+//            Log.d(TAG, "onClick: margin = "+params.rightMargin);
             params.width = item.getWidth();
             params.rightMargin = (int)Utils.dpToPx(context, 103f)*2;
         }

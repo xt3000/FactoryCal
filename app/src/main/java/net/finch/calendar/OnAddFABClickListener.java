@@ -1,20 +1,11 @@
 package net.finch.calendar;
 
-import android.annotation.SuppressLint;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.transition.ChangeBounds;
-//import android.support.transition.Fade;
-//import android.support.transition.Scene;
-//import android.support.transition.TransitionManager;
-//import android.support.transition.TransitionSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 
 import androidx.transition.Fade;
@@ -25,22 +16,18 @@ import androidx.transition.TransitionSet;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import static net.finch.calendar.CalendarVM.TAG;
-
 public class OnAddFABClickListener implements View.OnClickListener {
 
     FrameLayout flFabMenu;
-    @SuppressLint("StaticFieldLeak")
-    private FloatingActionButton fabMark;
-    @SuppressLint("StaticFieldLeak")
-    private  FloatingActionButton fabSdl;
+    private final FloatingActionButton fabMark;
+    private final FloatingActionButton fabSdl;
     private  FloatingActionButton addFAB;
 
-    private  Scene scOn;
-    private Scene scOff;
+    private final Scene scOn;
+    private final Scene scOff;
 
-    private  Animation rotateOn;
-    private  Animation rotateOff;
+    private final Animation rotateOn;
+    private final Animation rotateOff;
 
     protected static boolean isMenuOn = false;
 
@@ -55,17 +42,15 @@ public class OnAddFABClickListener implements View.OnClickListener {
         fabSdl= MainActivity.getContext().findViewById(R.id.fab_sdl);
         ViewGroup root = MainActivity.getContext().findViewById(R.id.fl_fabMenu_root);
 
-
-
         scOn = Scene.getSceneForLayout(root, R.layout.fab_layout_on, MainActivity.getContext());
         scOff = Scene.getSceneForLayout(root, R.layout.fab_layout_off, MainActivity.getContext());
 
     }
 
-    @SuppressLint("NonConstantResourceId")
+
     @Override
     public void onClick(View view) {
-        Log.d(TAG, "onFABClick: ");
+//        Log.d(TAG, "onFABClick: ");
         addFAB = (FloatingActionButton) view;
         fabAddMenuClick();
 
@@ -73,7 +58,7 @@ public class OnAddFABClickListener implements View.OnClickListener {
 
 
     public void fabAddMenuClick() {
-        Log.d(TAG, "fabAddMenu: isRotate = "+ isMenuOn);
+//        Log.d(TAG, "fabAddMenu: isRotate = "+ isMenuOn);
         if (!isMenuOn) isMenuOn = menuOn();
         else isMenuOn = menuOff();
     }

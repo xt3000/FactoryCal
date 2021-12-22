@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fl_fabMenu"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:clickable="false"
+    android:forceDarkAllowed="false"
+    app:layout_anchor="@id/afab_add">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.7"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:src="@drawable/ic_mark"
+        android:visibility="visible"
+        app:backgroundTint="@android:color/black"
+        app:fabSize="mini"
+        android:contentDescription="@string/menu" />
+
+    <TextView
+        android:id="@+id/fab_mark_text"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_gravity="start|top"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/bg_black_trans_rounded"
+        android:clickable="false"
+        android:elevation="6dp"
+        android:gravity="start|center_vertical"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="@string/fabmenu_addmark"
+        android:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_sdl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.7"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:src="@drawable/ic_calendar_sdl"
+        android:visibility="visible"
+        app:backgroundTint="@android:color/black"
+        app:fabSize="mini"
+        android:contentDescription="@string/menu" />
+
+    <TextView
+        android:id="@+id/fab_sdl_text"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_gravity="start|top"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/bg_black_trans_rounded"
+        android:clickable="false"
+        android:elevation="6dp"
+        android:gravity="start|center_vertical"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="@string/fabmenu_addsdl"
+        android:visibility="visible" />
+
+</FrameLayout>

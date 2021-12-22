@@ -2,86 +2,179 @@
 <resources>
 
     <string name="app_name">WorkCalendar</string>
-    <string name="null_time">- - : - -</string>
-    <!-- TODO: Default Schedule String -->
-    <string name="schedule1">UNWW</string>
-    <string name="schedule2">UUUUUWW</string>
+    <string name="null_time" translatable="false">- - : - -</string>
 
-    <string name="schedule_default">{"id":0,"name":"default","sdl":"UNWW","shiftColors":{"U":-12012545,"D":-12012545,"N":-16689253,"S":-12012545,"V":-16689253,"W":16777215}}</string>
-    <string name="title_activity_sdle_editor_v2">Schedule Editor</string>
+    <!-- БЕЗ ПЕРЕВОДА -->
+    <string name="schedule1" translatable="false">UNWW</string>
+    <string name="schedule2" translatable="false">UUUUUWW</string>
+    <string name="schedule_default" translatable="false">{"id":0,"name":"default","sdl":"UNWW","shiftColors":{"U":-12012545,"D":-12012545,"N":-16689253,"S":-12012545,"V":-16689253,"W":16777215}}</string>
+    <string name="title_activity_sdle_editor_v2" translatable="false">Schedule Editor</string>
+    <string name="market_url" translatable="false">https://play.google.com/store/apps/details?id=net.finch.calendar</string>
 
 <!--   MWIN MENU   -->
-    <string name="main_menu_1">Редактор графиков</string>
-    <string name="main_menu_2">Настройки</string>
-    <string name="main_menu_3">О приложении</string>
+    <string name="main_menu_1">Schedule editor</string>
+    <string name="main_menu_2">Remove ads</string>
+    <string name="main_menu_3">About</string>
 
     
-    <string name="del_calSdl_text_1">Вы уверены, что хотите удалить график \"</string>
-    <string name="del_calSdl_text_2">\" из календаря?</string>
-    <string name="del_calMark_text">Вы уверены, что хотите удалить это событие из календаря?</string>
-    <string name="sdle_notSavedBack">Вы действительно хотите выйти без сохранения изменений?</string>
-    <string name="sdle_sdl_title">Редактор графиков</string>
-    <string name="sdle_sft_title">Редактор смен</string>
-    <string name="snake_success">Сохранено успешно</string>
+    <string name="del_calSdl_text_1">Are you sure you want to remove the \"</string>
+    <string name="del_calSdl_text_2">\" schedule from the calendar?</string>
+    <string name="del_calMark_text">Are you sure you want to remove this event from your calendar?</string>
+    <string name="sdle_notSavedBack">Are you sure you want to exit without saving your changes?</string>
+    <string name="sdle_sdl_title">Schedule editor</string>
+    <string name="sdle_sft_title">Shift editor</string>
+    <string name="snake_success">Saved successfully!</string>
     <string name="snake_info">Default snake Info</string>
-    <string name="snake_err">Произошла ошибка!</string>
+    <string name="snake_err">An error has occurred!</string>
 
 <!--    ABOUT WINDOW    -->
     <string name="about_text1">
-        Приложение <b>WorkCalendar</b> разработано <b>FDStudio</b> для удобного отслеживания нескольких графиков, а также дел, событий, создания заметок или напоминаний.\n\n
-        Возможности приложения:
+        The <b>WorkCalendar</b> application was developed by <b>FDStudio</b> for easy tracking of multiple schedules, as well as tasks, events, creating notes or reminders.\n\n
+        Application features:
     </string>
 
     <string name="about_text2_1">
-        <li>Быстрое и удобное добавление рабочих графиков в календарь</li> \n
-      <li>Создание и кастомизация собственных графиков работы</li> \n
-      <li>Лёгкое и удобное добавление заметок в календарь</li> \n
-      <li>Удобное управление добавленными в календарь событиями</li> \n
+        <li>Quick and convenient adding of work schedules to the calendar</li> \n
+      <li>Creation and customization of your own work schedules</li> \n
+      <li>Easy and convenient adding of notes to the calendar</li> \n
+      <li>Convenient management of events added to the calendar</li> \n
     </string>
 
     <string name="about_text3">
-          <b>Все возможности в приложении полностью бесплатны.</b> \n\nВ приложении присудствует немного рекламмы, но если она вам всё же мешает её можно легко удалить.
+          <b>All features in the application are completely free.</b> \n
+        \n
+        There are some ads in the application, but if it still bothers you, you can easily remove it.
     </string>
 
 <!--    SDLE HELP TEXTS  -->
     <string name="sdle_help_text1">
-        - это удобное средство для создания новых, а так же редактирования и удаления ранее созданных графиков. \n
+        - it is a convenient tool for creating new, as well as editing and deleting previously created schedules. \n
         \n
-        Использование: \n
-        <li>Просто <b>выбери график</b> из списка, чтоб открыть меню.</li> \n
-        <li>Либо <b>нажми \"+\"</b> для создания нового.</li>
+        Usage: \n
+        <li>Just <b>select a schedule</b> from the list to open the menu.</li> \n
+        <li>Or <b>press \ "+ \"</b> to create a new one.</li>
     </string>
 
     <string name="sdle_help_text2">
-        - это инструмент для редактирования и кастомизации смен выбранного графика. \n
+        - it is a tool for editing and customizing shifts of the selected schedule. \ n
         \n
-        Использование: \n
-        <li>Добавляй смены <b>нажатием кнопки \"+\"</b>.</li> \n
-        <li><b>Длинным нажатием на \"+\"</b> добавь сразу сколько нужно смен.</li> \n
-        <li><b>Нажимай на смену</b> чтоб изменить её.</li> \n
-        <li><b>Смахни смену</b> в сторону, чтоб удалить её из графика.</li> \n
-        <li><b>Выбери смену длинным нажатием</b>, затем <b>перетащи</b> и отпусти в любом другом месте для изменения её положения в графике.</li> \n
+        Usage: \n
+        <li>Add a shifts by <b>pressing the \"+\"</b> button.</li> \n
+        <li><b>With a long press on \"+\"</b>, add at once how many shifts you need.</li> \n
+        <li><b>Click on the added shift</b> to change it.</li> \n
+        <li><b>Swipe the shift</b> to the side to remove it from the schedule.</li> \n
+        <li><b>Select shift with a long press</b>, then <b>drag and drop</b> anywhere else to reposition it in the schedule.</li> \n
         \n
-        В нижнем окне можно выбрать любые цвета для отметок смен в календаре. \n
-        Это окно можно смахнуть вниз, если оно мешает. \n
+        In the bottom window, you can choose any colors for the shift marks in the calendar. \n
+        This window can be swiped down if it gets in the way. \n
     </string>
 
     <string name="sdle_help_text2_1">
-        Когда всё готого нажми
+        When everything is ready press
     </string>
     <string name="sdle_help_text2_2">
-        для сохнанения.
+        to save.
     </string>
 
     <string name="sdle_help_text3_1">
-        Или
+        Or
     </string>
     <string name="sdle_help_text3_2">
-        , чтобы очистить график и начать сначала.
+        , to clear the schedule and start over.
     </string>
     <string name="rate_text">
-        Если вам нравится использовать это приложение, не могли бы вы уделить время, чтобы оценить его? \n
-        Это займет не больше минуты. \n
-        Спасибо за вашу поддержку!
+        If you enjoy using this app, could you please take the time to rate it? \n
+        It won\'t take more than a minute. \n
+        Thanks for your support!
     </string>
+    <string name="main_menu_0">Today</string>
+    <string name="main_bottom_sftlist_name">Shifts</string>
+    <string name="main_bottom_mrklist_name">Events and notes</string>
+    <string name="ads_baner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ads_inter_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string-array name="month">
+        <item>JANUARY</item>
+        <item>FEBRUARY</item>
+        <item>MARCH</item>
+        <item>APRIL</item>
+        <item>MAY</item>
+        <item>JUNE</item>
+        <item>JULY</item>
+        <item>AUGUST</item>
+        <item>SEPTEMBER</item>
+        <item>OCTOBER</item>
+        <item>NOVEMBER</item>
+        <item>DECEMBER</item>
+    </string-array>
+
+    <string name="week_day_mon">MON</string>
+    <string name="week_day_tue">TUE</string>
+    <string name="week_day_wed">WED</string>
+    <string name="week_day_thu">THU</string>
+    <string name="week_day_fri">FRI</string>
+    <string name="week_day_sat">SAT</string>
+    <string name="week_day_sun">SUN</string>
+    <string name="popup_sdl_create">Create a schedule</string>
+    <string name="err_empty_field">The field must not be empty!</string>
+    <string name="err_sdl_exists">Such a schedule already exists!</string>
+    <string name="clear_sdl_msg">Are you sure you want to clear this schedule?</string>
+    <string name="err_empty_sdl">Add shifts to the schedule before saving!</string>
+    <string name="err_sdl_notsaved">An error has occurred! The \"%s\" schedule is NOT saved.</string>
+    <string name="sdl_saved_msg">Schedule \"%s\" saved successfully!</string>
+    <string name="err_sdl_full">Added 365 shifts. The schedule is full!</string>
+    <string name="sdle_sdllist_empty_msg">You have no schedules. \n Press + to create a new one.</string>
+    <string name="sdle_sdldel_msg">Are you sure you want to delete the \"%s\" schedule?</string>
+    <string name="menu" translatable="false">Menu</string>
+    <string name="slide" translatable="false">Slide me</string>
+    <string name="main_bottom_evts_header">Events of this day:</string>
+    <string name="prev_btn" translatable="false">Previous</string>
+    <string name="next_btn" translatable="false">Next</string>
+    <string name="fabmenu_addmark">Add note</string>
+    <string name="fabmenu_addsdl">Add schedule</string>
+    <string name="time">time</string>
+    <string name="event">note or event</string>
+    <string name="save">Save</string>
+    <string name="rate_header">Like this app?</string>
+    <string name="rate_app">rate app</string>
+    <string name="later">later</string>
+    <string name="never">never</string>
+    <string name="calculate_from_new">Calculate from new date</string>
+    <string name="show_in_calendar">Show in calendar</string>
+    <string name="calculate">Calculate</string>
+    <string name="sdl_create_tint">Enter the title</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="add">add</string>
+
+<!--    SHORT SHIFTS-->
+    <string name="U">Day</string>
+    <string name="D">Evn</string>
+    <string name="N">Ngt</string>
+    <string name="W">Off</string>
+    <string name="S">Fxd</string>
+    <string name="V">Afn</string>
+
+<!--    FULL SHIFTS-->
+    <string name="full_U">Day</string>
+    <string name="full_D">Evening</string>
+    <string name="full_N">Night</string>
+    <string name="full_W">Off day</string>
+    <string name="full_S">Fixed</string>
+    <string name="full_V">Afternoon</string>
+
+    <string name="def_color">Default colors</string>
+    <string name="sdle_bottom_header_text">Choice colors of shifts</string>
+    <string name="sdle_sftlist_empty">"This schedule is empty. \n Click + to add shifts."</string>
+    <string name="purchase_success">Ads have been successfully disabled. Thank you for using our application!</string>
+    <string name="no_connect">Unable to connect to GooglePlay. Please try another time.</string>
+    <string name="main_menu_2_5">Rate App</string>
+    <string name="purchase_err">Unsuccessful purchase attempt. Try another time!</string>
+    <string name="purchase_pedding">The purchase is complete. As soon as payment is received, all ads will be disabled.</string>
+    <string name="popup_addsfts_text">Number of shifts (0 - %d):</string>
+    <string name="err_more_then_max" translatable="false">MAX %d</string>
+    <string name="popup_addsfts_hint">Number</string>
+    <string name="popup_addsfts_header">Adding shifts</string>
+
 </resources>

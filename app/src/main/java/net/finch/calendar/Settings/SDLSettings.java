@@ -1,57 +1,35 @@
 package net.finch.calendar.Settings;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-
-import net.finch.calendar.R;
-import net.finch.calendar.Result;
 import net.finch.calendar.Schedules.Schedule;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-import static net.finch.calendar.CalendarVM.TAG;
 
 public class SDLSettings extends Settings {
-//    private static final String OPTIONS = "OPTIONS";
-//    private static final String SCHEDULES = "schedules";
-//    private static final String MARKS = "marks";
-//    private static final int MODE = Context.MODE_PRIVATE;
-//
-//    private final Context context;
-//    private SharedPreferences.Editor editor;
-
 
     public SDLSettings(Context context) {
         super(context);
-//        this.context
     }
 
 
-
-    public Result removeSchedule(Schedule sdl) throws JSONException {
-        editor = prefs.edit();
-        Integer sdlID = isExistsSdl(sdl.getName());
-//        ArrayList<Schedule> sdlList = getSdlArray();
-        JSONArray sdlArr = getJSONsdls();
-        if (sdlID != null) {
-            sdlArr.remove(sdlID);
+    public void removeSchedule(Schedule sdl) {
+        try {
+            Integer sdlID = isExistsSdl(sdl.getName());
+            JSONArray sdlArr = getJSONsdls();
+            if (sdlID != null) {
+                sdlArr.remove(sdlID);
+            }
+            editor = prefs.edit();
+            editor.putString(SCHEDULES, sdlArr.toString()).apply();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        editor.putString(SCHEDULES, sdlArr.toString()).apply();
 
-        return new Result(Result.OK);
     }
 
-    public Result saveSchedule(Schedule sdl) throws JSONException {
+    public void saveSchedule(Schedule sdl) throws JSONException {
         editor = prefs.edit();
         Integer existsSdlId = isExistsSdl(sdl.getName());
         JSONArray sdlArr = new JSONArray();
@@ -67,8 +45,6 @@ public class SDLSettings extends Settings {
             }
         }
         editor.putString(SCHEDULES, sdlArr.toString()).apply();
-
-        return new Result(Result.OK);
     }
 
     private JSONArray getJSONsdls() throws JSONException {
@@ -87,7 +63,6 @@ public class SDLSettings extends Settings {
         return sdlNamesArr;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Schedule> getSdlArray() throws JSONException {
         ArrayList<Schedule> sdlArr = new ArrayList<>();
         JSONArray jsonSdlsArr = getJSONsdls();
@@ -111,7 +86,6 @@ public class SDLSettings extends Settings {
         while(isUsedId(sdlArr, id)) {
             id++;
         }
-        Log.d(TAG, "getNewSdlId: newID = "+id);
         return id;
     }
 

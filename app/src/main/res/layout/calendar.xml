@@ -5,7 +5,6 @@
 	android:id="@+id/main.ll_content"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:forceDarkAllowed="false"
 	android:gravity="top|center_horizontal">
 
 	<androidx.viewpager2.widget.ViewPager2
@@ -28,7 +27,8 @@
 		android:rotation="180"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
-		app:srcCompat="@drawable/arrow_side" />
+		app:srcCompat="@drawable/arrow_side"
+		android:contentDescription="@string/prev_btn" />
 
 	<ImageButton
 		android:id="@+id/calendar.ibtn_next"
@@ -37,21 +37,9 @@
 		android:background="@color/colorPrimaryDark_2"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
-		app:srcCompat="@drawable/arrow_side" />
+		app:srcCompat="@drawable/arrow_side"
+		android:contentDescription="@string/next_btn" />
 
-	<TextView
-		android:id="@+id/tv_debag"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:alpha="0.2"
-		android:gravity="center"
-		android:text="Выберите дату чтоб управлять событиями."
-		android:visibility="gone"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		tools:layout_conversion_absoluteHeight="0dp"
-		tools:layout_conversion_absoluteWidth="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,6 +3,8 @@ package net.finch.calendar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.TypedValue;
+import com.google.android.gms.ads.AdSize;
+
 
 public class Utils {
     public static float dpToPx(Context ctx, float dp) {
@@ -12,5 +14,13 @@ public class Utils {
                 dp,
                 r.getDisplayMetrics()
         );
+    }
+
+    public static AdSize getAdSize(Context context) {
+        float widthPixels = Resources.getSystem().getDisplayMetrics().widthPixels;
+        float density = Resources.getSystem().getDisplayMetrics().density;
+        int adWidth = (int) (widthPixels / density);
+
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth);
     }
 }

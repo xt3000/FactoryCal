@@ -29,7 +29,7 @@ import java.util.Map;
 
 import static net.finch.calendar.CalendarVM.TAG;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+@SuppressLint("Range")
 public class CalendarNavigator
 {
 	private DBMarks dbMarks;
@@ -39,7 +39,6 @@ public class CalendarNavigator
 	private int month;
 	private int year;
 	private Map<Integer, ArrayList<Mark>> markDates;
-//	private Map<Integer, ArrayList<Schedule>> sdlDates;
 	private LinkedList<ScheduleNav> sdlList;
 
 	public CalendarNavigator() {
@@ -192,17 +191,13 @@ public class CalendarNavigator
 				if (markDates.containsKey(d)) {
 					markList = markDates.get(d);
 					markList.add(ilItem);
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-						markDates.replace(d, markList);
-					}
+					markDates.replace(d, markList);
 				}else {
 					markList = new ArrayList<>();
 					markList.add(ilItem);
 					markDates.put(d, markList);
 				}
-
 			}while(cur.moveToNext());
-
 		}
 		cur.close();
 		db.close();
@@ -220,7 +215,7 @@ public class CalendarNavigator
 		sdlList = new LinkedList<>();
 		Calendar mc = new GregorianCalendar(year, month+offset,1);
 		SQLiteDatabase db = dbSDLs.getWritableDatabase();
-		@SuppressLint("Recycle") Cursor cur = db.query(DBSchedules.DB_NAME, null, "", null, null, null, null);
+		Cursor cur = db.query(DBSchedules.DB_NAME, null, "", null, null, null, null);
 
 		ArrayList<Integer> sqlIdsToRemove = new ArrayList<>();
 		if (cur.moveToFirst()) {
@@ -228,16 +223,9 @@ public class CalendarNavigator
 			do {
 				boolean prime = cur.getInt(cur.getColumnIndex("prime")) == 1;
 				Schedule sdl = getSdlByName(cur.getString(cur.getColumnIndex("name")));
-				/////////////////////////////////////////////
-//				Schedule sdl = new Schedule(
-//						cur.getString(cur.getColumnIndex("name")),
-//						cur.getString(cur.getColumnIndex("sdl"))
-//						// TODO: Settings.getSdlByName("name") => return new Schedule(name, sdl, colorMap)!
-//				);
-				//////////////////////////////////////////////
 
 				if (sdl != null) {
-					Log.d(TAG, "dbReadSdls: addSdl > "+sdl.getName());
+//					Log.d(TAG, "dbReadSdls: addSdl > "+sdl.getName());
 					ScheduleNav sdlNav = new ScheduleNav(
 							cur.getInt(cur.getColumnIndex("id")),
 							sdl,
@@ -263,11 +251,11 @@ public class CalendarNavigator
 	}
 
 	private Schedule getSdlByName(String name) {
-		Log.d(TAG, "getSdlByName!: name = "+name);
+//		Log.d(TAG, "getSdlByName!: name = "+name);
 		for (Schedule sdl : prefSDLs) {
 			if (name.equals(sdl.getName())) return sdl;
 		}
-		Log.d(TAG, "getSdlByName!: --"+name);
+//		Log.d(TAG, "getSdlByName!: --"+name);
 		return null;
 	}
 

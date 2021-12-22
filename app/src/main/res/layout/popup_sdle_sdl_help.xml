@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <include layout="@layout/popup_bg_dark" />
@@ -65,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="ok"
+                android:text="@string/ok"
                 android:textColor="@color/black_semi_transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sdle.help.tv1" />

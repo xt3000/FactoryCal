@@ -26,7 +26,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_create_24" />
+            app:srcCompat="@drawable/ic_baseline_create_24"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/sdle.sdl.rv.ibtn_del"
@@ -37,7 +38,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/sdle.sdl.rv.ibtn_edit"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+            app:srcCompat="@drawable/ic_baseline_delete_forever_24"
+            tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +62,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_calendar_sdl" />
+            app:srcCompat="@drawable/ic_calendar_sdl"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/sdle.sdl.rv.tv_name"
@@ -71,7 +74,7 @@
             android:fontFamily="@font/open_sans_light"
             android:gravity="start|center_vertical"
             android:singleLine="true"
-            android:text="ЖД Гравик смена"
+            tools:text="ЖД Гравик смена"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -123,7 +126,8 @@
                 android:layout_marginTop="3dp"
                 android:visibility="gone"
                 app:srcCompat="@drawable/dots_else"
-                tools:visibility="gone" />
+                tools:visibility="gone"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 

@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
-//import android.support.annotation.Nullable;
 
 public abstract class DB extends SQLiteOpenHelper {
     public final String DB_NAME;

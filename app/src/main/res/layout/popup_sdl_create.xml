@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -48,27 +47,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fl_popup_save_header">
 
-                <TextView
-                    android:id="@+id/popup.save.tv_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusableInTouchMode="true"
-                    android:gravity="start|center_vertical"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayout"
+                    android:id="@+id/popup_create.textinput_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@null"
                     android:focusable="auto"
                     android:gravity="center"
                     app:counterEnabled="true"
                     app:counterMaxLength="25"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_round_clear_24"
+                    app:errorTextColor="#FF0000"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -76,13 +69,13 @@
                     app:layout_constraintVertical_bias="0.45">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/popupSave.et_name"
+                        android:id="@+id/popup_create.et_name"
                         style="@style/myEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:hint="Введите название"
+                        android:hint="@string/sdl_create_tint"
                         android:imeOptions="actionDone"
                         android:inputType="textShortMessage"
                         android:maxLength="25"
@@ -102,7 +95,7 @@
                 android:layout_marginEnd="24dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:text="Создать"
+                android:text="@string/create"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -119,7 +112,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="Отмена"
+                android:text="@string/cancel"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_save_confirm"
                 app:layout_constraintStart_toStartOf="parent"

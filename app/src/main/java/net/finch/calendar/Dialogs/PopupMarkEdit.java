@@ -1,25 +1,16 @@
 package net.finch.calendar.Dialogs;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.PopupWindow;
-
-import net.finch.calendar.MainActivity;
 import net.finch.calendar.Marks.DBMarks;
 import net.finch.calendar.Marks.Mark;
 import net.finch.calendar.R;
-import net.finch.calendar.Time;
-
-import org.json.JSONException;
-
 import java.util.Objects;
 
-import static net.finch.calendar.CalendarVM.TAG;
 
 public class PopupMarkEdit extends PopupAdd{
     public PopupMarkEdit(Context ctx, int sqlId) {
         super(ctx, PopupAdd.MARK, sqlId);
-        Log.d(TAG, "PopupMarkEdit: ");
     }
 
     @Override
@@ -36,8 +27,7 @@ public class PopupMarkEdit extends PopupAdd{
                 mrk.setInfo(Objects.requireNonNull(etMarkNote.getText()).toString());
                 mrk.setTime(tvAddTime.getText().toString());
 
-                boolean isSaved = db.update(mrk);
-                Log.d(TAG, "layoutSettings: mrkSaved - "+isSaved);
+                db.update(mrk);
                 model.getFODLiveData(null);
 //                model.updInfoList();
 //                model.setSliderState(true);

@@ -1,16 +1,16 @@
 package net.finch.calendar.Schedules;
 
-import android.util.Log;
 
 import java.util.Calendar;
 
-import static net.finch.calendar.CalendarVM.TAG;
+import static net.finch.calendar.Schedules.Shift.sftChr;
+
 
 public class ScheduleNav {
-    private int db_id;
-    private Schedule sdl;
-    private boolean prime;
-    private Calendar startDate;
+    private final int db_id;
+    private final Schedule sdl;
+    private final boolean prime;
+    private final Calendar startDate;
 
     public ScheduleNav(int db_id, Schedule sdl, boolean prime, Calendar startDate) {
         this.db_id = db_id;
@@ -34,24 +34,25 @@ public class ScheduleNav {
             s = 1;
         }else {
             s++;
-//            if (s == 0) s++;       //s = length();
-//            else s++;
         }
 
         return sdl.getSdl().toCharArray()[s-1];
-    }
-
-    public boolean isPrime() {
-        return prime;
     }
 
     public Shift getShift(Calendar tgtDate) {
         long deff = tgtDate.getTimeInMillis() - startDate.getTimeInMillis();
         int days = (int) (deff/86400000);
 //        Log.d(TAG, "getShift: days = "+days);
-        char shift = getShiftSymbol(days);
+        Character shift = getShiftSymbol(days);
 //        Log.d(TAG, "getShift: "+shift);
+        int sftId = 5;
+        for (int i=0; i<sftChr.length; i++) {
+            if (shift.equals(sftChr[i])) {
+                sftId = i;
+                break;
+            }
+        }
 
-        return new Shift(db_id, shift, sdl.getName(), sdl.getShiftColor(shift), prime);
+        return new Shift(db_id, sftId, sdl.getName(), sdl.getShiftColor(shift), prime);
     }
 }

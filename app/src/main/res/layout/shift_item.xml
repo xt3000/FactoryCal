@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:background="@drawable/bg_underline_blue"
-            android:gravity="right|center_vertical"
+            android:gravity="end|center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,8 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="4dp"
                     app:srcCompat="@drawable/ic_baseline_create_24"
-                    tools:srcCompat="@drawable/ic_baseline_create_24" />
+                    tools:srcCompat="@drawable/ic_baseline_create_24"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/iv_btn_sdlDel"
@@ -59,20 +60,9 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="4dp"
                     app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                    tools:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+                    tools:srcCompat="@drawable/ic_baseline_delete_forever_24"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_sdl_sqlId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -96,7 +86,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@color/W"
                 android:gravity="center"
-                android:text="Утро"
+                tools:text="Утро"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_item_sdlName"
@@ -114,7 +104,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:singleLine="true"
-                android:text="Описание"
+                tools:text="Описание"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_item_shift"
@@ -131,7 +121,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/menu_dots"
-                tools:srcCompat="@drawable/menu_dots" />
+                tools:srcCompat="@drawable/menu_dots"
+                tools:ignore="ContentDescription,RtlSymmetry" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

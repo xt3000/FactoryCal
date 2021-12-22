@@ -21,7 +21,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:background="@drawable/dark_outline"
-            android:gravity="right|center_vertical"
+            android:gravity="end|center_vertical"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,8 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="4dp"
                 app:srcCompat="@drawable/ic_baseline_create_24"
-                tools:srcCompat="@drawable/ic_baseline_create_24" />
+                tools:srcCompat="@drawable/ic_baseline_create_24"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/iv_btn_markDel"
@@ -50,7 +51,8 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="4dp"
                 app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                tools:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+                tools:srcCompat="@drawable/ic_baseline_delete_forever_24"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/tv_mark_sqlId"
@@ -81,7 +83,7 @@
                 android:layout_marginStart="16dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:text="23.13"
+                tools:text="23.13"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_item_markDesc"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +98,7 @@
                 android:gravity="center"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:text="Описание"
+                tools:text="Описание"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivb_markMenu"
                 app:layout_constraintStart_toEndOf="@+id/tv_item_markTime"
@@ -111,7 +113,8 @@
                 app:layout_constraintStart_toEndOf="@+id/tv_item_markDesc"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/menu_dots"
-                tools:srcCompat="@drawable/menu_dots" />
+                tools:srcCompat="@drawable/menu_dots"
+                tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

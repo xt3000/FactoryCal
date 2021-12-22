@@ -2,7 +2,6 @@ package net.finch.calendar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;

@@ -5,14 +5,13 @@
     android:id="@+id/fl_fabMenu"
     android:layout_width="200dp"
     android:layout_height="200dp"
-    android:forceDarkAllowed="false"
     app:layout_anchor="@id/afab_add">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|top"
+        android:layout_gravity="end|top"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:alpha="0.7"
@@ -21,7 +20,8 @@
         android:visibility="gone"
         app:backgroundTint="@color/black_semi_transparent"
         app:fabSize="mini"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:contentDescription="@string/menu" />
 
     <TextView
         android:id="@+id/fab_mark_text2"
@@ -33,7 +33,6 @@
         android:gravity="start|center_vertical"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:text="  "
         android:visibility="gone"
         tools:visibility="visible" />
 
@@ -41,7 +40,7 @@
         android:id="@+id/fab_sdl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|top"
+        android:layout_gravity="end|top"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:alpha="0.7"
@@ -50,7 +49,8 @@
         android:visibility="gone"
         app:backgroundTint="@color/black_semi_transparent"
         app:fabSize="mini"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:contentDescription="@string/menu" />
 
     <TextView
         android:id="@+id/fab_sdl_text2"
@@ -62,7 +62,6 @@
         android:gravity="start|center_vertical"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:text="  "
         android:visibility="gone"
         tools:visibility="visible" />
 

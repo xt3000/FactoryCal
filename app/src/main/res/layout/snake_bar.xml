@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
@@ -9,7 +10,7 @@
         android:id="@+id/snake.cv_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="24dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
@@ -25,24 +26,22 @@
                 android:id="@+id/snake.iv_icon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="8dp"
                 android:background="@drawable/circle_15white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/snake.tv_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_round_check_24" />
+                app:srcCompat="@drawable/ic_round_check_24"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/snake.tv_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
                 android:fontFamily="@font/open_sans_light"
-                android:text="TextView"
-                android:textFontWeight="300"
-                android:textSize="14sp"
+                tools:text="Text Massage"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/snake.iv_icon"

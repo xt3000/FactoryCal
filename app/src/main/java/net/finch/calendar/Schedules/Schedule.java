@@ -1,38 +1,27 @@
 package net.finch.calendar.Schedules;
 
 import android.content.Context;
-import android.os.Build;
-//import android.support.annotation.RequiresApi;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
 import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
-import net.finch.calendar.SDLEditor.SdleListObj;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+import static net.finch.calendar.Schedules.Shift.D;
+import static net.finch.calendar.Schedules.Shift.N;
+import static net.finch.calendar.Schedules.Shift.S;
+import static net.finch.calendar.Schedules.Shift.U;
+import static net.finch.calendar.Schedules.Shift.V;
+import static net.finch.calendar.Schedules.Shift.W;
+import static net.finch.calendar.Schedules.Shift.sftChr;
+
+
 public class Schedule {
-    public static final int U = 0;//Утренняя
-    public static final int D = 1; //Дневная
-    public static final int N = 2; //Ночная
-    public static final int S = 3; //Сутки
-    public static final int V = 4; //Вечерняя
-    public static final int W = 5; //Выходной
-
-    public static final String[] SHIFTS = {"U", "D", "N", "S", "V", "W"};
-
     private int id;
     private String name, sdl;
     private Map<String, Integer> shiftColors;
-    private ArrayList<String> sdlList;
 
 
     public Schedule(JSONObject jsonSdl) throws JSONException {
@@ -61,17 +50,6 @@ public class Schedule {
 
 
 //*** Сеттеры *** //
-    public void addShift(char sft) {
-        sdl += sft;
-    }
-    public void addShift(String sft) {
-        sdl += sft;
-    }
-
-    public void delShift(int pos){
-        sdl = sdl.substring(0, pos) + sdl.substring(pos + 1);
-    } //отсчёт pos с 0!!
-
     public void setId(int id) {
         this.id = id;
     }
@@ -95,52 +73,51 @@ public class Schedule {
     public String getSdl() {
         return sdl;
     }
-    public ArrayList<String> getSftList() {
-        sdlList = new ArrayList<>();
-        for (Character chr : sdl.toCharArray()) {sdlList.add(chr.toString());
+
+    public ArrayList<Integer> getSftIdList() {
+        ArrayList<Integer> sdlIdList = new ArrayList<>();
+        for (Character chr : sdl.toCharArray()) {
+            for(int i=0; i<Shift.sftChr.length; i++) {
+                if (chr.equals(Shift.sftChr[i])) {
+                    sdlIdList.add(i);
+                    break;
+                }
+            }
         }
-        return sdlList;
+        return sdlIdList;
     }
+
     public int getShiftColor(char shift) {
-        return shiftColors.get(Character.toString(shift));
+        Integer c = shiftColors.get(Character.toString(shift));
+        if (c != null) return c;
+        return 0x00000000;
     }
     public Map<String, Integer> getMapSdlColors() {
         return shiftColors;
     }
 
 //*** Цвета смен по умолчанию ***//
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Map<String, Integer> getDefaultShiftColors() {
         Context ctx = MainActivity.getContext();
         Map<String, Integer> colors = new HashMap<>();
 
-
-        colors.put(SHIFTS[U], ctx.getColor(R.color.U));
-        colors.put(SHIFTS[D], ctx.getColor(R.color.D));
-        colors.put(SHIFTS[N], ctx.getColor(R.color.N));
-        colors.put(SHIFTS[S], ctx.getColor(R.color.S));
-        colors.put(SHIFTS[V], ctx.getColor(R.color.V));
-        colors.put(SHIFTS[W], ctx.getColor(R.color.W));
+        colors.put(sftChr[U].toString(), ctx.getColor(R.color.U));
+        colors.put(sftChr[D].toString(), ctx.getColor(R.color.D));
+        colors.put(sftChr[N].toString(), ctx.getColor(R.color.N));
+        colors.put(sftChr[S].toString(), ctx.getColor(R.color.S));
+        colors.put(sftChr[V].toString(), ctx.getColor(R.color.V));
+        colors.put(sftChr[W].toString(), ctx.getColor(R.color.W));
 
         return colors;
     }
 
-    public static String getNextSft(String sft) {
-        for (int i=0; i<SHIFTS.length; i++) {
-            if (sft.equals(SHIFTS[i])) {
-                if (i == SHIFTS.length-1) return SHIFTS[0];
-                return SHIFTS[i+1];
-            }
-        }
 
-        return "";
-    }
 
     //*** работа с JSON ***//
     public JSONObject serialize() throws JSONException {
         JSONObject shiftColorsObj = new JSONObject();
-        for (String sft : SHIFTS) {
-            shiftColorsObj.put(sft, shiftColors.get(sft));
+        for (Character sft : sftChr) {
+            shiftColorsObj.put(sft.toString(), shiftColors.get(sft.toString()));
         }
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("id", id);
@@ -157,6 +134,6 @@ public class Schedule {
         setId(jsonObj.getInt("id"));
         JSONObject shiftColorsObj = jsonObj.getJSONObject("shiftColors");
         shiftColors = new HashMap<>();
-        for (String sft : SHIFTS) shiftColors.put(sft, shiftColorsObj.getInt(sft));
+        for (Character sft : sftChr) shiftColors.put(sft.toString(), shiftColorsObj.getInt(sft.toString()));
     }
 }

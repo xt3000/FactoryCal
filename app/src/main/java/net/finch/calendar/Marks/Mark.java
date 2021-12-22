@@ -1,7 +1,7 @@
 package net.finch.calendar.Marks;
 
 public class Mark {
-    private int db_id;
+    private final int db_id;
     private String time;
     private String info;
 
@@ -27,10 +27,6 @@ public class Mark {
 
 
 /// SETTERS
-    public void setDb_id(int db_id) {
-        this.db_id = db_id;
-    }
-
     public void setTime(String time) {
         this.time = time;
     }

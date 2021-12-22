@@ -1,7 +1,6 @@
 package net.finch.calendar.SDLEditor;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,19 +8,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
-
 import net.finch.calendar.R;
 import net.finch.calendar.Schedules.Schedule;
 import net.finch.calendar.Views.ShiftView;
-
 import java.util.ArrayList;
-
-import static net.finch.calendar.CalendarVM.TAG;
 
 public class SdleSdlListAdapter extends RecyclerView.Adapter<SdleSdlListAdapter.ViewHolder> {
     OnMenuClickListener onMenuClickListener;
@@ -92,7 +86,7 @@ public class SdleSdlListAdapter extends RecyclerView.Adapter<SdleSdlListAdapter.
         holder.tvSdlName.setText(sdlList.get(position).getName());
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.clContent.getLayoutParams();
         if (params.getMarginStart() > 0) {
-            Log.d(TAG, "onBindViewHolder: marginStart > 0; pos = "+position);
+//            Log.d(TAG, "onBindViewHolder: marginStart > 0; pos = "+position);
             TransitionManager.beginDelayedTransition(holder.clItem);
             params.width = 0;
             params.leftMargin = 0;

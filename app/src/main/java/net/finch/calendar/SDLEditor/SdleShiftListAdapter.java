@@ -1,72 +1,65 @@
 package net.finch.calendar.SDLEditor;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
-
 import net.finch.calendar.R;
 import net.finch.calendar.Schedules.Schedule;
 import net.finch.calendar.Schedules.Shift;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
+import static net.finch.calendar.Schedules.Shift.sftChr;
 
-import static net.finch.calendar.CalendarVM.TAG;
 
 public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdapter.ViewHolder> {
     private final Context ctx;
-    private static ArrayList<String> sftList;
+    private static ArrayList<Integer> sftList;
     private static Map<String, Integer> colorsMap;
-    private static SdleVM model = SdlEditorActivity.getSdleVM();
+    private static final SdleVM model = SdlEditorActivity.getSdleVM();
     private static String sdlName;
-//    private static boolean sdlChanged;
 
 
     public SdleShiftListAdapter(@NonNull Context ctx, Schedule sdl) {
-        SdleShiftListAdapter.sftList = sdl.getSftList();
+        SdleShiftListAdapter.sftList = sdl.getSftIdList();
         SdleShiftListAdapter.sdlName = sdl.getName();
         this.ctx = ctx;
-//        sdlChanged = false;
     }
 
 /////// ***  ViewHolder *** ///////
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvSftName;
-        private FrameLayout flBG;
-
-        private SdleVM holderModel = SdlEditorActivity.getSdleVM();
-        private LiveData<Map<String, Integer>> colorsLD;
+        private final TextView tvSftName;
+        private final FrameLayout flBG;
+        private final Context ctx;
 
 
-        public ViewHolder(final Context ctx, @NonNull View itemView) {
+    public ViewHolder(final Context ctx, @NonNull View itemView) {
             super(itemView);
+            this.ctx = ctx;
 
-            colorsLD = holderModel.getColorsLD(null);
+            SdleVM holderModel = SdlEditorActivity.getSdleVM();
+            LiveData<Map<String, Integer>> colorsLD = holderModel.getColorsLD(null);
 
             tvSftName = itemView.findViewById(R.id.sdle_sftList_item_sftText);
             flBG = itemView.findViewById(R.id.sdle_sftList_item_fl_background);
 
             tvSftName.setOnClickListener(v -> nextSft());
-            Log.d(TAG, "ViewHolder: !!!!!!!!!!!!!!!");
+//            Log.d(TAG, "ViewHolder: !!!!!!!!!!!!!!!");
             colorsLD.observe((AppCompatActivity)ctx, cMap -> {
-                Log.d(TAG, "ViewHoldercolor: !!!!!!!!!!!!!!!");
+//                Log.d(TAG, "ViewHoldercolor: !!!!!!!!!!!!!!!");
                 colorsMap = cMap;
-                String sftName = tvSftName.getText().toString();
-                if (!sftName.isEmpty()) {
-                    Character s = Shift.shiftCharOf(sftName);
-                    if (s != null) flBG.setBackgroundColor(colorsMap.get(s.toString()));
+                Integer sftId = (Integer) tvSftName.getTag();
+                if (sftId != null && sftId<6) {
+                    String s = sftChr[sftId].toString();
+                    Integer c = colorsMap.get(s);
+                    if (c != null) flBG.setBackgroundColor(c);
                 }
 
             });
@@ -74,21 +67,21 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
 
 /////// ***** NEXT SHIFT *****  //////////
         private void nextSft() {
+            int pos = getAdapterPosition();
+            int sftId = sftList.get(pos);
+            if (sftId > 4) sftId = 0;
+            else sftId++;
 
-            String sft = Objects.requireNonNull(Shift.shiftCharOf(tvSftName.getText().toString())).toString();
-            Integer pos = getAdapterPosition();
-            Log.d(TAG, "nextSft: sft = "+sft);
+            sftList.set(pos, sftId);
+            modelNotify();
 
-            if (pos != null) {
-                String nextSft = Schedule.getNextSft(sft);
-                sftList.set(pos, nextSft);
-                modelNotify();
-
-                tvSftName.setText(Shift.shiftNameOf(nextSft.charAt(0)));
-                flBG.setBackgroundColor(colorsMap.get(nextSft));
-                SdlEditorActivity.isChanged(true);
+            String nextSft = ctx.getString(Shift.sftRes[sftId]);
+            tvSftName.setText(nextSft);
+            tvSftName.setTag(sftId);
+            Integer c = colorsMap.get(sftChr[sftId].toString());
+            if (c!=null)flBG.setBackgroundColor(c);
+            SdlEditorActivity.isChanged(true);
 //                sdlChanged = true;
-            }
         }
     }
 /////// _____  ViewHolder _____ ///////
@@ -110,9 +103,11 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String sft = sftList.get(position);
-        holder.tvSftName.setText(Shift.shiftNameOf(sft.charAt(0)));
-        holder.flBG.setBackgroundColor(colorsMap.get(sft));
+        int sftId = sftList.get(position);
+        holder.tvSftName.setText(ctx.getString(Shift.sftRes[sftId]));
+        holder.tvSftName.setTag(sftId);
+        Integer c = colorsMap.get(sftChr[sftId].toString());
+        if (c!=null) holder.flBG.setBackgroundColor(c);
     }
 
     @Override
@@ -151,8 +146,8 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
     }
 
 /////// ***** ADD *****  //////////
-    public void addItem(String newSft) {
-        if (newSft.length() == 1) {
+    public void addItem(int newSft) {
+        if (newSft < 6) {
             sftList.add(newSft);
             notifyItemInserted(getItemCount()-1);
             modelNotify();
@@ -173,8 +168,8 @@ public class SdleShiftListAdapter extends RecyclerView.Adapter<SdleShiftListAdap
 /////// ***** GET SCHEDULE *****  //////////
     public static Schedule getSchedule() {
         StringBuilder sdlSB = new StringBuilder();
-        for (String sft : sftList) {
-            sdlSB.append(sft);
+        for (int sftId : sftList) {
+            sdlSB.append(sftChr[sftId]);
         }
         return  new Schedule(sdlName, sdlSB.toString(), colorsMap);
     }

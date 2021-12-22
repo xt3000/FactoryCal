@@ -1,18 +1,12 @@
 package net.finch.calendar.Marks;
 
-//import android.arch.lifecycle.ViewModelProviders;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
-//import android.support.annotation.RequiresApi;
-//import android.support.constraint.ConstraintLayout;
-//import android.support.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.transition.TransitionManager;
 
@@ -25,12 +19,9 @@ import net.finch.calendar.MainActivity;
 import net.finch.calendar.R;
 import net.finch.calendar.Utils;
 
-import org.json.JSONException;
 
-import static net.finch.calendar.CalendarVM.TAG;
-
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements View.OnClickListener {
+    @SuppressLint("StaticFieldLeak")
     private static View openedView = null;
     private boolean isLost;
 
@@ -82,10 +73,10 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
             int id =  Integer.parseInt(mrkId.getText().toString());
 
             if (vid == (R.id.iv_btn_markDel)) {
-                Log.d(TAG, "onClick: btn_markDel");
+//                Log.d(TAG, "onClick: btn_markDel");
                 onSdlDelBtnClick(id);
             }else  if (vid == (R.id.iv_btn_markEdit)) {
-                Log.d(TAG, "onClick: btn_markEdit");
+//                Log.d(TAG, "onClick: btn_markEdit");
                 onMarkEditBtnClick(id);
             }
         }
@@ -115,7 +106,7 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
         }
         else {
             openedView = v;
-            Log.d(TAG, "onClick: margin = "+params.rightMargin);
+//            Log.d(TAG, "onClick: margin = "+params.rightMargin);
             params.width = item.getWidth();
             params.rightMargin = (int) Utils.dpToPx(context, 103f)*2;
         }
@@ -136,7 +127,7 @@ public class MarkListHolder extends TreeNode.BaseNodeViewHolder<Mark> implements
     }
 
     private void onMarkEditBtnClick(int sqlId) {
-        Log.d(TAG, "onMarkEditBtnClick: ");
+//        Log.d(TAG, "onMarkEditBtnClick: ");
         new PopupMarkEdit(context, sqlId);
     }
 

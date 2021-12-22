@@ -33,9 +33,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_round_delete_forever_24" />
-                            <entry key="sourceFile" value="G:\AndroidProjects\WorkCalendar\ART\ic_mark.svg" />
+                            <entry key="outputName" value="ic_work_calendar_5" />
+                            <entry key="sourceFile" value="G:\AndroidProjects\WorkCalendar\ART\ic_WorkCalendar_forMarket_5.svg" />
                           </map>
                         </option>
                       </PersistentState>

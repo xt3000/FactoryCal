@@ -1,7 +1,6 @@
 package net.finch.calendar.Dialogs;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +8,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import net.finch.calendar.R;
 
-import org.json.JSONException;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class PopupView {
     private final AppCompatActivity activity;
     private final int layoutId;
@@ -49,8 +43,6 @@ public class PopupView {
     protected void layoutSettings(PopupWindow pw) {
         pwView = pw.getContentView();
         FrameLayout flDarkBG = pwView.findViewById(R.id.popup_bg_dark);
-        flDarkBG.setOnClickListener(v -> {
-            pw.dismiss();
-        });
+        flDarkBG.setOnClickListener(v -> pw.dismiss());
     }
 }

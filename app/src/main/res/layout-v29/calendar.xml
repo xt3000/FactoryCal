@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/main.ll_content"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:forceDarkAllowed="false"
+	android:gravity="top|center_horizontal">
+
+	<androidx.viewpager2.widget.ViewPager2
+		android:id="@+id/calendar_pager"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:paddingTop="8dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:layout_conversion_absoluteHeight="8dp"
+		tools:layout_conversion_absoluteWidth="411dp" />
+
+	<ImageButton
+		android:id="@+id/calendar.ibtn_previous"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
+		android:background="@color/colorPrimaryDark_2"
+		android:rotation="180"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/arrow_side"
+		android:contentDescription="@string/prev_btn" />
+
+	<ImageButton
+		android:id="@+id/calendar.ibtn_next"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
+		android:background="@color/colorPrimaryDark_2"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/arrow_side"
+		android:contentDescription="@string/next_btn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

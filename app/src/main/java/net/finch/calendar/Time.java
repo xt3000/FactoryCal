@@ -10,7 +10,7 @@ public class Time {
     private static boolean PM = false;
 
     public static int toInt(String strTime) {
-        Log.d(TAG, "toInt: "+strTime);
+//        Log.d(TAG, "toInt: "+strTime);
         if (strTime.equals("- - : - -")) return NULLTIME;
         if (strTime.endsWith("M")) {
             if (strTime.endsWith("PM")) PM = true;

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/bottom_sheet"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -44,7 +43,8 @@
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
-					app:srcCompat="@drawable/bottom_sheet_holder" />
+					app:srcCompat="@drawable/bottom_sheet_holder"
+					android:contentDescription="@string/slide" />
 
 				<TextView
 					android:id="@+id/tv_slider_title"
@@ -76,19 +76,13 @@
 					android:layout_marginStart="15dp"
 					android:fontFamily="@font/open_sans"
 					android:gravity="center_vertical"
-					android:text="События этого дня"
+					android:text="@string/main_bottom_evts_header"
 					android:textColor="@android:color/white"
 					android:textStyle="normal" />
 
 			</RelativeLayout>
 
 			<include layout="@layout/bottom_sheet_container" />
-
-			<!--			<FrameLayout-->
-			<!--				android:layout_width="match_parent"-->
-			<!--				android:layout_height="match_parent">-->
-
-			<!--			</FrameLayout>-->
 
 		</LinearLayout>
 

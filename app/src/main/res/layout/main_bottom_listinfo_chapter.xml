@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="4dp"
-    android:paddingStart="16dp">
+    android:paddingStart="16dp"
+    tools:ignore="RtlSymmetry,UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/main.bottom.listinfo.iv_chapter"
@@ -14,7 +15,8 @@
         android:layout_gravity="bottom"
         android:layout_marginEnd="8dp"
         app:srcCompat="@drawable/ic_baseline_create_24"
-        tools:srcCompat="@drawable/ic_baseline_create_24" />
+        tools:srcCompat="@drawable/ic_baseline_create_24"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/main.bottom.listinfo.tv_chapter"

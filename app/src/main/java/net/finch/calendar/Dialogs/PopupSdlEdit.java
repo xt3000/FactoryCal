@@ -1,24 +1,16 @@
 package net.finch.calendar.Dialogs;
 
 import android.content.Context;
-import android.os.Build;
-//import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.PopupWindow;
-
-import androidx.annotation.RequiresApi;
-
 import net.finch.calendar.R;
 import net.finch.calendar.Schedules.DBSchedules;
-
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class PopupSdlEdit extends  PopupAdd{
     CheckBox chbNewDay;
 
@@ -44,7 +36,7 @@ public class PopupSdlEdit extends  PopupAdd{
 
 
         arr.add(name);
-        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<String>(activity, R.layout.sdl_spiner_tvitem, arr);
+        ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<>(activity, R.layout.sdl_spiner_tvitem, arr);
         spinner.setAdapter(sdlSpinnerAdapter);
         spinner.setEnabled(false);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

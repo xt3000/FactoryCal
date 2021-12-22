@@ -40,16 +40,10 @@ public class ToolBarBehavior extends AppBarLayout.ScrollingViewBehavior {
         BottomSheetBehavior bottomSheetBehavior = getBottomSheetBehavior(dependency);
         if (bottomSheetBehavior != null) {
             float slideOffset = getSlideOffset(parent, dependency, bottomSheetBehavior);
-            if (slideOffset > -1) appBar.setExpanded(false,true);
-            else appBar.setExpanded(true,true);
+            appBar.setExpanded(!(slideOffset > -1),true);
 
             if (slideOffset > 0) {
-//                Log.d(TAG, "onDependentViewChanged: ");
-//                appBar.setExpanded(false,true);
-
-
                 child.setAlpha(1 - slideOffset);
-
                 if (childStartY == UNDEFINED) {
                     childStartY = child.getY();
                 }
