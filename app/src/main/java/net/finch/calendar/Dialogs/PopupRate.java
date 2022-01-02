@@ -23,6 +23,7 @@ public class PopupRate extends PopupView {
 
     @Override
     protected void layoutSettings(PopupWindow pw) {
+        pwView = pw.getContentView();
 
 // *** RATE NOW ***
         (pwView.findViewById(R.id.btn_rate_now)).setOnClickListener(v -> {

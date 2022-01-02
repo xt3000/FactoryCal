@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		billingMSG.observe(this, msgMap -> {
 			if (msgMap.get(Billing.MSG_TXTRES) != null) {
 				Integer type = msgMap.get(Billing.MSG_TYPE);
-				Integer msg = msgMap.get(Billing.MSG_TYPE);
+				Integer msg = msgMap.get(Billing.MSG_TXTRES);
 				if (type!=null && msg!=null)
 					SnakeView.make(
 						findViewById(R.id.main_layout),
