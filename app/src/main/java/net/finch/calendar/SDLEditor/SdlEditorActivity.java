@@ -197,7 +197,7 @@ public class SdlEditorActivity extends AppCompatActivity {
                 keyboardState = false;
                 if (needSlide) {
                     needSlide = false;
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     bottomSheetBehavior.setHideable(false);
                 }
             }
@@ -224,8 +224,9 @@ public class SdlEditorActivity extends AppCompatActivity {
             }
             /// SHIFT MODE
             else {
+
                 if (!keyboardState) {
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     bottomSheetBehavior.setHideable(false);
                 }else {
                     needSlide = true;

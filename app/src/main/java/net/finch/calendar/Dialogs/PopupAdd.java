@@ -2,6 +2,7 @@ package net.finch.calendar.Dialogs;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -107,19 +108,29 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
             chbSdlPrime = pwView.findViewById(R.id.chb_SdlPrime);
             Button btnSdlSave = pwView.findViewById(R.id.btn_sdlSave);
             btnSdlSave.setOnClickListener(this);
-            ReadSDLs();
             setSpinnerAdapter();
 
         }
     }
 
     protected void setSpinnerAdapter() {
+        try {
+            sdlList = new SDLSettings(activity).getSdlArray();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         final ArrayList<String> sdlNames = getSdlNames(sdlList);
+        sdlNames.add(activity.getResources().getString(R.string.sdl_add_new));
         ArrayAdapter<String> sdlSpinnerAdapter = new ArrayAdapter<>(activity, R.layout.sdl_spiner_tvitem, sdlNames);
         spinner.setAdapter(sdlSpinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                if (pos == sdlNames.size()-1) {
+                    pw.dismiss();
+                    activity.startActivity(new Intent(activity, SdlEditorActivity.class));
+                }
                 sdlSelected = sdlNames.get(pos);
 //                sdlPosId = pos;
 //                Log.d(CalendarVM.TAG, "onItemSelected: itemID = "+pos);
@@ -132,14 +143,6 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
         });
     }
 
-    private void ReadSDLs() {
-        try {
-            sdlList = new SDLSettings(activity).getSdlArray();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public ArrayList<String> getSdlNames(ArrayList<Schedule> sdlArray) {
         ArrayList<String> list = new ArrayList<>();

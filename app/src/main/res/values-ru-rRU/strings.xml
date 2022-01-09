@@ -160,4 +160,5 @@
     <string name="popup_addsfts_text">Количество смен (0 - %d):</string>
     <string name="popup_addsfts_hint">Количество</string>
     <string name="popup_addsfts_header">Добавление смен</string>
+    <string name="sdl_add_new">СОЗДАТЬ НОВЫЙ …</string>
 </resources>

@@ -65,8 +65,8 @@ public class DayView extends AppCompatTextView
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-        float w = getMeasuredWidth();
-        float h = getMeasuredHeight();
+        float w = getWidth();
+        float h = getHeight();
 
 //  *** DRAW TEXT ***
         Paint paintTxt = getPaint();
@@ -80,14 +80,14 @@ public class DayView extends AppCompatTextView
 //  *** DRAW MARKS ***
         if(w ==0 || h ==0) return;
         if (markedUp) {
-            int radius = 5;
+            int radius = 6;
             canvas.drawCircle(w /2, h /6, radius, paintUp);
         }
 
 //  *** DRAW SHIFTS ***
         if (markedDown) {
-            float r = 3;
-            canvas.drawRect(w /r, h -(h /5)+5, w -(w /r), h -(h /5), paintDown);
+            float r = 3.5f;
+            canvas.drawRect(w /r, h -(h /5)+3, w -(w /r), h -(h /5)-5, paintDown);
         }
     }
 

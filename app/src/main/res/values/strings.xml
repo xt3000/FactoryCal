@@ -90,8 +90,11 @@
     <string name="main_menu_0">Today</string>
     <string name="main_bottom_sftlist_name">Shifts</string>
     <string name="main_bottom_mrklist_name">Events and notes</string>
+
+<!--    TEST ADB    -->
     <string name="ads_baner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ads_inter_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+<!--    RELEASE ADB -->
 <!--    <string name="ads_baner_id" translatable="false">ca-app-pub-3684252478280643/4160969266</string>-->
 <!--    <string name="ads_inter_id" translatable="false">ca-app-pub-3684252478280643/4955832725</string>-->
 
@@ -178,5 +181,6 @@
     <string name="err_more_then_max" translatable="false">MAX %d</string>
     <string name="popup_addsfts_hint">Number</string>
     <string name="popup_addsfts_header">Adding shifts</string>
+    <string name="sdl_add_new">CRAETE NEW …</string>
 
 </resources>
