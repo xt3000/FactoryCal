@@ -78,6 +78,11 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     }
 
     private  void init(int rootId) {
+        try {
+            sdlList = new SDLSettings(activity).getSdlArray();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         headerDate = ((TextView) activity.findViewById(R.id.tv_slider_title)).getText().toString();
         model = MainActivity.getCalendarVM();
         pw = super.show(rootId);
@@ -114,11 +119,7 @@ public class PopupAdd extends PopupView implements TextView.OnEditorActionListen
     }
 
     protected void setSpinnerAdapter() {
-        try {
-            sdlList = new SDLSettings(activity).getSdlArray();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
 
         final ArrayList<String> sdlNames = getSdlNames(sdlList);
         sdlNames.add(activity.getResources().getString(R.string.sdl_add_new));

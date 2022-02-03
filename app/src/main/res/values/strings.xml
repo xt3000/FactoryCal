@@ -92,11 +92,11 @@
     <string name="main_bottom_mrklist_name">Events and notes</string>
 
 <!--    TEST ADB    -->
-    <string name="ads_baner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ads_inter_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+<!--    <string name="ads_baner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>-->
+<!--    <string name="ads_inter_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>-->
 <!--    RELEASE ADB -->
-<!--    <string name="ads_baner_id" translatable="false">ca-app-pub-3684252478280643/4160969266</string>-->
-<!--    <string name="ads_inter_id" translatable="false">ca-app-pub-3684252478280643/4955832725</string>-->
+    <string name="ads_baner_id" translatable="false">ca-app-pub-3684252478280643/4160969266</string>
+    <string name="ads_inter_id" translatable="false">ca-app-pub-3684252478280643/4955832725</string>
 
     <string-array name="month">
         <item>JANUARY</item>
